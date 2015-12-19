@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">SpatialConnect</string>
+    <string name="title_activity_main">SpatialConnect</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_web_view_open">Open Web View</string>
+
+    <string name="title_data_store_manager">Data Stores</string>
+    <string name="title_web_bundle_manager">Web Bundles</string>
+    <string name="title_map">Map</string>
+
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_data_store_details">DataStoreDetailsActivity</string>
+    <string name="title_activity_feature_details">FeatureDetails</string>
+    <string name="title_activity_maps">Map</string>
+</resources>

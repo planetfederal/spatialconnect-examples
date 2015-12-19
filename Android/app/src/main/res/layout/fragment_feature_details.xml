@@ -1,0 +1,153 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.boundlessgeo.spatialconnect.app.FeatureDetailsFragment"
+    >
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Store ID:"
+        android:id="@+id/store_label"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Layer:"
+        android:id="@+id/layer_label"
+        android:layout_below="@+id/store_label"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Feature ID:"
+        android:id="@+id/feature_id_label"
+        android:layout_below="@+id/layer_label"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Latitude:"
+        android:id="@+id/lat_label"
+        android:layout_below="@+id/feature_id_label"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="23dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Longitude:"
+        android:id="@+id/lon_label"
+        android:layout_below="@+id/lat_label"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Altitude:"
+        android:id="@+id/altitude_label"
+        android:layout_below="@+id/lon_label"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="&lt;Store>"
+        android:id="@+id/feature_detail_store_value"
+        android:layout_above="@+id/layer_label"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="&lt;layer>"
+        android:id="@+id/feature_detail_layer_value"
+        android:layout_alignTop="@+id/layer_label"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="&lt;feature_id>"
+        android:id="@+id/feature_detail_featureid_value"
+        android:layout_alignBottom="@+id/feature_id_label"
+        android:layout_alignRight="@+id/feature_detail_layer_value"
+        android:layout_alignEnd="@+id/feature_detail_layer_value" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="&lt;lat>"
+        android:id="@+id/feature_detail_lat_value"
+        android:layout_alignTop="@+id/lat_label"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="&lt;lon>"
+        android:id="@+id/feature_detail_lon_value"
+        android:layout_above="@+id/altitude_label"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="&lt;alt>"
+        android:id="@+id/feature_detail_alt_value"
+        android:layout_below="@+id/feature_detail_lon_value"
+        android:layout_alignRight="@+id/feature_detail_lat_value"
+        android:layout_alignEnd="@+id/feature_detail_lat_value" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Properties:"
+        android:id="@+id/prop_label"
+        android:layout_below="@+id/altitude_label"
+        android:layout_marginTop="25dp" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/prop_label"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:orientation="vertical"
+        android:id="@+id/feature_detail_prop_table"></TableLayout>
+
+</RelativeLayout>
