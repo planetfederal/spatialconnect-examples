@@ -1,0 +1,39 @@
+html, body {
+  height: 100%;
+  padding ; 0;
+  margin : 0;
+}
+
+#map {
+  width : 100%;
+  height : 600px;
+}
+
+.drawer {
+  z-index: 1;
+  top: 50px;
+  position: absolute;
+  background-color: white;
+}
+
+.drawer-enter {
+  left: -100px;
+  transition: .5s;
+}
+
+.drawer-enter.drawer-enter-active {
+  left: 0px;
+}
+
+.drawer-leave {
+  left: 0px;
+  transition: .5s;
+}
+
+.drawer-leave.drawer-leave-active {
+  left: -100px;
+}
+
+.drawer-visible {
+  border: solid 2px #555;
+}

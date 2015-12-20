@@ -1,0 +1,938 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		20E9FA540FCDAD3523E79D11 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D727B94552F8DB03E26FD6B /* libPods.a */; };
+		563509171B9F502D00F4CF94 /* SensorServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 563509161B9F502D00F4CF94 /* SensorServiceTests.m */; };
+		563509191B9F503B00F4CF94 /* DataServiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 563509181B9F503B00F4CF94 /* DataServiceTests.m */; };
+		5635091A1B9F527800F4CF94 /* SpatialConnect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 566BB2551B5D5FE3002B615B /* SpatialConnect.framework */; };
+		5635091B1B9F528500F4CF94 /* SpatialConnect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 563D185B1B98CF530027488D /* SpatialConnect.bundle */; };
+		5635091D1B9F529D00F4CF94 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5635091C1B9F529D00F4CF94 /* UIKit.framework */; };
+		5635091F1B9F52B500F4CF94 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5635091E1B9F52B500F4CF94 /* CoreFoundation.framework */; };
+		563509211B9F52BD00F4CF94 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 563509201B9F52BC00F4CF94 /* Foundation.framework */; };
+		563D185C1B98CF530027488D /* SpatialConnect.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 563D185B1B98CF530027488D /* SpatialConnect.bundle */; };
+		563E66B21B2F5DDF006FC384 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 563E66B11B2F5DDF006FC384 /* logo.png */; };
+		563E66B71B2F7288006FC384 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 563E66B61B2F7288006FC384 /* MainViewController.m */; };
+		5649BFE41BC85AA80062D138 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5649BFE31BC85AA80062D138 /* WebViewJavascriptBridge.js.txt */; };
+		564CDE091B3D047800437EE0 /* DataStoreDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 564CDE081B3D047800437EE0 /* DataStoreDetailViewController.m */; };
+		5652B1371B346F0800164F9C /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5652B1361B346F0800164F9C /* SettingsViewController.m */; };
+		5652B13A1B3498D700164F9C /* WebMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5652B1391B3498D700164F9C /* WebMapViewController.m */; };
+		566B0E111B5EE6ED002B615B /* bundle.js in Resources */ = {isa = PBXBuildFile; fileRef = 566BB3CD1B5EE6B9002B615B /* bundle.js */; };
+		566B0E121B5EE6ED002B615B /* index.css in Resources */ = {isa = PBXBuildFile; fileRef = 566BB3CE1B5EE6B9002B615B /* index.css */; };
+		566B0E131B5EE6ED002B615B /* index.html in Resources */ = {isa = PBXBuildFile; fileRef = 566BB3CF1B5EE6B9002B615B /* index.html */; };
+		566BB3BC1B5ECCDC002B615B /* ReactiveViewModel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 566BB25A1B5DFA1D002B615B /* ReactiveViewModel.framework */; };
+		566BB3BE1B5EE307002B615B /* FoldingTabBar.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 566BB3BA1B5ECBC8002B615B /* FoldingTabBar.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		566BB3C01B5EE35A002B615B /* ReactiveViewModel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 566BB25A1B5DFA1D002B615B /* ReactiveViewModel.framework */; };
+		566BB3C11B5EE35A002B615B /* ReactiveViewModel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 566BB25A1B5DFA1D002B615B /* ReactiveViewModel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		566BB3C31B5EE35A002B615B /* ReactiveCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 566BB2581B5DF47A002B615B /* ReactiveCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		566BB3C51B5EE42E002B615B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 566BB3C41B5EE42E002B615B /* Main.storyboard */; };
+		566FC61F1BA1A52A00581C1E /* ps.scfg in Resources */ = {isa = PBXBuildFile; fileRef = 566FC61E1BA1A52A00581C1E /* ps.scfg */; };
+		566FC6211BA1ADC200581C1E /* ps2.scfg in Resources */ = {isa = PBXBuildFile; fileRef = 566FC6201BA1ADC200581C1E /* ps2.scfg */; };
+		567466D81BC49A070055C72E /* boot.js in Resources */ = {isa = PBXBuildFile; fileRef = 567466CE1BC49A070055C72E /* boot.js */; };
+		567466D91BC49A070055C72E /* console.js in Resources */ = {isa = PBXBuildFile; fileRef = 567466CF1BC49A070055C72E /* console.js */; };
+		567466DA1BC49A070055C72E /* jasmine-html.js in Resources */ = {isa = PBXBuildFile; fileRef = 567466D01BC49A070055C72E /* jasmine-html.js */; };
+		567466DB1BC49A070055C72E /* jasmine.css in Resources */ = {isa = PBXBuildFile; fileRef = 567466D11BC49A070055C72E /* jasmine.css */; };
+		567466DC1BC49A070055C72E /* jasmine.js in Resources */ = {isa = PBXBuildFile; fileRef = 567466D21BC49A070055C72E /* jasmine.js */; };
+		567466DD1BC49A070055C72E /* jasmine_favicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 567466D31BC49A070055C72E /* jasmine_favicon.png */; };
+		567466DE1BC49A070055C72E /* FilterSpec.js in Resources */ = {isa = PBXBuildFile; fileRef = 567466D51BC49A070055C72E /* FilterSpec.js */; };
+		567466DF1BC49A070055C72E /* SpecRunner.html in Resources */ = {isa = PBXBuildFile; fileRef = 567466D61BC49A070055C72E /* SpecRunner.html */; };
+		567466E01BC49A070055C72E /* test.bundle.js in Resources */ = {isa = PBXBuildFile; fileRef = 567466D71BC49A070055C72E /* test.bundle.js */; };
+		5681BA861B8566DB00C3E71A /* OpenStreetMapOverlay.m in Sources */ = {isa = PBXBuildFile; fileRef = 5681BA851B8566DB00C3E71A /* OpenStreetMapOverlay.m */; };
+		56946C7A1BDAA3FD00CDE9CA /* gz_2010_us_050_00_500k.json in Resources */ = {isa = PBXBuildFile; fileRef = 56946C781BDAA3FD00CDE9CA /* gz_2010_us_050_00_500k.json */; };
+		56946C7B1BDAA3FD00CDE9CA /* gz_2010_us_500_11_20m.json in Resources */ = {isa = PBXBuildFile; fileRef = 56946C791BDAA3FD00CDE9CA /* gz_2010_us_500_11_20m.json */; };
+		56972FD71BC02815009FAC7F /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56972FD61BC02815009FAC7F /* TestViewController.m */; };
+		56A8360B1ACD7239009FBBF7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56A8360A1ACD7239009FBBF7 /* MapKit.framework */; };
+		56A8360F1ACD85B4009FBBF7 /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56A8360D1ACD85B4009FBBF7 /* DataViewController.m */; };
+		56A982481B792D8C00311FE6 /* CustomDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 56A982471B792D8C00311FE6 /* CustomDataStore.m */; };
+		56A9824B1B79436800311FE6 /* CustomDataStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56A9824A1B79436800311FE6 /* CustomDataStoreViewController.m */; };
+		56B00ACA1ACC511800C445EE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B00AC91ACC511800C445EE /* main.m */; };
+		56B00ACD1ACC511800C445EE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B00ACC1ACC511800C445EE /* AppDelegate.m */; };
+		56B00AD01ACC511800C445EE /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B00ACF1ACC511800C445EE /* MapViewController.m */; };
+		56B00AD31ACC511800C445EE /* EntryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B00AD21ACC511800C445EE /* EntryViewController.m */; };
+		56B00AD81ACC511800C445EE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 56B00AD71ACC511800C445EE /* Images.xcassets */; };
+		56B00ADB1ACC511800C445EE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56B00AD91ACC511800C445EE /* LaunchScreen.xib */; };
+		56B00AE71ACC511800C445EE /* SpatialConnectInitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 56B00AE61ACC511800C445EE /* SpatialConnectInitTests.m */; };
+		56F1E0041BCDAD06000E1288 /* ZipZap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 56F1E0021BCDACB9000E1288 /* ZipZap.framework */; };
+		56F1E0051BCDB018000E1288 /* ZipZap.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 56F1E0021BCDACB9000E1288 /* ZipZap.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		56F71D461B2DB9D8004E29E6 /* MapViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 56F71D451B2DB9D8004E29E6 /* MapViewModel.m */; };
+		56F71D4B1B2F2AA9004E29E6 /* MapModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 56F71D4A1B2F2AA9004E29E6 /* MapModel.m */; };
+		9B539AA58EB063BB62C0E6ED /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D727B94552F8DB03E26FD6B /* libPods.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		56B00AE11ACC511800C445EE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 56B00ABC1ACC511800C445EE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 56B00AC31ACC511800C445EE;
+			remoteInfo = PSMobile;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		566BB3BF1B5EE308002B615B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				566BB3C11B5EE35A002B615B /* ReactiveViewModel.framework in Embed Frameworks */,
+				566BB3C31B5EE35A002B615B /* ReactiveCocoa.framework in Embed Frameworks */,
+				566BB3BE1B5EE307002B615B /* FoldingTabBar.framework in Embed Frameworks */,
+				56F1E0051BCDB018000E1288 /* ZipZap.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		3D727B94552F8DB03E26FD6B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		563509161B9F502D00F4CF94 /* SensorServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SensorServiceTests.m; sourceTree = "<group>"; };
+		563509181B9F503B00F4CF94 /* DataServiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataServiceTests.m; sourceTree = "<group>"; };
+		5635091C1B9F529D00F4CF94 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		5635091E1B9F52B500F4CF94 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		563509201B9F52BC00F4CF94 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		563D185B1B98CF530027488D /* SpatialConnect.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SpatialConnect.bundle; sourceTree = "<group>"; };
+		563E66B11B2F5DDF006FC384 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo.png; path = ../../../../Pictures/logo.png; sourceTree = "<group>"; };
+		563E66B51B2F7288006FC384 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		563E66B61B2F7288006FC384 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		5649BFE31BC85AA80062D138 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
+		564CDE071B3D047800437EE0 /* DataStoreDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataStoreDetailViewController.h; sourceTree = "<group>"; };
+		564CDE081B3D047800437EE0 /* DataStoreDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataStoreDetailViewController.m; sourceTree = "<group>"; };
+		5652B1351B346F0800164F9C /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		5652B1361B346F0800164F9C /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		5652B1381B3498D700164F9C /* WebMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebMapViewController.h; sourceTree = "<group>"; };
+		5652B1391B3498D700164F9C /* WebMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebMapViewController.m; sourceTree = "<group>"; };
+		566BB2551B5D5FE3002B615B /* SpatialConnect.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SpatialConnect.framework; sourceTree = "<group>"; };
+		566BB2581B5DF47A002B615B /* ReactiveCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveCocoa.framework; path = Carthage/Build/iOS/ReactiveCocoa.framework; sourceTree = "<group>"; };
+		566BB25A1B5DFA1D002B615B /* ReactiveViewModel.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveViewModel.framework; path = Carthage/Build/iOS/ReactiveViewModel.framework; sourceTree = "<group>"; };
+		566BB3BA1B5ECBC8002B615B /* FoldingTabBar.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FoldingTabBar.framework; path = Carthage/Build/iOS/FoldingTabBar.framework; sourceTree = "<group>"; };
+		566BB3C41B5EE42E002B615B /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		566BB3CD1B5EE6B9002B615B /* bundle.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = bundle.js; sourceTree = "<group>"; };
+		566BB3CE1B5EE6B9002B615B /* index.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = index.css; sourceTree = "<group>"; };
+		566BB3CF1B5EE6B9002B615B /* index.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
+		566FC61E1BA1A52A00581C1E /* ps.scfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ps.scfg; sourceTree = "<group>"; };
+		566FC6201BA1ADC200581C1E /* ps2.scfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ps2.scfg; sourceTree = "<group>"; };
+		567466CE1BC49A070055C72E /* boot.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = boot.js; sourceTree = "<group>"; };
+		567466CF1BC49A070055C72E /* console.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = console.js; sourceTree = "<group>"; };
+		567466D01BC49A070055C72E /* jasmine-html.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "jasmine-html.js"; sourceTree = "<group>"; };
+		567466D11BC49A070055C72E /* jasmine.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = jasmine.css; sourceTree = "<group>"; };
+		567466D21BC49A070055C72E /* jasmine.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jasmine.js; sourceTree = "<group>"; };
+		567466D31BC49A070055C72E /* jasmine_favicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = jasmine_favicon.png; sourceTree = "<group>"; };
+		567466D51BC49A070055C72E /* FilterSpec.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = FilterSpec.js; sourceTree = "<group>"; };
+		567466D61BC49A070055C72E /* SpecRunner.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = SpecRunner.html; path = test/SpecRunner.html; sourceTree = "<group>"; };
+		567466D71BC49A070055C72E /* test.bundle.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = test.bundle.js; sourceTree = "<group>"; };
+		5681BA841B8566DB00C3E71A /* OpenStreetMapOverlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenStreetMapOverlay.h; sourceTree = "<group>"; };
+		5681BA851B8566DB00C3E71A /* OpenStreetMapOverlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenStreetMapOverlay.m; sourceTree = "<group>"; };
+		56946C781BDAA3FD00CDE9CA /* gz_2010_us_050_00_500k.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gz_2010_us_050_00_500k.json; sourceTree = "<group>"; };
+		56946C791BDAA3FD00CDE9CA /* gz_2010_us_500_11_20m.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gz_2010_us_500_11_20m.json; sourceTree = "<group>"; };
+		56972FD51BC02815009FAC7F /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
+		56972FD61BC02815009FAC7F /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
+		56A8360A1ACD7239009FBBF7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		56A8360C1ACD85B4009FBBF7 /* DataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataViewController.h; sourceTree = "<group>"; };
+		56A8360D1ACD85B4009FBBF7 /* DataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataViewController.m; sourceTree = "<group>"; };
+		56A982461B792D8C00311FE6 /* CustomDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomDataStore.h; sourceTree = "<group>"; };
+		56A982471B792D8C00311FE6 /* CustomDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomDataStore.m; sourceTree = "<group>"; };
+		56A982491B79436800311FE6 /* CustomDataStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomDataStoreViewController.h; sourceTree = "<group>"; };
+		56A9824A1B79436800311FE6 /* CustomDataStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomDataStoreViewController.m; sourceTree = "<group>"; };
+		56B00AC41ACC511800C445EE /* PSMobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PSMobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		56B00AC81ACC511800C445EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		56B00AC91ACC511800C445EE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		56B00ACB1ACC511800C445EE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		56B00ACC1ACC511800C445EE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		56B00ACE1ACC511800C445EE /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		56B00ACF1ACC511800C445EE /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		56B00AD11ACC511800C445EE /* EntryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EntryViewController.h; sourceTree = "<group>"; };
+		56B00AD21ACC511800C445EE /* EntryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EntryViewController.m; sourceTree = "<group>"; };
+		56B00AD71ACC511800C445EE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		56B00ADA1ACC511800C445EE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		56B00AE01ACC511800C445EE /* PSMobileTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PSMobileTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		56B00AE51ACC511800C445EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		56B00AE61ACC511800C445EE /* SpatialConnectInitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpatialConnectInitTests.m; sourceTree = "<group>"; };
+		56F1E0021BCDACB9000E1288 /* ZipZap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ZipZap.framework; path = Carthage/Build/iOS/ZipZap.framework; sourceTree = "<group>"; };
+		56F71D441B2DB9D8004E29E6 /* MapViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewModel.h; sourceTree = "<group>"; };
+		56F71D451B2DB9D8004E29E6 /* MapViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewModel.m; sourceTree = "<group>"; };
+		56F71D491B2F2AA9004E29E6 /* MapModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapModel.h; sourceTree = "<group>"; };
+		56F71D4A1B2F2AA9004E29E6 /* MapModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapModel.m; sourceTree = "<group>"; };
+		56F71D4C1B2F318F004E29E6 /* PS-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PS-Prefix.pch"; sourceTree = "<group>"; };
+		7BEAECE45CF5A1750DE1E686 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		7E70CD7B59ABE60F70B8B06A /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		56B00AC11ACC511800C445EE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				56A8360B1ACD7239009FBBF7 /* MapKit.framework in Frameworks */,
+				566BB3C01B5EE35A002B615B /* ReactiveViewModel.framework in Frameworks */,
+				9B539AA58EB063BB62C0E6ED /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		56B00ADD1ACC511800C445EE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				563509211B9F52BD00F4CF94 /* Foundation.framework in Frameworks */,
+				5635091F1B9F52B500F4CF94 /* CoreFoundation.framework in Frameworks */,
+				5635091D1B9F529D00F4CF94 /* UIKit.framework in Frameworks */,
+				56F1E0041BCDAD06000E1288 /* ZipZap.framework in Frameworks */,
+				566BB3BC1B5ECCDC002B615B /* ReactiveViewModel.framework in Frameworks */,
+				5635091A1B9F527800F4CF94 /* SpatialConnect.framework in Frameworks */,
+				20E9FA540FCDAD3523E79D11 /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		563509131B9F4AC700F4CF94 /* Javascript */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Javascript;
+			sourceTree = "<group>";
+		};
+		563509141B9F4AD400F4CF94 /* Native */ = {
+			isa = PBXGroup;
+			children = (
+				563509161B9F502D00F4CF94 /* SensorServiceTests.m */,
+				563509181B9F503B00F4CF94 /* DataServiceTests.m */,
+			);
+			name = Native;
+			sourceTree = "<group>";
+		};
+		563509151B9F4ADE00F4CF94 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		5652B1331B346ED600164F9C /* SettingsManager */ = {
+			isa = PBXGroup;
+			children = (
+				5652B1351B346F0800164F9C /* SettingsViewController.h */,
+				5652B1361B346F0800164F9C /* SettingsViewController.m */,
+			);
+			name = SettingsManager;
+			sourceTree = "<group>";
+		};
+		5652B1341B346EE600164F9C /* WebMap */ = {
+			isa = PBXGroup;
+			children = (
+				5652B1381B3498D700164F9C /* WebMapViewController.h */,
+				5652B1391B3498D700164F9C /* WebMapViewController.m */,
+			);
+			name = WebMap;
+			sourceTree = "<group>";
+		};
+		566BB3C61B5EE6B9002B615B /* htdocs */ = {
+			isa = PBXGroup;
+			children = (
+				567466CC1BC49A070055C72E /* lib */,
+				567466D41BC49A070055C72E /* spec */,
+				567466D61BC49A070055C72E /* SpecRunner.html */,
+				567466D71BC49A070055C72E /* test.bundle.js */,
+				566BB3CD1B5EE6B9002B615B /* bundle.js */,
+				566BB3CE1B5EE6B9002B615B /* index.css */,
+				566BB3CF1B5EE6B9002B615B /* index.html */,
+			);
+			name = htdocs;
+			path = PSMobile/htdocs;
+			sourceTree = "<group>";
+		};
+		567466CC1BC49A070055C72E /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				567466CD1BC49A070055C72E /* jasmine-2.1.3 */,
+			);
+			name = lib;
+			path = test/lib;
+			sourceTree = "<group>";
+		};
+		567466CD1BC49A070055C72E /* jasmine-2.1.3 */ = {
+			isa = PBXGroup;
+			children = (
+				567466CE1BC49A070055C72E /* boot.js */,
+				567466CF1BC49A070055C72E /* console.js */,
+				567466D01BC49A070055C72E /* jasmine-html.js */,
+				567466D11BC49A070055C72E /* jasmine.css */,
+				567466D21BC49A070055C72E /* jasmine.js */,
+				567466D31BC49A070055C72E /* jasmine_favicon.png */,
+			);
+			path = "jasmine-2.1.3";
+			sourceTree = "<group>";
+		};
+		567466D41BC49A070055C72E /* spec */ = {
+			isa = PBXGroup;
+			children = (
+				567466D51BC49A070055C72E /* FilterSpec.js */,
+			);
+			name = spec;
+			path = test/spec;
+			sourceTree = "<group>";
+		};
+		56972FD81BC0281A009FAC7F /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				56972FD51BC02815009FAC7F /* TestViewController.h */,
+				56972FD61BC02815009FAC7F /* TestViewController.m */,
+			);
+			name = Test;
+			sourceTree = "<group>";
+		};
+		56A982451B792AD200311FE6 /* Custom Store */ = {
+			isa = PBXGroup;
+			children = (
+				56A982461B792D8C00311FE6 /* CustomDataStore.h */,
+				56A982471B792D8C00311FE6 /* CustomDataStore.m */,
+				56A982491B79436800311FE6 /* CustomDataStoreViewController.h */,
+				56A9824A1B79436800311FE6 /* CustomDataStoreViewController.m */,
+			);
+			name = "Custom Store";
+			sourceTree = "<group>";
+		};
+		56AC026C1AE1786900DEE403 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				56F1E0021BCDACB9000E1288 /* ZipZap.framework */,
+				563509201B9F52BC00F4CF94 /* Foundation.framework */,
+				5635091E1B9F52B500F4CF94 /* CoreFoundation.framework */,
+				5635091C1B9F529D00F4CF94 /* UIKit.framework */,
+				566BB3BA1B5ECBC8002B615B /* FoldingTabBar.framework */,
+				566BB25A1B5DFA1D002B615B /* ReactiveViewModel.framework */,
+				566BB2581B5DF47A002B615B /* ReactiveCocoa.framework */,
+				566BB2551B5D5FE3002B615B /* SpatialConnect.framework */,
+				56A8360A1ACD7239009FBBF7 /* MapKit.framework */,
+				3D727B94552F8DB03E26FD6B /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		56B00ABB1ACC511800C445EE = {
+			isa = PBXGroup;
+			children = (
+				56CA053A1B55778B00037DD9 /* Resources */,
+				56AC026C1AE1786900DEE403 /* Frameworks */,
+				56B00AC61ACC511800C445EE /* PSMobile */,
+				56B00AE31ACC511800C445EE /* PSMobileTests */,
+				56B00AC51ACC511800C445EE /* Products */,
+				D0522A62C452F558C49D8D61 /* Pods */,
+			);
+			sourceTree = "<group>";
+		};
+		56B00AC51ACC511800C445EE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				56B00AC41ACC511800C445EE /* PSMobile.app */,
+				56B00AE01ACC511800C445EE /* PSMobileTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		56B00AC61ACC511800C445EE /* PSMobile */ = {
+			isa = PBXGroup;
+			children = (
+				56972FD81BC0281A009FAC7F /* Test */,
+				56A982451B792AD200311FE6 /* Custom Store */,
+				5652B1341B346EE600164F9C /* WebMap */,
+				5652B1331B346ED600164F9C /* SettingsManager */,
+				56F71D481B2F28AB004E29E6 /* DataStore */,
+				56F71D471B2F27CE004E29E6 /* Map */,
+				56B00ACB1ACC511800C445EE /* AppDelegate.h */,
+				56B00ACC1ACC511800C445EE /* AppDelegate.m */,
+				56B00AD11ACC511800C445EE /* EntryViewController.h */,
+				56B00AD21ACC511800C445EE /* EntryViewController.m */,
+				56B00AD71ACC511800C445EE /* Images.xcassets */,
+				56B00AD91ACC511800C445EE /* LaunchScreen.xib */,
+				56B00AC71ACC511800C445EE /* Supporting Files */,
+				563E66B51B2F7288006FC384 /* MainViewController.h */,
+				563E66B61B2F7288006FC384 /* MainViewController.m */,
+			);
+			path = PSMobile;
+			sourceTree = "<group>";
+		};
+		56B00AC71ACC511800C445EE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				5649BFE31BC85AA80062D138 /* WebViewJavascriptBridge.js.txt */,
+				566BB3C41B5EE42E002B615B /* Main.storyboard */,
+				563E66B11B2F5DDF006FC384 /* logo.png */,
+				56B00AC81ACC511800C445EE /* Info.plist */,
+				56B00AC91ACC511800C445EE /* main.m */,
+				56F71D4C1B2F318F004E29E6 /* PS-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		56B00AE31ACC511800C445EE /* PSMobileTests */ = {
+			isa = PBXGroup;
+			children = (
+				563509151B9F4ADE00F4CF94 /* UI */,
+				563509141B9F4AD400F4CF94 /* Native */,
+				563509131B9F4AC700F4CF94 /* Javascript */,
+				56B00AE61ACC511800C445EE /* SpatialConnectInitTests.m */,
+				56B00AE41ACC511800C445EE /* Supporting Files */,
+			);
+			path = PSMobileTests;
+			sourceTree = "<group>";
+		};
+		56B00AE41ACC511800C445EE /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				56946C781BDAA3FD00CDE9CA /* gz_2010_us_050_00_500k.json */,
+				56946C791BDAA3FD00CDE9CA /* gz_2010_us_500_11_20m.json */,
+				56B00AE51ACC511800C445EE /* Info.plist */,
+				566FC61E1BA1A52A00581C1E /* ps.scfg */,
+				566FC6201BA1ADC200581C1E /* ps2.scfg */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		56CA053A1B55778B00037DD9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				563D185B1B98CF530027488D /* SpatialConnect.bundle */,
+				566BB3C61B5EE6B9002B615B /* htdocs */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		56F71D471B2F27CE004E29E6 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				56F71D441B2DB9D8004E29E6 /* MapViewModel.h */,
+				56F71D451B2DB9D8004E29E6 /* MapViewModel.m */,
+				56B00ACE1ACC511800C445EE /* MapViewController.h */,
+				56B00ACF1ACC511800C445EE /* MapViewController.m */,
+				56F71D491B2F2AA9004E29E6 /* MapModel.h */,
+				56F71D4A1B2F2AA9004E29E6 /* MapModel.m */,
+				5681BA841B8566DB00C3E71A /* OpenStreetMapOverlay.h */,
+				5681BA851B8566DB00C3E71A /* OpenStreetMapOverlay.m */,
+			);
+			name = Map;
+			sourceTree = "<group>";
+		};
+		56F71D481B2F28AB004E29E6 /* DataStore */ = {
+			isa = PBXGroup;
+			children = (
+				56A8360C1ACD85B4009FBBF7 /* DataViewController.h */,
+				56A8360D1ACD85B4009FBBF7 /* DataViewController.m */,
+				564CDE071B3D047800437EE0 /* DataStoreDetailViewController.h */,
+				564CDE081B3D047800437EE0 /* DataStoreDetailViewController.m */,
+			);
+			name = DataStore;
+			sourceTree = "<group>";
+		};
+		D0522A62C452F558C49D8D61 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7BEAECE45CF5A1750DE1E686 /* Pods.debug.xcconfig */,
+				7E70CD7B59ABE60F70B8B06A /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		56B00AC31ACC511800C445EE /* PSMobile */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 56B00AEA1ACC511800C445EE /* Build configuration list for PBXNativeTarget "PSMobile" */;
+			buildPhases = (
+				81DA5DFDC36B503578630D58 /* Check Pods Manifest.lock */,
+				56B00AC01ACC511800C445EE /* Sources */,
+				56B00AC11ACC511800C445EE /* Frameworks */,
+				56B00AC21ACC511800C445EE /* Resources */,
+				566BB3BF1B5EE308002B615B /* Embed Frameworks */,
+				29D51A6CCF35D2F70098DB01 /* Embed Pods Frameworks */,
+				4873E73E2E00387FB048ECBF /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PSMobile;
+			productName = PSMobile;
+			productReference = 56B00AC41ACC511800C445EE /* PSMobile.app */;
+			productType = "com.apple.product-type.application";
+		};
+		56B00ADF1ACC511800C445EE /* PSMobileTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 56B00AED1ACC511800C445EE /* Build configuration list for PBXNativeTarget "PSMobileTests" */;
+			buildPhases = (
+				8071FBC9CD79F318302DAF27 /* Check Pods Manifest.lock */,
+				56B00ADC1ACC511800C445EE /* Sources */,
+				56B00ADD1ACC511800C445EE /* Frameworks */,
+				56B00ADE1ACC511800C445EE /* Resources */,
+				E7787CB929CAB35BCE961131 /* Embed Pods Frameworks */,
+				3FC9BCECF3866821850D2E89 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				56B00AE21ACC511800C445EE /* PBXTargetDependency */,
+			);
+			name = PSMobileTests;
+			productName = PSMobileTests;
+			productReference = 56B00AE01ACC511800C445EE /* PSMobileTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		56B00ABC1ACC511800C445EE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = Boundless;
+				TargetAttributes = {
+					56B00AC31ACC511800C445EE = {
+						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 82EPDLMXNS;
+					};
+					56B00ADF1ACC511800C445EE = {
+						CreatedOnToolsVersion = 6.2;
+						TestTargetID = 56B00AC31ACC511800C445EE;
+					};
+				};
+			};
+			buildConfigurationList = 56B00ABF1ACC511800C445EE /* Build configuration list for PBXProject "PSMobile" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 56B00ABB1ACC511800C445EE;
+			productRefGroup = 56B00AC51ACC511800C445EE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				56B00AC31ACC511800C445EE /* PSMobile */,
+				56B00ADF1ACC511800C445EE /* PSMobileTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		56B00AC21ACC511800C445EE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				56B00ADB1ACC511800C445EE /* LaunchScreen.xib in Resources */,
+				566BB3C51B5EE42E002B615B /* Main.storyboard in Resources */,
+				56B00AD81ACC511800C445EE /* Images.xcassets in Resources */,
+				566B0E131B5EE6ED002B615B /* index.html in Resources */,
+				566B0E111B5EE6ED002B615B /* bundle.js in Resources */,
+				567466DF1BC49A070055C72E /* SpecRunner.html in Resources */,
+				563D185C1B98CF530027488D /* SpatialConnect.bundle in Resources */,
+				563E66B21B2F5DDF006FC384 /* logo.png in Resources */,
+				567466DE1BC49A070055C72E /* FilterSpec.js in Resources */,
+				566B0E121B5EE6ED002B615B /* index.css in Resources */,
+				567466E01BC49A070055C72E /* test.bundle.js in Resources */,
+				567466D81BC49A070055C72E /* boot.js in Resources */,
+				567466D91BC49A070055C72E /* console.js in Resources */,
+				567466DA1BC49A070055C72E /* jasmine-html.js in Resources */,
+				5649BFE41BC85AA80062D138 /* WebViewJavascriptBridge.js.txt in Resources */,
+				567466DB1BC49A070055C72E /* jasmine.css in Resources */,
+				567466DC1BC49A070055C72E /* jasmine.js in Resources */,
+				567466DD1BC49A070055C72E /* jasmine_favicon.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		56B00ADE1ACC511800C445EE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5635091B1B9F528500F4CF94 /* SpatialConnect.bundle in Resources */,
+				56946C7B1BDAA3FD00CDE9CA /* gz_2010_us_500_11_20m.json in Resources */,
+				566FC6211BA1ADC200581C1E /* ps2.scfg in Resources */,
+				566FC61F1BA1A52A00581C1E /* ps.scfg in Resources */,
+				56946C7A1BDAA3FD00CDE9CA /* gz_2010_us_050_00_500k.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		29D51A6CCF35D2F70098DB01 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3FC9BCECF3866821850D2E89 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4873E73E2E00387FB048ECBF /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8071FBC9CD79F318302DAF27 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		81DA5DFDC36B503578630D58 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E7787CB929CAB35BCE961131 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		56B00AC01ACC511800C445EE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5652B1371B346F0800164F9C /* SettingsViewController.m in Sources */,
+				56B00AD31ACC511800C445EE /* EntryViewController.m in Sources */,
+				5681BA861B8566DB00C3E71A /* OpenStreetMapOverlay.m in Sources */,
+				56F71D4B1B2F2AA9004E29E6 /* MapModel.m in Sources */,
+				56F71D461B2DB9D8004E29E6 /* MapViewModel.m in Sources */,
+				563E66B71B2F7288006FC384 /* MainViewController.m in Sources */,
+				5652B13A1B3498D700164F9C /* WebMapViewController.m in Sources */,
+				56B00ACD1ACC511800C445EE /* AppDelegate.m in Sources */,
+				56B00AD01ACC511800C445EE /* MapViewController.m in Sources */,
+				56972FD71BC02815009FAC7F /* TestViewController.m in Sources */,
+				56B00ACA1ACC511800C445EE /* main.m in Sources */,
+				56A8360F1ACD85B4009FBBF7 /* DataViewController.m in Sources */,
+				56A982481B792D8C00311FE6 /* CustomDataStore.m in Sources */,
+				56A9824B1B79436800311FE6 /* CustomDataStoreViewController.m in Sources */,
+				564CDE091B3D047800437EE0 /* DataStoreDetailViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		56B00ADC1ACC511800C445EE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				563509191B9F503B00F4CF94 /* DataServiceTests.m in Sources */,
+				56B00AE71ACC511800C445EE /* SpatialConnectInitTests.m in Sources */,
+				563509171B9F502D00F4CF94 /* SensorServiceTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		56B00AE21ACC511800C445EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 56B00AC31ACC511800C445EE /* PSMobile */;
+			targetProxy = 56B00AE11ACC511800C445EE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		56B00AD91ACC511800C445EE /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				56B00ADA1ACC511800C445EE /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		56B00AE81ACC511800C445EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PSMobile/PS-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
+			};
+			name = Debug;
+		};
+		56B00AE91ACC511800C445EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PSMobile/PS-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
+			};
+			name = Release;
+		};
+		56B00AEB1ACC511800C445EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7BEAECE45CF5A1750DE1E686 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/wesr,
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/FoldingTabBar-dvarqzqjygsijcauiqrvfsmjgntn/Build/Products/Debug-iphoneos",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(inherited)";
+				INFOPLIST_FILE = PSMobile/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.boundless.mobile.iqt.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				VALID_ARCHS = "arm64 armv7 armv7s x86_64 i386";
+			};
+			name = Debug;
+		};
+		56B00AEC1ACC511800C445EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7E70CD7B59ABE60F70B8B06A /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/wesr,
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/FoldingTabBar-dvarqzqjygsijcauiqrvfsmjgntn/Build/Products/Debug-iphoneos",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(inherited)";
+				INFOPLIST_FILE = PSMobile/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.boundless.mobile.iqt.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				VALID_ARCHS = "arm64 armv7 armv7s x86_64 i386";
+			};
+			name = Release;
+		};
+		56B00AEE1ACC511800C445EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7BEAECE45CF5A1750DE1E686 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					/Users/wesr,
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = PSMobileTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.boundlessgeo.psmobile.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PSMobile.app/PSMobile";
+			};
+			name = Debug;
+		};
+		56B00AEF1ACC511800C445EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7E70CD7B59ABE60F70B8B06A /* Pods.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					/Users/wesr,
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = PSMobileTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.boundlessgeo.psmobile.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PSMobile.app/PSMobile";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		56B00ABF1ACC511800C445EE /* Build configuration list for PBXProject "PSMobile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				56B00AE81ACC511800C445EE /* Debug */,
+				56B00AE91ACC511800C445EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		56B00AEA1ACC511800C445EE /* Build configuration list for PBXNativeTarget "PSMobile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				56B00AEB1ACC511800C445EE /* Debug */,
+				56B00AEC1ACC511800C445EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		56B00AED1ACC511800C445EE /* Build configuration list for PBXNativeTarget "PSMobileTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				56B00AEE1ACC511800C445EE /* Debug */,
+				56B00AEF1ACC511800C445EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 56B00ABC1ACC511800C445EE /* Project object */;
+}
