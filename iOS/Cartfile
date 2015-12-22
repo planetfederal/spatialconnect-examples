@@ -1,5 +1,0 @@
-github "tetriscode/FoldingTabBar.iOS"
-github "jspahrsummers/libextobjc"
-github "ReactiveCocoa/ReactiveCocoa" == 2.5
-github "ReactiveCocoa/ReactiveViewModel" 
-github "pixelglow/ZipZap"
