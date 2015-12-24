@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		567190701C26409B0025E93B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 5671906F1C26409B0025E93B /* main.m */; };
 		567190731C26409B0025E93B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 567190721C26409B0025E93B /* AppDelegate.m */; };
-		567190791C26409B0025E93B /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 567190781C26409B0025E93B /* SecondViewController.m */; };
+		567190791C26409B0025E93B /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 567190781C26409B0025E93B /* MapViewController.m */; };
 		5671907C1C26409B0025E93B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5671907A1C26409B0025E93B /* Main.storyboard */; };
 		5671907E1C26409B0025E93B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5671907D1C26409B0025E93B /* Assets.xcassets */; };
 		567190811C26409B0025E93B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5671907F1C26409B0025E93B /* LaunchScreen.storyboard */; };
@@ -18,7 +18,7 @@
 		567190A61C2652680025E93B /* tests.scfg in Resources */ = {isa = PBXBuildFile; fileRef = 567190A51C2652680025E93B /* tests.scfg */; };
 		567190A81C2652B70025E93B /* gz_2010_us_500_11_20m.json in Resources */ = {isa = PBXBuildFile; fileRef = 567190A71C2652B70025E93B /* gz_2010_us_500_11_20m.json */; };
 		567190AA1C2652CC0025E93B /* all.geojson in Resources */ = {isa = PBXBuildFile; fileRef = 567190A91C2652CC0025E93B /* all.geojson */; };
-		567190AC1C271CE20025E93B /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 567190AB1C271CE20025E93B /* FirstViewController.m */; };
+		567190AC1C271CE20025E93B /* DataStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 567190AB1C271CE20025E93B /* DataStoreViewController.m */; };
 		567190AF1C2893180025E93B /* DataStoreDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 567190AE1C2893180025E93B /* DataStoreDetailViewController.m */; };
 		FFF1A215D3A73B04B810F3CB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C42F0B98BDE658C2424A13B /* libPods.a */; };
 /* End PBXBuildFile section */
@@ -45,9 +45,9 @@
 		5671906F1C26409B0025E93B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		567190711C26409B0025E93B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		567190721C26409B0025E93B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		567190741C26409B0025E93B /* FirstViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
-		567190771C26409B0025E93B /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
-		567190781C26409B0025E93B /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		567190741C26409B0025E93B /* DataStoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataStoreViewController.h; sourceTree = "<group>"; };
+		567190771C26409B0025E93B /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		567190781C26409B0025E93B /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		5671907B1C26409B0025E93B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5671907D1C26409B0025E93B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		567190801C26409B0025E93B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -62,7 +62,7 @@
 		567190A51C2652680025E93B /* tests.scfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tests.scfg; sourceTree = "<group>"; };
 		567190A71C2652B70025E93B /* gz_2010_us_500_11_20m.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = gz_2010_us_500_11_20m.json; sourceTree = "<group>"; };
 		567190A91C2652CC0025E93B /* all.geojson */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = all.geojson; sourceTree = "<group>"; };
-		567190AB1C271CE20025E93B /* FirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
+		567190AB1C271CE20025E93B /* DataStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataStoreViewController.m; sourceTree = "<group>"; };
 		567190AD1C2893180025E93B /* DataStoreDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataStoreDetailViewController.h; sourceTree = "<group>"; };
 		567190AE1C2893180025E93B /* DataStoreDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataStoreDetailViewController.m; sourceTree = "<group>"; };
 		6C42F0B98BDE658C2424A13B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,10 +143,10 @@
 				567190A51C2652680025E93B /* tests.scfg */,
 				567190711C26409B0025E93B /* AppDelegate.h */,
 				567190721C26409B0025E93B /* AppDelegate.m */,
-				567190741C26409B0025E93B /* FirstViewController.h */,
-				567190AB1C271CE20025E93B /* FirstViewController.m */,
-				567190771C26409B0025E93B /* SecondViewController.h */,
-				567190781C26409B0025E93B /* SecondViewController.m */,
+				567190741C26409B0025E93B /* DataStoreViewController.h */,
+				567190AB1C271CE20025E93B /* DataStoreViewController.m */,
+				567190771C26409B0025E93B /* MapViewController.h */,
+				567190781C26409B0025E93B /* MapViewController.m */,
 				5671907A1C26409B0025E93B /* Main.storyboard */,
 				5671907D1C26409B0025E93B /* Assets.xcassets */,
 				5671907F1C26409B0025E93B /* LaunchScreen.storyboard */,
@@ -370,10 +370,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				567190AF1C2893180025E93B /* DataStoreDetailViewController.m in Sources */,
-				567190791C26409B0025E93B /* SecondViewController.m in Sources */,
+				567190791C26409B0025E93B /* MapViewController.m in Sources */,
 				567190731C26409B0025E93B /* AppDelegate.m in Sources */,
 				567190701C26409B0025E93B /* main.m in Sources */,
-				567190AC1C271CE20025E93B /* FirstViewController.m in Sources */,
+				567190AC1C271CE20025E93B /* DataStoreViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
