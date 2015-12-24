@@ -6,15 +6,15 @@
 //  Copyright © 2015 Boundless Spatial. All rights reserved.
 //
 
-#import "FirstViewController.h"
+#import "DataStoreViewController.h"
 #import "AppDelegate.h"
 #import "DataStoreDetailViewController.h"
 
-@interface FirstViewController ()
+@interface DataStoreViewController ()
 @property (nonatomic,readwrite) NSMutableArray *stores;
 @end
 
-@implementation FirstViewController
+@implementation DataStoreViewController
 
 @synthesize stores = _stores;
 
