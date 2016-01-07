@@ -186,14 +186,35 @@
                             <constraint firstItem="2PT-ja-C5y" firstAttribute="top" secondItem="QS5-Rx-YEW" secondAttribute="top" id="Xna-1u-n85"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Map" image="second" id="cPa-gy-q4n"/>
+                    <navigationItem key="navigationItem" id="Xuy-zj-8p1">
+                        <nil key="title"/>
+                        <barButtonItem key="leftBarButtonItem" style="plain" id="dAs-g3-VKQ">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bKS-eq-1iG">
+                                <rect key="frame" x="20" y="7" width="133" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Add Feature"/>
+                                <connections>
+                                    <action selector="buttonPressAddFeature:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="6c7-Pj-Hdq"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="C4X-12-IZK">
+                            <rect key="frame" x="180" y="7" width="240" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <state key="normal" title="Fetch Data"/>
+                            <connections>
+                                <action selector="buttonPressSearch:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="dVj-64-f79"/>
+                            </connections>
+                        </button>
+                    </navigationItem>
                     <connections>
+                        <outlet property="buttonSearch" destination="C4X-12-IZK" id="VGM-m5-wRa"/>
                         <outlet property="mapView" destination="2PT-ja-C5y" id="qbb-78-ZIg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="687" y="39"/>
+            <point key="canvasLocation" x="1394" y="39"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -207,7 +228,7 @@
                     </tabBar>
                     <connections>
                         <segue destination="Si0-e6-ndR" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
-                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="tvD-Xa-Rph" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -232,6 +253,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bcO-q3-3JN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="588" y="-666"/>
+        </scene>
+        <!--Map-->
+        <scene sceneID="K3f-zJ-VSu">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="tvD-Xa-Rph" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Map" image="second" id="cPa-gy-q4n"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hJn-3D-b1L">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="8rJ-Kc-sve" kind="relationship" relationship="rootViewController" id="tY3-z2-y8S"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f37-Kf-0VB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="687" y="39"/>
         </scene>
     </scenes>
     <resources>
