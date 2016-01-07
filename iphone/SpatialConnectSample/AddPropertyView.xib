@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddPropertyViewController">
+            <connections>
+                <outlet property="buttonSave" destination="HBE-Mq-udt" id="fBL-cA-10f"/>
+                <outlet property="textFieldKey" destination="7qP-tP-GCs" id="QJX-E6-UOw"/>
+                <outlet property="textFieldValue" destination="UoV-jt-yJQ" id="RYl-kC-Bxy"/>
+                <outlet property="view" destination="iN0-l3-epB" id="eiT-KL-TO0"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Key" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dis-Fm-8jB">
+                    <rect key="frame" x="21" y="75" width="29" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nZX-A7-Bh9">
+                    <rect key="frame" x="21" y="126" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7qP-tP-GCs">
+                    <rect key="frame" x="75" y="71" width="491" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UoV-jt-yJQ">
+                    <rect key="frame" x="75" y="122" width="491" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HBE-Mq-udt">
+                    <rect key="frame" x="132" y="175" width="34" height="30"/>
+                    <state key="normal" title="Save"/>
+                    <connections>
+                        <action selector="buttonPressSave:" destination="-1" eventType="touchUpInside" id="Bdv-WU-0rt"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lTY-sV-ax7">
+                    <rect key="frame" x="21" y="175" width="54" height="30"/>
+                    <state key="normal" title="Dismiss"/>
+                    <connections>
+                        <action selector="buttonPressDismiss:" destination="-1" eventType="touchUpInside" id="uKv-ft-B6b"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="nZX-A7-Bh9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="21" id="2UZ-G6-PBI"/>
+                <constraint firstItem="UoV-jt-yJQ" firstAttribute="leading" secondItem="nZX-A7-Bh9" secondAttribute="trailing" constant="12" id="3aK-na-GIV"/>
+                <constraint firstAttribute="trailing" secondItem="7qP-tP-GCs" secondAttribute="trailing" constant="34" id="ALw-8D-dp0"/>
+                <constraint firstAttribute="trailing" secondItem="UoV-jt-yJQ" secondAttribute="trailing" constant="34" id="PXX-mi-nCe"/>
+                <constraint firstItem="7qP-tP-GCs" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="71" id="Ul6-8K-j1m"/>
+                <constraint firstItem="dis-Fm-8jB" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="75" id="ZDE-h5-ibq"/>
+                <constraint firstItem="7qP-tP-GCs" firstAttribute="leading" secondItem="dis-Fm-8jB" secondAttribute="trailing" constant="25" id="hCk-zW-cev"/>
+                <constraint firstItem="dis-Fm-8jB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="21" id="rHL-qE-IbM"/>
+                <constraint firstItem="UoV-jt-yJQ" firstAttribute="top" secondItem="7qP-tP-GCs" secondAttribute="bottom" constant="21" id="xL2-2p-KSd"/>
+            </constraints>
+        </view>
+    </objects>
+</document>

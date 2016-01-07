@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <spatialconnect/SpatialConnect.h>
 
-@interface DataStoreViewController : UIViewController <UITableViewDataSource,UITableViewDelegate>
+@interface DataStoreViewController
+    : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic, readonly) NSArray *stores;
+@property(weak, nonatomic) IBOutlet UITableView *tableView;
+@property(strong, nonatomic, readonly) NSArray *stores;
 @end
-
