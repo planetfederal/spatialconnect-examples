@@ -18,7 +18,7 @@
 @implementation FeatureDetailViewController
 
 @synthesize geometry, labelAltitude, labelFeature, labelLatitude, labelLayer,
-    labelLongitude, labelStore, keys, tableViewProperties;
+    labelLongitude, labelStore, keys, tableViewProperties, buttonEdit;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
@@ -30,6 +30,15 @@
       setText:[NSString stringWithFormat:@"%.20lf", geometry.centroid.x]];
   [self.labelLayer setText:geometry.key.layerId];
   [self.labelStore setText:geometry.key.storeId];
+
+  AppDelegate *del =
+      (AppDelegate *)[[UIApplication sharedApplication] delegate];
+  SpatialConnect *sc = [del spatialConnectSharedInstance];
+  SCDataStore *ds =
+      [sc.manager.dataService storeByIdentifier:self.geometry.storeId];
+  if (ds.permission == SC_DATASTORE_READWRITE) {
+    self.buttonEdit.enabled = YES;
+  }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
