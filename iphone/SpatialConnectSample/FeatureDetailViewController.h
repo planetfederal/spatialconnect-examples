@@ -23,5 +23,6 @@
 @property(weak, nonatomic) IBOutlet UILabel *labelLatitude;
 @property(weak, nonatomic) IBOutlet UILabel *labelLongitude;
 @property(weak, nonatomic) IBOutlet UILabel *labelAltitude;
+@property (weak, nonatomic) IBOutlet UIButton *buttonEdit;
 
 @end

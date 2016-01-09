@@ -64,6 +64,12 @@
   }
 }
 
+- (void)displayTiles {
+  id<SCRasterStore> ss = (id<SCRasterStore>)[self.sc.manager.dataService
+      storeByIdentifier:@"ba293796-5026-46f7-a2ff-e5dec85heh6b"];
+  [ss overlayFromLayer:@"WhiteHorse" mapview:self.mapView];
+}
+
 - (void)clearMap {
   [self.mapView removeOverlays:self.mapView.overlays];
   [self.mapView removeAnnotations:self.mapView.annotations];
@@ -83,7 +89,26 @@
   return bbox;
 }
 
+- (void)zoomAndCenterOnSelection:(CLLocationCoordinate2D)coord {
+  MKCoordinateRegion region = self.mapView.region;
+  MKCoordinateSpan span = MKCoordinateSpanMake(0.005, 0.005);
+  region.center = coord;
+
+  region.center.latitude -= self.mapView.region.span.latitudeDelta *
+                            span.latitudeDelta / region.span.latitudeDelta *
+                            0.5;
+
+  region.span.longitudeDelta = 1.0;
+  region.span.latitudeDelta = 1.0;
+
+  [self.mapView setRegion:region animated:YES];
+}
+
 - (void)populateMap:(SCBoundingBox *)bbox {
+  [self displayTiles];
+  //  CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(60.86, -135.19);
+  //  [self zoomAndCenterOnSelection:coord];
+
   SCQueryFilter *filter = [[SCQueryFilter alloc] init];
   if (bbox) {
     SCGeoFilterContains *gfc = [[SCGeoFilterContains alloc] initWithBBOX:bbox];
@@ -123,8 +148,6 @@
   [self.mapView removeOverlays:self.mapView.overlays];
 
   @weakify(self);
-  id<SCSpatialStore> ss = (id<SCSpatialStore>)[self.sc.manager.dataService
-      storeByIdentifier:@"a5d93796-5026-46f7-a2ff-e5dec85heh6b"];
 
   [[[[self.sc.manager.dataService queryAllStores:filter]
       map:^SCGeometry *(SCGeometry *geom) {
@@ -181,6 +204,10 @@
   //    }
   //    return renderer;
   //  }
+  else if ([overlay isKindOfClass:[MKTileOverlay class]]) {
+    return [[MKTileOverlayRenderer alloc] initWithTileOverlay:overlay];
+  }
+
   return nil;
 }
 
