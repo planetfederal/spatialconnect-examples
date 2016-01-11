@@ -25,18 +25,18 @@
                                         <rect key="frame" x="0.0" y="92" width="600" height="49"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HWb-jf-vnD" id="4re-6o-KqU">
-                                            <rect key="frame" x="0.0" y="0.0" width="567" height="48.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="48"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wax-Ws-dcH">
-                                                    <rect key="frame" x="15" y="8" width="31.5" height="19.5"/>
+                                                    <rect key="frame" x="15" y="7" width="32" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eYs-RB-6g8">
-                                                    <rect key="frame" x="15" y="27.5" width="40.5" height="13.5"/>
+                                                    <rect key="frame" x="15" y="27" width="41" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -201,13 +201,24 @@
                         <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="C4X-12-IZK">
                             <rect key="frame" x="180" y="7" width="240" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Fetch Data"/>
+                            <state key="normal" title="Fetch"/>
                             <connections>
                                 <action selector="buttonPressSearch:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="dVj-64-f79"/>
                             </connections>
                         </button>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="rMI-P1-sAv">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="qj6-iN-A8f">
+                                <rect key="frame" x="447" y="7" width="133" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Imagery"/>
+                                <connections>
+                                    <action selector="buttonPressLoadImagery:" destination="8rJ-Kc-sve" eventType="touchUpInside" id="xMR-AX-rSB"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="buttonImagery" destination="qj6-iN-A8f" id="5a0-jn-o1D"/>
                         <outlet property="buttonSearch" destination="C4X-12-IZK" id="VGM-m5-wRa"/>
                         <outlet property="mapView" destination="2PT-ja-C5y" id="qbb-78-ZIg"/>
                     </connections>

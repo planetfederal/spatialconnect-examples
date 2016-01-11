@@ -56,7 +56,6 @@
           }];
 
       if (CGPathContainsPoint(mpr, NULL, mapPointAsCGP, FALSE)) {
-        NSLog(@"YO");
       }
 
       CGPathRelease(mpr);
@@ -105,10 +104,6 @@
 }
 
 - (void)populateMap:(SCBoundingBox *)bbox {
-  [self displayTiles];
-  //  CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(60.86, -135.19);
-  //  [self zoomAndCenterOnSelection:coord];
-
   SCQueryFilter *filter = [[SCQueryFilter alloc] init];
   if (bbox) {
     SCGeoFilterContains *gfc = [[SCGeoFilterContains alloc] initWithBBOX:bbox];
@@ -194,17 +189,7 @@
     ren.strokeColor = [UIColor redColor];
     ren.lineWidth = 2.0f;
     return ren;
-  }
-  //  else if ([overlay isKindOfClass:[MKTileOverlay class]]) {
-  //    MKTileOverlay *tileOverlay = (MKTileOverlay*)overlay;
-  //    MKTileOverlayRenderer *renderer = nil;
-  //    if ([tileOverlay isKindOfClass:SCTileOverlay.class]) {
-  //      renderer = [[SCTileOverlayRenderer alloc]
-  //      initWithTileOverlay:tileOverlay];
-  //    }
-  //    return renderer;
-  //  }
-  else if ([overlay isKindOfClass:[MKTileOverlay class]]) {
+  } else if ([overlay isKindOfClass:[MKTileOverlay class]]) {
     return [[MKTileOverlayRenderer alloc] initWithTileOverlay:overlay];
   }
 
@@ -252,5 +237,10 @@
 - (IBAction)buttonPressSearch:(id)sender {
   self.buttonSearch.enabled = NO;
   [self populateMap:self.currentViewBoundingBox];
+}
+- (IBAction)buttonPressLoadImagery:(id)sender {
+  [self displayTiles];
+  CLLocationCoordinate2D coord = CLLocationCoordinate2DMake(60.86, -135.19);
+  [self zoomAndCenterOnSelection:coord];
 }
 @end

@@ -16,9 +16,13 @@
 @property(nonatomic, weak) SpatialConnect *sc;
 @property(nonatomic, strong) CLLocationManager *locationManager;
 @property(nonatomic, strong) NSCache *cacheAnnotations;
+@property(nonatomic, strong) NSMutableDictionary *rasters;
+@property(nonatomic, strong) NSMutableDictionary *vectors;
 @property(nonatomic, strong) RACDisposable *disposableMapRefresh;
+@property(weak, nonatomic) IBOutlet UIButton *buttonSearch;
+@property(weak, nonatomic) IBOutlet UIButton *buttonImagery;
 - (IBAction)buttonPressAddFeature:(id)sender;
 - (IBAction)buttonPressSearch:(id)sender;
-@property(weak, nonatomic) IBOutlet UIButton *buttonSearch;
+- (IBAction)buttonPressLoadImagery:(id)sender;
 
 @end
