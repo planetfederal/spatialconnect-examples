@@ -15,18 +15,24 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.boundlessgeo.spatialconnect.geometries.SCBoundingBox;
 import com.boundlessgeo.spatialconnect.geometries.SCGeometry;
-import com.boundlessgeo.spatialconnect.geometries.SCPoint;
-import com.boundlessgeo.spatialconnect.geometries.SCSpatialFeature;
 import com.boundlessgeo.spatialconnect.query.SCGeometryPredicateComparison;
 import com.boundlessgeo.spatialconnect.query.SCPredicate;
 import com.boundlessgeo.spatialconnect.query.SCQueryFilter;
 import com.boundlessgeo.spatialconnect.services.SCServiceManager;
 import com.boundlessgeo.spatialconnect.stores.SCDataStore;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.PrecisionModel;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -36,10 +42,14 @@ import rx.schedulers.Schedulers;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class FeatureDetailsFragment extends Fragment {
+public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallback {
 
     private String featureId,layerId,storeId;
     private double lat,lon;
+    private TextView latVal, lonVal;
+    private GoogleMap map;
+    private MapView mapView;
+    private SCGeometry selectedFeature;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +60,34 @@ public class FeatureDetailsFragment extends Fragment {
         this.featureId = (String)b.get("fid");
         this.layerId = (String)b.get("lid");
         this.storeId = (String)b.get("sid");
-        return inflater.inflate(R.layout.fragment_feature_details, container, false);
+
+        View inflatedView = inflater.inflate(R.layout.fragment_feature_details, container, false);
+
+        // Gets the MapView from the XML layout and creates it
+        mapView = (MapView) inflatedView.findViewById(R.id.edit_point_map);
+        mapView.onCreate(savedInstanceState);
+        // Gets to GoogleMap from the MapView and does initialization stuff
+        mapView.getMapAsync(this);
+
+        return inflatedView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
     }
 
     @Override
@@ -62,8 +99,8 @@ public class FeatureDetailsFragment extends Fragment {
 
         final TextView storeIdVal = (TextView)getView().findViewById(R.id.feature_detail_store_value);
         final TextView layerVal = (TextView)getView().findViewById(R.id.feature_detail_layer_value);
-        final TextView lonVal = (TextView)getView().findViewById(R.id.feature_detail_lon_value);
-        final TextView latVal = (TextView)getView().findViewById(R.id.feature_detail_lat_value);
+        lonVal = (TextView)getView().findViewById(R.id.feature_detail_lon_value);
+        latVal = (TextView)getView().findViewById(R.id.feature_detail_lat_value);
         final TextView altVal = (TextView)getView().findViewById(R.id.feature_detail_alt_value);
         final TextView featIdVal = (TextView)getView().findViewById(R.id.feature_detail_featureid_value);
         final TableLayout table = (TableLayout)getView().findViewById(R.id.feature_detail_prop_table);
@@ -88,11 +125,11 @@ public class FeatureDetailsFragment extends Fragment {
 
                                @Override
                                public void onNext(final SCGeometry s) {
+                                   selectedFeature = s;
                                    storeIdVal.setText(s.getKey().getStoreId());
                                    layerVal.setText(s.getKey().getLayerId());
-                                   if (s instanceof SCPoint) {
-                                       SCPoint p = (SCPoint)s;
-                                       Point pt = (Point)p.getGeometry();
+                                   if (s.getGeometry() instanceof Point) {
+                                       Point pt = (Point) s.getGeometry();
                                        lonVal.setText(String.valueOf(pt.getX()));
                                        latVal.setText(String.valueOf(pt.getY()));
                                        altVal.setText(String.valueOf(""));
@@ -117,7 +154,7 @@ public class FeatureDetailsFragment extends Fragment {
                                            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                                                boolean handled = false;
                                                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                                                   updateFeaturePropertyValue(s, key, v.getText().toString(), v);
+                                                   updateFeaturePropertyValue(key, v.getText().toString());
                                                    handled = true;
                                                }
                                                return handled;
@@ -136,26 +173,67 @@ public class FeatureDetailsFragment extends Fragment {
 
     }
 
-    private void updateFeaturePropertyValue(SCSpatialFeature feature, String propertyKey, String propertyValue,
-                                            final TextView view) {
+    private void updateFeaturePropertyValue(String propertyKey, String propertyValue) {
         // first determine which store we need to write to
         SCServiceManager serviceManager =  SpatialConnectService.getInstance().getServiceManager(getContext());
-        SCDataStore ds = serviceManager.getDataService().getStoreById(feature.getKey().getStoreId());
+        SCDataStore ds = serviceManager.getDataService().getStoreById(selectedFeature.getKey().getStoreId());
         // then update the feature's property with the new value
-        feature.getProperties().put(propertyKey, propertyValue);
+        selectedFeature.getProperties().put(propertyKey, propertyValue);
         // and save the updated feature back to the store
-        ds.update(feature).subscribe(new Action1<Boolean>() {
+        ds.update(selectedFeature).subscribe(new Action1<Boolean>() {
             @Override
             public void call(Boolean updated) {
                 // if true then we saved and can react to it
                 Log.d("FeatureDetailsFragment", "feature was updated");
                 // hide virtual keyboard
-                InputMethodManager imm = (InputMethodManager)getContext()
+                InputMethodManager imm = (InputMethodManager) getContext()
                         .getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-                Toast.makeText(getActivity(), "Feature was updated.", Toast.LENGTH_SHORT).show();
-
+                imm.hideSoftInputFromWindow(latVal.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
             }
         });
     }
+
+    private void updatePoint(double lat, double lon) {
+        // first determine which store we need to write to
+        SCServiceManager serviceManager =  SpatialConnectService.getInstance().getServiceManager(getContext());
+        SCDataStore ds = serviceManager.getDataService().getStoreById(selectedFeature.getKey().getStoreId());
+        // then update the feature's geometry with the new value
+        GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+        selectedFeature.setGeometry(geometryFactory.createPoint(new Coordinate(lon, lat)));
+        // and save the updated feature back to the store
+        ds.update(selectedFeature).subscribe(new Action1<Boolean>() {
+            @Override
+            public void call(Boolean updated) {
+                // if true then we saved and can react to it
+                Log.d("FeatureDetailsFragment", "feature was updated");
+                // hide virtual keyboard
+                InputMethodManager imm = (InputMethodManager) getContext()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(latVal.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+            }
+        });
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+
+        LatLng featurePoint = new LatLng(this.lat, this.lon);
+
+        // center the map on the position of the selected feature
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(featurePoint, 15));
+
+        // add a callback to update the feature when the map center is updated
+        map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+                lonVal.setText(String.valueOf(cameraPosition.target.longitude));
+                latVal.setText(String.valueOf(cameraPosition.target.latitude));
+                if (selectedFeature != null) {
+                    updatePoint(cameraPosition.target.latitude, cameraPosition.target.longitude);
+                }
+            }
+        });
+    }
+
 }

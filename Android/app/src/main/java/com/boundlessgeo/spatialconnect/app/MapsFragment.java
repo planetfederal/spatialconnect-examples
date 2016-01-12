@@ -71,6 +71,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onResume() {
         super.onResume();
         if (map != null) {
+            map.clear();
             reloadFeatures();
         }
     }
