@@ -1,0 +1,86 @@
+html, body {
+  height: 100%;
+  padding ; 0;
+  margin : 0;
+}
+
+#map {
+  width : 100vw;
+  height : 100vh;
+}
+
+.drawer {
+  z-index: 1;
+  top: 50px;
+  position: absolute;
+  background-color: white;
+}
+
+.drawer-enter {
+  left: -100px;
+  transition: .5s;
+}
+
+.drawer-enter.drawer-enter-active {
+  left: 0px;
+}
+
+.drawer-leave {
+  left: 0px;
+  transition: .5s;
+}
+
+.drawer-leave.drawer-leave-active {
+  left: -100px;
+}
+
+.drawer-visible {
+  border: solid 2px #555;
+}
+
+.tabs-navigation {
+  padding: 0 20px;
+  max-height: 50px;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabs-menu {
+  display: table;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tabs-menu-item {
+  float: left;
+}
+
+.tabs-menu-item a {
+  display: block;
+  padding: 0 40px;
+  height: 50px;
+  line-height: 50px;
+  border-bottom: 0;
+  color: #a9a9a9;
+}
+
+.tabs-menu-item:not(.is-active) a:hover {
+  color: #3498db;
+}
+
+.tabs-menu-item.is-active a {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-top: 2px solid #3498db;
+  border-bottom: 0;
+  color: #333;
+}
+
+.tabs-panel {
+  display: none;
+  padding: 30px;
+}
+
+.tabs-panel.is-active {
+  display: block;
+}
