@@ -1,14 +1,15 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.boundlessgeo.spatialconnect.app.FeatureDetailsFragment"
-    >
-
+    tools:context="com.boundlessgeo.spatialconnect.app.FeatureDetailsFragment">
 
     <TextView
         android:layout_width="wrap_content"
@@ -40,16 +41,49 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <FrameLayout
+        android:id="@+id/map_container"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/feature_id_label"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false"
+        android:layout_marginLeft="40dp"
+        android:minHeight="150sp">
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/edit_point_map"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="false"
+            android:layout_gravity="center"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/crosshair"
+            android:src="@mipmap/crosshair"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Latitude:"
         android:id="@+id/lat_label"
-        android:layout_below="@+id/feature_id_label"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="23dp" />
+        android:layout_alignParentStart="false"
+        android:layout_marginTop="23dp"
+        android:textSize="12sp"
+        android:layout_alignLeft="@+id/map_container"
+        android:layout_alignTop="@+id/map_container"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -59,7 +93,8 @@
         android:id="@+id/lon_label"
         android:layout_below="@+id/lat_label"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="12sp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -69,7 +104,8 @@
         android:id="@+id/altitude_label"
         android:layout_below="@+id/lon_label"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="12sp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -108,9 +144,11 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="&lt;lat>"
         android:id="@+id/feature_detail_lat_value"
-        android:layout_alignTop="@+id/lat_label"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/lat_label"
+        android:layout_toRightOf="@+id/lat_label"
+        android:textSize="12sp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -120,7 +158,9 @@
         android:id="@+id/feature_detail_lon_value"
         android:layout_above="@+id/altitude_label"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/lon_label"
+        android:textSize="12sp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -128,9 +168,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="&lt;alt>"
         android:id="@+id/feature_detail_alt_value"
-        android:layout_below="@+id/feature_detail_lon_value"
-        android:layout_alignRight="@+id/feature_detail_lat_value"
-        android:layout_alignEnd="@+id/feature_detail_lat_value" />
+        android:layout_alignTop="@+id/altitude_label"
+        android:layout_toRightOf="@+id/altitude_label"
+        android:textSize="12sp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -138,16 +178,29 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Properties:"
         android:id="@+id/prop_label"
-        android:layout_below="@+id/altitude_label"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/map_container"/>
+
 
     <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/prop_label"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:orientation="vertical"
-        android:id="@+id/feature_detail_prop_table"></TableLayout>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/feature_detail_prop_table"
+            android:scrollIndicators="right"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/prop_label">
+
+    </TableLayout>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Feature"
+        android:id="@+id/delete_button"
+        android:layout_below="@+id/feature_detail_prop_table"
+        />
 
 </RelativeLayout>
+</ScrollView>
