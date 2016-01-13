@@ -111,13 +111,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 new SCPredicate(bbox, SCGeometryPredicateComparison.SCPREDICATE_OPERATOR_WITHIN)
         );
 
-        SCDataStore ds = mainActivity.getSelectedStore();
-        ds.query(filter)
+        dataService.queryAllStores(filter)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         new Subscriber<SCSpatialFeature>() {
-                            int num_features = 0;
                             SCSpatialFeature latestFeature;
 
                             @Override
