@@ -2,6 +2,7 @@ package com.boundlessgeo.spatialconnect.app;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -50,6 +52,9 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
     private GoogleMap map;
     private MapView mapView;
     private SCGeometry selectedFeature;
+    private SCServiceManager serviceManager;
+    private SCDataStore ds;
+    private static final String LOG_TAG = FeatureDetailsFragment.class.getName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,10 +68,9 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
 
         View inflatedView = inflater.inflate(R.layout.fragment_feature_details, container, false);
 
-        // Gets the MapView from the XML layout and creates it
+        // initialize the map
         mapView = (MapView) inflatedView.findViewById(R.id.edit_point_map);
         mapView.onCreate(savedInstanceState);
-        // Gets to GoogleMap from the MapView and does initialization stuff
         mapView.getMapAsync(this);
 
         return inflatedView;
@@ -92,8 +96,8 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        SCServiceManager serviceManager =  SpatialConnectService.getInstance().getServiceManager(getContext());
-        SCDataStore ds = serviceManager.getDataService().getStoreById(storeId);
+        serviceManager =  SpatialConnectService.getInstance().getServiceManager(getContext());
+        ds = serviceManager.getDataService().getStoreById(storeId);
 
         int auth = ds.getAuthorization();
 
@@ -164,19 +168,29 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
                                        tr.addView(tvValue);
                                        table.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
 
-                                       }
-
                                    }
+
+                                   // add callback to the delete button
+                                   final Button button = (Button) getView().findViewById(R.id.delete_button);
+                                   button.setOnClickListener(new View.OnClickListener() {
+                                       public void onClick(View v) {
+                                           // delete the selected feature
+                                           ds.delete(selectedFeature.getKey()).subscribe(new Action1<Boolean>() {
+                                               @Override
+                                               public void call(Boolean deleted) {
+                                                   Log.d(LOG_TAG, "feature was deleted");
+                                                   // change back to map fragment
+                                                   getActivity().finish();
+                                               }
+                                           });
+                                       }
+                                   });
+                               }
                            }
-
                 );
-
     }
 
     private void updateFeaturePropertyValue(String propertyKey, String propertyValue) {
-        // first determine which store we need to write to
-        SCServiceManager serviceManager =  SpatialConnectService.getInstance().getServiceManager(getContext());
-        SCDataStore ds = serviceManager.getDataService().getStoreById(selectedFeature.getKey().getStoreId());
         // then update the feature's property with the new value
         selectedFeature.getProperties().put(propertyKey, propertyValue);
         // and save the updated feature back to the store
@@ -184,7 +198,7 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
             @Override
             public void call(Boolean updated) {
                 // if true then we saved and can react to it
-                Log.d("FeatureDetailsFragment", "feature was updated");
+                Log.d(LOG_TAG, "feature was updated");
                 // hide virtual keyboard
                 InputMethodManager imm = (InputMethodManager) getContext()
                         .getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -194,9 +208,6 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
     }
 
     private void updatePoint(double lat, double lon) {
-        // first determine which store we need to write to
-        SCServiceManager serviceManager =  SpatialConnectService.getInstance().getServiceManager(getContext());
-        SCDataStore ds = serviceManager.getDataService().getStoreById(selectedFeature.getKey().getStoreId());
         // then update the feature's geometry with the new value
         GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
         selectedFeature.setGeometry(geometryFactory.createPoint(new Coordinate(lon, lat)));
@@ -205,7 +216,7 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
             @Override
             public void call(Boolean updated) {
                 // if true then we saved and can react to it
-                Log.d("FeatureDetailsFragment", "feature was updated");
+                Log.d(LOG_TAG, "feature was updated");
                 // hide virtual keyboard
                 InputMethodManager imm = (InputMethodManager) getContext()
                         .getSystemService(Context.INPUT_METHOD_SERVICE);

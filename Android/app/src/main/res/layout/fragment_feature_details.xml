@@ -181,14 +181,26 @@
         android:layout_marginTop="15dp"
         android:layout_below="@+id/map_container"/>
 
-        <TableLayout
+
+    <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:id="@+id/feature_detail_prop_table"
             android:scrollIndicators="right"
             android:layout_marginTop="20dp"
-            android:layout_below="@+id/prop_label"></TableLayout>
+            android:layout_below="@+id/prop_label">
+
+    </TableLayout>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Feature"
+        android:id="@+id/delete_button"
+        android:layout_below="@+id/feature_detail_prop_table"
+        />
 
 </RelativeLayout>
 </ScrollView>
