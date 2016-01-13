@@ -119,7 +119,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         ds.query(filter)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .take(10) // this should be configurable or a default
                 .subscribe(
                         new Subscriber<SCSpatialFeature>() {
                             int num_features = 0;
@@ -127,6 +126,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
                             @Override
                             public void onCompleted() {
+                                Log.d("MapsFragment.Subscriber", "query observable completed");
                             }
 
                             @Override
