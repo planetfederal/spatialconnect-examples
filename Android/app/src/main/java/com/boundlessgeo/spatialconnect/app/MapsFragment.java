@@ -25,15 +25,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.vividsolutions.jts.geom.Point;
 
 import java.util.HashMap;
-import java.util.concurrent.TimeUnit;
 
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -71,7 +68,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onResume() {
         super.onResume();
         if (map != null) {
-            map.clear();
             reloadFeatures();
         }
     }
@@ -170,59 +166,20 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private SCBoundingBox getCurrentBoundingBox() {
         LatLng ne = this.map.getProjection().getVisibleRegion().latLngBounds.northeast;
         LatLng sw = this.map.getProjection().getVisibleRegion().latLngBounds.southwest;
-
         SCBoundingBox bbox = new SCBoundingBox(sw.longitude, sw.latitude, ne.longitude, ne.latitude);
         return bbox;
     }
 
     public void reloadFeatures() {
+        map.clear();
         loadFeatures(getCurrentBoundingBox());
     }
 
     @Override
     public void onMapReady(GoogleMap map) {
         this.map = map;
-
-        onCameraChangeObs().debounce(500, TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<CameraPosition>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.e("MAP", "Error: Shoudln't have unsubscribed from MapChangeObs");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("MAP", e.getLocalizedMessage());
-                    }
-
-                    @Override
-                    public void onNext(CameraPosition position) {
-                        Log.i("MAP", "OnNext Camera Changed");
-                        reloadFeatures();
-                    }
-                });
-
         setUpMap();
         reloadFeatures();
-    }
-
-    public Observable<CameraPosition> onCameraChangeObs() {
-        return Observable.create(new Observable.OnSubscribe<CameraPosition>() {
-
-            @Override
-            public void call(final Subscriber<? super CameraPosition> subscriber) {
-                MapsFragment.this.map.setOnCameraChangeListener(
-                        new GoogleMap.OnCameraChangeListener() {
-                            @Override
-                            public void onCameraChange(com.google.android.gms.maps.model.CameraPosition cameraPosition) {
-                                subscriber.onNext(cameraPosition);
-
-                            }
-                        }
-                );
-            }
-        });
     }
 
 }

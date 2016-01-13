@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -159,6 +158,10 @@ public class MainActivity extends Activity implements
 
         // TODO: handle menu click events in each Fragment
         if (id == R.id.action_settings) {
+            return true;
+        }
+        if (id == R.id.action_reload_features) {
+            mapsFragment.reloadFeatures();
             return true;
         }
         return super.onOptionsItemSelected(item);

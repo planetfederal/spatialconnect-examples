@@ -3,6 +3,12 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context=".MainActivity">
 
+    <item
+        android:id="@+id/action_reload_features"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/action_reload_features"
+        app:showAsAction="always"/>
+
     <!-- Settings, should always be in the overflow -->
     <item android:id="@+id/action_settings"
           android:title="@string/action_settings"
