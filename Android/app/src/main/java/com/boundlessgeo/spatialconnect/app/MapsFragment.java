@@ -148,8 +148,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 );
     }
 
-    private void setGeoPackageTileProvider() {
-        SCDataStore selectedStore = dataService.getActiveStores().get(0)    ;
+    public void loadImagery() {
+        // asssumes whitehorse is the first active store
+        SCDataStore selectedStore = dataService.getActiveStores().get(0);
         GeoPackageStore geoPackageStore = (GeoPackageStore) SpatialConnectService.getInstance().getServiceManager(getContext())
                 .getDataService()
                 .getStoreById(selectedStore.getStoreId());
@@ -159,7 +160,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 selectedStore.getAdapter().getDataStoreName(),
                 "WhiteHorse"
         );
-        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(60.86, -135.19), 14);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(60.86, -135.19), 16);
         map.animateCamera(cu);
     }
 

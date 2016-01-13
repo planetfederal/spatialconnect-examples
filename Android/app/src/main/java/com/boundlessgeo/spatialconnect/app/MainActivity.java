@@ -164,6 +164,10 @@ public class MainActivity extends Activity implements
             mapsFragment.reloadFeatures();
             return true;
         }
+        if (id == R.id.action_load_imagery) {
+            mapsFragment.loadImagery();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
