@@ -2,7 +2,6 @@ package com.boundlessgeo.spatialconnect.app;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -99,7 +98,7 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
         serviceManager =  SpatialConnectService.getInstance().getServiceManager(getContext());
         ds = serviceManager.getDataService().getStoreById(storeId);
 
-        int auth = ds.getAuthorization();
+        SCDataStore.DataStorePermissionEnum auth = ds.getAuthorization();
 
         final TextView storeIdVal = (TextView)getView().findViewById(R.id.feature_detail_store_value);
         final TextView layerVal = (TextView)getView().findViewById(R.id.feature_detail_layer_value);
@@ -147,47 +146,52 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
                                        tv.setText(key);
                                        tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
                                        tr.addView(tv);
-                                       EditText tvValue = new EditText(FeatureDetailsFragment.this.getContext());
-                                       tvValue.setText(String.valueOf(s.getProperties().get(key)));
-                                       tvValue.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-                                       tvValue.setPadding(20, 3, 0, 3);
-                                       tvValue.setInputType(InputType.TYPE_CLASS_TEXT);
-                                       tvValue.setImeOptions(EditorInfo.IME_ACTION_DONE);
-                                       tvValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                                           @Override
-                                           public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                                               boolean handled = false;
-                                               if (actionId == EditorInfo.IME_ACTION_DONE) {
-                                                   updateFeaturePropertyValue(key, v.getText().toString());
-                                                   handled = true;
-                                               }
-                                               return handled;
-                                           }
-                                       });
-
-                                       tr.addView(tvValue);
-                                       table.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-
-                                   }
-
-                                   // add callback to the delete button
-                                   final Button button = (Button) getView().findViewById(R.id.delete_button);
-                                   button.setOnClickListener(new View.OnClickListener() {
-                                       public void onClick(View v) {
-                                           // delete the selected feature
-                                           ds.delete(selectedFeature.getKey()).subscribe(new Action1<Boolean>() {
+                                       TextView tvValue = new TextView(FeatureDetailsFragment.this.getContext());
+                                       if (featureIsEditable()) {
+                                           tvValue = new EditText(FeatureDetailsFragment.this.getContext());
+                                           tvValue.setInputType(InputType.TYPE_CLASS_TEXT);
+                                           tvValue.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                                           tvValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                                                @Override
-                                               public void call(Boolean deleted) {
-                                                   Log.d(LOG_TAG, "feature was deleted");
-                                                   // change back to map fragment
-                                                   getActivity().finish();
+                                               public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                                                   boolean handled = false;
+                                                   if (actionId == EditorInfo.IME_ACTION_DONE) {
+                                                       updateFeaturePropertyValue(key, v.getText().toString());
+                                                       handled = true;
+                                                   }
+                                                   return handled;
+                                               }
+                                           });
+                                           // add callback to the delete button
+                                           final Button button = (Button) getView().findViewById(R.id.delete_button);
+                                           button.setVisibility(View.VISIBLE);
+                                           button.setOnClickListener(new View.OnClickListener() {
+                                               public void onClick(View v) {
+                                                   // delete the selected feature
+                                                   ds.delete(selectedFeature.getKey()).subscribe(new Action1<Boolean>() {
+                                                       @Override
+                                                       public void call(Boolean deleted) {
+                                                           Log.d(LOG_TAG, "feature was deleted");
+                                                           // change back to map fragment
+                                                           getActivity().finish();
+                                                       }
+                                                   });
                                                }
                                            });
                                        }
-                                   });
+                                       tvValue.setText(String.valueOf(s.getProperties().get(key)));
+                                       tvValue.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+                                       tvValue.setPadding(20, 3, 0, 3);
+                                       tr.addView(tvValue);
+                                       table.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+                                   }
                                }
                            }
                 );
+    }
+
+    private boolean featureIsEditable() {
+        return ds.getAuthorization().equals(SCDataStore.DataStorePermissionEnum.READ_WRITE);
     }
 
     private void updateFeaturePropertyValue(String propertyKey, String propertyValue) {
@@ -234,17 +238,22 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
         // center the map on the position of the selected feature
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(featurePoint, 15));
 
-        // add a callback to update the feature when the map center is updated
-        map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
-            @Override
-            public void onCameraChange(CameraPosition cameraPosition) {
-                lonVal.setText(String.valueOf(cameraPosition.target.longitude));
-                latVal.setText(String.valueOf(cameraPosition.target.latitude));
-                if (selectedFeature != null) {
-                    updatePoint(cameraPosition.target.latitude, cameraPosition.target.longitude);
+        if (featureIsEditable()) {
+            // add a callback to update the feature when the map center is updated
+            map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+                @Override
+                public void onCameraChange(CameraPosition cameraPosition) {
+                    lonVal.setText(String.valueOf(cameraPosition.target.longitude));
+                    latVal.setText(String.valueOf(cameraPosition.target.latitude));
+                    if (selectedFeature != null) {
+                        updatePoint(cameraPosition.target.latitude, cameraPosition.target.longitude);
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            map.getUiSettings().setScrollGesturesEnabled(false);
+        }
+
     }
 
 }

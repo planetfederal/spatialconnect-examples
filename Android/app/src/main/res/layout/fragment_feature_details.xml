@@ -200,7 +200,7 @@
         android:text="Delete Feature"
         android:id="@+id/delete_button"
         android:layout_below="@+id/feature_detail_prop_table"
-        />
+        android:visibility="gone"/>
 
 </RelativeLayout>
 </ScrollView>
