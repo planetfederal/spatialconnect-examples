@@ -9,6 +9,12 @@
         android:title="@string/action_reload_features"
         app:showAsAction="always"/>
 
+    <item
+        android:id="@+id/action_load_imagery"
+        android:icon="@drawable/ic_terrain"
+        android:title="@string/action_load_imagery"
+        app:showAsAction="always"/>
+
     <!-- Settings, should always be in the overflow -->
     <item android:id="@+id/action_settings"
           android:title="@string/action_settings"
