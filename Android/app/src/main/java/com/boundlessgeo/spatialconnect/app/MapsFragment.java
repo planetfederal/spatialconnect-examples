@@ -91,7 +91,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Intent intent = new Intent(MapsFragment.this.getActivity(), FeatureDetails.class);
+                Intent intent = new Intent(MapsFragment.this.getActivity(), FeatureDetailsActivity.class);
                 intent.putExtra("lat", marker.getPosition().latitude);
                 intent.putExtra("lon", marker.getPosition().longitude);
                 SCKeyTuple kt = mMarkers.get(marker.getId());
