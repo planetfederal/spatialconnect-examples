@@ -3,7 +3,7 @@ package com.boundlessgeo.spatialconnect.app;
 import android.os.Bundle;
 import android.app.Activity;
 
-public class FeatureDetails extends Activity {
+public class FeatureDetailsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

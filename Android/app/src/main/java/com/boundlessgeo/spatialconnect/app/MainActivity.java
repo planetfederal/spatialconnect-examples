@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -156,7 +157,6 @@ public class MainActivity extends Activity implements
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        // TODO: handle menu click events in each Fragment
         if (id == R.id.action_settings) {
             return true;
         }
@@ -166,6 +166,10 @@ public class MainActivity extends Activity implements
         }
         if (id == R.id.action_load_imagery) {
             mapsFragment.loadImagery();
+            return true;
+        }
+        if (id == R.id.action_add_feature) {
+            startActivity(new Intent(this, AddNewFeatureActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
