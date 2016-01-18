@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -25,18 +25,18 @@
                                         <rect key="frame" x="0.0" y="92" width="600" height="49"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HWb-jf-vnD" id="4re-6o-KqU">
-                                            <rect key="frame" x="0.0" y="0.0" width="567" height="48"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="48.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wax-Ws-dcH">
-                                                    <rect key="frame" x="15" y="7" width="32" height="20"/>
+                                                    <rect key="frame" x="15" y="8" width="31.5" height="19.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eYs-RB-6g8">
-                                                    <rect key="frame" x="15" y="27" width="41" height="14"/>
+                                                    <rect key="frame" x="15" y="27.5" width="40.5" height="13.5"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -240,11 +240,12 @@
                     <connections>
                         <segue destination="Si0-e6-ndR" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="tvD-Xa-Rph" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
+                        <segue destination="fOy-Mv-8pZ" kind="relationship" relationship="viewControllers" id="LHI-iv-Lxa"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-162" y="-332"/>
+            <point key="canvasLocation" x="-176" y="39"/>
         </scene>
         <!--Stores-->
         <scene sceneID="J30-t8-JrK">
@@ -283,6 +284,70 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f37-Kf-0VB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="687" y="39"/>
+        </scene>
+        <!--Web-->
+        <scene sceneID="2Vn-fj-t6N">
+            <objects>
+                <viewController title="Web" id="SYA-oW-p7Z" customClass="WebDownloadViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nbD-10-UaW"/>
+                        <viewControllerLayoutGuide type="bottom" id="KvQ-4c-Bbv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="XaE-yu-43M">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Web Resource" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gpU-lJ-ARP">
+                                <rect key="frame" x="20" y="72" width="111" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="https://s3-us-west-2.amazonaws.com/spacon/web.zip" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3ee-ct-5jM">
+                                <rect key="frame" x="20" y="101" width="295" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="textFieldAddress:" destination="SYA-oW-p7Z" eventType="editingDidEnd" id="Vr9-tX-biY"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="69w-ax-pGJ">
+                                <rect key="frame" x="20" y="139" width="69" height="30"/>
+                                <state key="normal" title="Download"/>
+                                <connections>
+                                    <action selector="buttonPressDownload:" destination="SYA-oW-p7Z" eventType="touchUpInside" id="u9z-lt-5rA"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="KNe-VP-8ll"/>
+                    <connections>
+                        <outlet property="textFieldWeb" destination="3ee-ct-5jM" id="suA-fl-5bF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sOo-zC-ScL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1378" y="773"/>
+        </scene>
+        <!--Web-->
+        <scene sceneID="S04-Dp-WOK">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fOy-Mv-8pZ" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Web" id="cCk-fu-Uow"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ts4-zj-zj8">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="SYA-oW-p7Z" kind="relationship" relationship="rootViewController" id="f7g-MR-Lnx"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ul9-kd-Cwk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="687" y="773"/>
         </scene>
     </scenes>
     <resources>

@@ -3,10 +3,15 @@
 var React = require('react');
 var Drawer = require('./js/components/drawer');
 var styles = require('./js/style');
-var sc = require('./SpatialConnect');
+var sc = require('spatialconnect-js');
 var sample = require('./js/sample');
 var Panel = require('./js/components/panel');
-var Tabs = require('react-simpletabs');
+var ReactDOM = require('react-dom');
+var ReactTabs = require('react-tabs');
+var Tab = ReactTabs.Tab;
+var Tabs = ReactTabs.Tabs;
+var TabList = ReactTabs.TabList;
+var TabPanel = ReactTabs.TabPanel;
 
 var vectorSource = new ol.source.Vector({
   features: sample
@@ -60,16 +65,25 @@ sc.stream.spatialQuery.subscribe(
   }
 );
 
+
 var App = React.createClass({
   render : function() {
     return (
       <Tabs>
-        <Tabs.Panel title='Stores'>
+        <TabList>
+          <Tab>Stores!</Tab>
+          <Tab>Map</Tab>
+          <Tab>3</Tab>
+        </TabList>
+        <TabPanel title='Stores'>
           <h2>Stores</h2>
-        </Tabs.Panel>
-        <Tabs.Panel title='Map'>
+        </TabPanel>
+        <TabPanel title='Map'>
           <Panel map={map}/>
-        </Tabs.Panel>
+        </TabPanel>
+        <TabPanel title='3'>
+          <h2>Three</h2>
+        </TabPanel>
       </Tabs>
     );
   }

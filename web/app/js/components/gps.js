@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react');
-var sc = require('./../../SpatialConnect');
+var sc = require('spatialconnect-js');
 var Location = require('./location');
 
 var GPS = React.createClass({
