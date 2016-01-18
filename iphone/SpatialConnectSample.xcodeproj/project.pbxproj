@@ -27,6 +27,9 @@
 		56789C381C31E836001B5ABE /* FeatureDetailView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56789C371C31E836001B5ABE /* FeatureDetailView.xib */; };
 		56789C3A1C322CD3001B5ABE /* FeatureDetailEditView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56789C391C322CD3001B5ABE /* FeatureDetailEditView.xib */; };
 		56789C3D1C322D0D001B5ABE /* FeatureDetailEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56789C3C1C322D0D001B5ABE /* FeatureDetailEditViewController.m */; };
+		56D1222E1C47268C00E8ACC3 /* WebDownloadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56D1222D1C47268C00E8ACC3 /* WebDownloadViewController.m */; };
+		56D122311C487CC600E8ACC3 /* WebMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 56D122301C487CC600E8ACC3 /* WebMapViewController.m */; };
+		56D122331C49983C00E8ACC3 /* WebMapView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 56D122321C49983C00E8ACC3 /* WebMapView.xib */; };
 		FFF1A215D3A73B04B810F3CB /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C42F0B98BDE658C2424A13B /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +85,11 @@
 		56789C391C322CD3001B5ABE /* FeatureDetailEditView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FeatureDetailEditView.xib; sourceTree = "<group>"; };
 		56789C3B1C322D0D001B5ABE /* FeatureDetailEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeatureDetailEditViewController.h; sourceTree = "<group>"; };
 		56789C3C1C322D0D001B5ABE /* FeatureDetailEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeatureDetailEditViewController.m; sourceTree = "<group>"; };
+		56D1222C1C47268C00E8ACC3 /* WebDownloadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebDownloadViewController.h; sourceTree = "<group>"; };
+		56D1222D1C47268C00E8ACC3 /* WebDownloadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebDownloadViewController.m; sourceTree = "<group>"; };
+		56D1222F1C487CC600E8ACC3 /* WebMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebMapViewController.h; sourceTree = "<group>"; };
+		56D122301C487CC600E8ACC3 /* WebMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebMapViewController.m; sourceTree = "<group>"; };
+		56D122321C49983C00E8ACC3 /* WebMapView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebMapView.xib; sourceTree = "<group>"; };
 		6C42F0B98BDE658C2424A13B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC854DCB2009371EC61CCA14 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		E86EA3CDBCDC2E1EAAF9CFF7 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -155,6 +163,9 @@
 		5671906D1C26409B0025E93B /* SpatialConnectSample */ = {
 			isa = PBXGroup;
 			children = (
+				56D1222B1C47232500E8ACC3 /* Data */,
+				56D1222A1C47231600E8ACC3 /* Map */,
+				56D122291C47231000E8ACC3 /* Web */,
 				567190A91C2652CC0025E93B /* all.geojson */,
 				5677D6D81C37625C00C1E0F2 /* crosshair.png */,
 				567190A71C2652B70025E93B /* gz_2010_us_500_11_20m.json */,
@@ -163,25 +174,12 @@
 				567190721C26409B0025E93B /* AppDelegate.m */,
 				567190741C26409B0025E93B /* DataStoreViewController.h */,
 				567190AB1C271CE20025E93B /* DataStoreViewController.m */,
-				567190771C26409B0025E93B /* MapViewController.h */,
-				567190781C26409B0025E93B /* MapViewController.m */,
 				5671907A1C26409B0025E93B /* Main.storyboard */,
 				5671907D1C26409B0025E93B /* Assets.xcassets */,
 				5671907F1C26409B0025E93B /* LaunchScreen.storyboard */,
 				567190821C26409B0025E93B /* Info.plist */,
 				5671906E1C26409B0025E93B /* Supporting Files */,
 				567190A41C264C7D0025E93B /* PrefixHeader.pch */,
-				567190AD1C2893180025E93B /* DataStoreDetailViewController.h */,
-				567190AE1C2893180025E93B /* DataStoreDetailViewController.m */,
-				56789C341C31E685001B5ABE /* FeatureDetailViewController.h */,
-				56789C351C31E685001B5ABE /* FeatureDetailViewController.m */,
-				56789C371C31E836001B5ABE /* FeatureDetailView.xib */,
-				56789C391C322CD3001B5ABE /* FeatureDetailEditView.xib */,
-				56789C3B1C322D0D001B5ABE /* FeatureDetailEditViewController.h */,
-				56789C3C1C322D0D001B5ABE /* FeatureDetailEditViewController.m */,
-				5677D6D31C35D84600C1E0F2 /* AddPropertyView.xib */,
-				5677D6D51C35D85F00C1E0F2 /* AddPropertyViewController.h */,
-				5677D6D61C35D85F00C1E0F2 /* AddPropertyViewController.m */,
 			);
 			path = SpatialConnectSample;
 			sourceTree = "<group>";
@@ -210,6 +208,45 @@
 				567190981C26409B0025E93B /* Info.plist */,
 			);
 			path = SpatialConnectSampleUITests;
+			sourceTree = "<group>";
+		};
+		56D122291C47231000E8ACC3 /* Web */ = {
+			isa = PBXGroup;
+			children = (
+				56D1222C1C47268C00E8ACC3 /* WebDownloadViewController.h */,
+				56D1222D1C47268C00E8ACC3 /* WebDownloadViewController.m */,
+				56D1222F1C487CC600E8ACC3 /* WebMapViewController.h */,
+				56D122301C487CC600E8ACC3 /* WebMapViewController.m */,
+				56D122321C49983C00E8ACC3 /* WebMapView.xib */,
+			);
+			name = Web;
+			sourceTree = "<group>";
+		};
+		56D1222A1C47231600E8ACC3 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				567190771C26409B0025E93B /* MapViewController.h */,
+				567190781C26409B0025E93B /* MapViewController.m */,
+				56789C341C31E685001B5ABE /* FeatureDetailViewController.h */,
+				56789C351C31E685001B5ABE /* FeatureDetailViewController.m */,
+				56789C371C31E836001B5ABE /* FeatureDetailView.xib */,
+				56789C391C322CD3001B5ABE /* FeatureDetailEditView.xib */,
+				56789C3B1C322D0D001B5ABE /* FeatureDetailEditViewController.h */,
+				56789C3C1C322D0D001B5ABE /* FeatureDetailEditViewController.m */,
+				5677D6D31C35D84600C1E0F2 /* AddPropertyView.xib */,
+				5677D6D51C35D85F00C1E0F2 /* AddPropertyViewController.h */,
+				5677D6D61C35D85F00C1E0F2 /* AddPropertyViewController.m */,
+			);
+			name = Map;
+			sourceTree = "<group>";
+		};
+		56D1222B1C47232500E8ACC3 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				567190AD1C2893180025E93B /* DataStoreDetailViewController.h */,
+				567190AE1C2893180025E93B /* DataStoreDetailViewController.m */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -328,6 +365,7 @@
 				56789C381C31E836001B5ABE /* FeatureDetailView.xib in Resources */,
 				567190A61C2652680025E93B /* tests.scfg in Resources */,
 				5671907C1C26409B0025E93B /* Main.storyboard in Resources */,
+				56D122331C49983C00E8ACC3 /* WebMapView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,6 +441,8 @@
 				56789C3D1C322D0D001B5ABE /* FeatureDetailEditViewController.m in Sources */,
 				56789C361C31E685001B5ABE /* FeatureDetailViewController.m in Sources */,
 				567190AF1C2893180025E93B /* DataStoreDetailViewController.m in Sources */,
+				56D1222E1C47268C00E8ACC3 /* WebDownloadViewController.m in Sources */,
+				56D122311C487CC600E8ACC3 /* WebMapViewController.m in Sources */,
 				5677D6D71C35D85F00C1E0F2 /* AddPropertyViewController.m in Sources */,
 				567190791C26409B0025E93B /* MapViewController.m in Sources */,
 				567190731C26409B0025E93B /* AppDelegate.m in Sources */,
