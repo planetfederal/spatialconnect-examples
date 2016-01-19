@@ -113,7 +113,7 @@ public class MainActivity extends Activity implements
         transaction.commit();
 
         // setup service manager
-        manager = SpatialConnectService.getInstance().getServiceManager(getApplicationContext());
+        manager = SpatialConnectService.getInstance().getServiceManager(this);
     }
 
     @Override
@@ -273,8 +273,8 @@ public class MainActivity extends Activity implements
                                     @Override
                                     public void call(Location location) {
                                         bridge.callHandler("lastKnownLocation",
-                                                "{\"  lat\":\"" + location.getLatitude() + "\"," +
-                                                        "\"lon\":\"" + location.getLongitude() + "\"}");
+                                                "{\"latitude\":\"" + location.getLatitude() + "\"," +
+                                                        "\"longitude\":\"" + location.getLongitude() + "\"}");
                                     }
                                 });
                         return;
