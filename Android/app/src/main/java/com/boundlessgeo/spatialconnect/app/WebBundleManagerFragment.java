@@ -3,25 +3,35 @@ package com.boundlessgeo.spatialconnect.app;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import org.apache.commons.io.IOUtils;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -33,15 +43,21 @@ public class WebBundleManagerFragment extends Fragment implements ListView.OnIte
     private ListView listView;
     private OnWebBundleSelectedListener webBundleSelectedListener;
     private static final String BUNDLE_DIRECTORY_NAME = "bundles";
+    private String downloadUrl;
+    private WebBundleAdapter webBundleAdapter;
+    private File rootBundlesDir;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        rootBundlesDir = getActivity().getExternalFilesDir(BUNDLE_DIRECTORY_NAME);
+
         // inflate the views
-        View view = inflater.inflate(R.layout.fragment_manager, null);
-        listView = (ListView) view.findViewById(R.id.fragment_manager_list);
+        View view = inflater.inflate(R.layout.fragment_web_bundle, null);
+        listView = (ListView) view.findViewById(R.id.web_bundle_list);
 
         // Set the adapter for the list view
-        listView.setAdapter(new WebBundleAdapter(getActivity(), R.layout.item_web_bundle, getWebBundleFiles()));
+        webBundleAdapter = new WebBundleAdapter(getActivity(), R.layout.item_web_bundle, getWebBundleFiles());
+        listView.setAdapter(webBundleAdapter);
 
         // Set the list's click listener
         listView.setOnItemClickListener(this);
@@ -49,7 +65,75 @@ public class WebBundleManagerFragment extends Fragment implements ListView.OnIte
         return view;
     }
 
-    // TODO: ensure that new bundles that are added are shown the next time "Web Bundles" navigation item is clicked
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        final EditText webBundleValue = (EditText) getActivity().findViewById(R.id.web_bundle_value);
+        webBundleValue.setInputType(InputType.TYPE_CLASS_TEXT);
+        webBundleValue.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        webBundleValue.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                downloadUrl = webBundleValue.getText().toString();
+            }
+        });
+            // add callback to the delete button
+        final Button button = (Button) getView().findViewById(R.id.download_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                new DownloadFile().execute(downloadUrl);
+            }
+        });
+    }
+
+    class DownloadFile extends AsyncTask<String, Integer, String> {
+
+        @Override
+        protected String doInBackground(String... url) {
+            int count;
+            try {
+                URLConnection conn = new URL(url[0]).openConnection();
+                conn.connect();
+                int contentLength = conn.getContentLength();
+
+                // for now we assume bundles need to end with .zip
+                File file = new File(rootBundlesDir, UUID.randomUUID().toString() + ".zip");
+
+                InputStream input = new BufferedInputStream(conn.getInputStream());
+                OutputStream output = new FileOutputStream(file);
+
+                byte data[] = new byte[1024];
+                long total = 0;
+                while ((count = input.read(data)) != -1) {
+                    total += count;
+                    publishProgress((int) (total * 100 / contentLength));
+                    output.write(data, 0, count);
+                }
+                output.flush();
+                output.close();
+                input.close();
+                unzipFile(file);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            webBundleAdapter.clear();
+            webBundleAdapter.addAll(getWebBundleFiles());
+            webBundleAdapter.notifyDataSetChanged();
+        }
+    }
+
 
     /**
      * The MainActivity must implement this so it can update its selectedWebBundle and notify the WebView launcher.
@@ -87,59 +171,66 @@ public class WebBundleManagerFragment extends Fragment implements ListView.OnIte
     }
 
     /**
-     * Helper method to unzip any zip files in the bundle directory and return a array of File objects for the
+     * Helper method to unzip any zip files in the bundle directory and return a List File objects for the
      * unzipped web bundle directories.
      */
-    private File[] getWebBundleFiles() {
+    private ArrayList<File> getWebBundleFiles() {
         ArrayList<File> bundleList = new ArrayList<>();
 
-        File folder = new File(Environment.getExternalStorageDirectory() + "/" + BUNDLE_DIRECTORY_NAME);
-        if (!folder.exists()) {
-            folder.mkdir();
+        if (!rootBundlesDir.exists()) {
+            rootBundlesDir.mkdir();
         }
-        File bundlesDir = getActivity().getExternalFilesDir(BUNDLE_DIRECTORY_NAME);
 
-        // if the zip file isn't already unzipped in the bundles directory, then unzip it
-        for (File f : bundlesDir.listFiles()) {
-            if (f.isFile() && !bundleIsUnzipped(f)) {
-                ZipFile zipFile = null;
-                try {
-                    zipFile = new ZipFile(f);
-                    Enumeration<? extends ZipEntry> entries = zipFile.entries();
-                    while (entries.hasMoreElements()) {
-                        ZipEntry entry = entries.nextElement();
-                        File entryDestination = new File(bundlesDir, entry.getName());
-                        if (entry.isDirectory())
-                            entryDestination.mkdirs();
-                        else {
-                            entryDestination.getParentFile().mkdirs();
-                            InputStream in = zipFile.getInputStream(entry);
-                            OutputStream out = new FileOutputStream(entryDestination);
-                            IOUtils.copy(in, out);
-                            IOUtils.closeQuietly(in);
-                            out.close();
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        zipFile.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+        // if the zip file isn't already unzipped in the bundles directory, then unzip it.
+        // this is to support bundles that are packaged with the application as well as zip files (bundles) that have
+        // been downloaded since the last time the WebBundleAdapter has been notified of an update
+        for (File f : rootBundlesDir.listFiles()) {
+           unzipFile(f);
         }
 
         // add all unzipped bundles
-        for (File f : bundlesDir.listFiles()) {
+        for (File f : rootBundlesDir.listFiles()) {
             if (f.isDirectory() && !f.getName().equals("__MACOSX")) {
                 bundleList.add(f);
             }
         }
 
-        return bundleList.toArray(new File[bundleList.size()]);
+        return bundleList;
+    }
+
+    private void unzipFile(File f) {
+        if (f.isFile() && !bundleIsUnzipped(f)) {
+            ZipFile zipFile = null;
+            File rootBundlesDir = getActivity().getExternalFilesDir(BUNDLE_DIRECTORY_NAME);
+            File bundleDir = new File(rootBundlesDir, f.getName().replace(".zip",""));
+            try {
+                zipFile = new ZipFile(f);
+                Enumeration<? extends ZipEntry> entries = zipFile.entries();
+                while (entries.hasMoreElements()) {
+                    ZipEntry entry = entries.nextElement();
+                    File entryDestination = new File(bundleDir, entry.getName());
+                    if (entry.isDirectory()) {
+                        entryDestination.mkdirs();
+                    }
+                    else {
+                        entryDestination.getParentFile().mkdirs();
+                        InputStream in = zipFile.getInputStream(entry);
+                        OutputStream out = new FileOutputStream(entryDestination);
+                        IOUtils.copy(in, out);
+                        IOUtils.closeQuietly(in);
+                        out.close();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    zipFile.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     /**
@@ -159,7 +250,7 @@ public class WebBundleManagerFragment extends Fragment implements ListView.OnIte
      */
     class WebBundleAdapter extends ArrayAdapter<File> {
 
-        public WebBundleAdapter(Context context, int resource, File[] files) {
+        public WebBundleAdapter(Context context, int resource, ArrayList<File> files) {
             super(context, resource, files);
         }
 
