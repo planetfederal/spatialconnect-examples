@@ -291,7 +291,8 @@ public class MainActivity extends Activity implements
                         if (sb.length() != 0) {
                             sb.append(",");
                         }
-                        sb.append("\"").append(store.toString()).append("\"");
+                        sb.append("{").append("\"storeid\":").append(store.getStoreId()).append(",");
+                        sb.append("\"name\":\"").append(store.toString()).append("\"}");
                     }
                     bridge.callHandler("storesList", "{\"stores\": [" + sb.toString() + "]}");
                     return;

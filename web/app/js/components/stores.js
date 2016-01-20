@@ -31,7 +31,7 @@ var Stores = React.createClass({
         });
       }
     );
-    //sc.action.stores(); //TODO
+    sc.action.stores();
   },
   loadStoresClicked : function() {
     sc.action.stores();
@@ -40,9 +40,6 @@ var Stores = React.createClass({
     sc.action.spatialQuery(id);
   },
   render: function() {
-    if (!this.props.open) {
-      return <ul className="drawer" key="d"/>;
-    }
     return (
       <ul className="drawer" key="d">
         {this.state.stores.map((store,i) => {
