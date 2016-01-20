@@ -5,21 +5,35 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
+import com.boundlessgeo.spatialconnect.jsbridge.BridgeCommand;
+import com.boundlessgeo.spatialconnect.jsbridge.WebViewJavascriptBridge;
+import com.boundlessgeo.spatialconnect.services.SCSensorService;
 import com.boundlessgeo.spatialconnect.services.SCServiceManager;
 import com.boundlessgeo.spatialconnect.stores.SCDataStore;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * The MainActivity is the home screen that contains the MapsFragment, and DataStoreFragment.  It is the main entry
@@ -59,7 +73,12 @@ public class MainActivity extends Activity implements
     private SCServiceManager manager;
     private SCDataStore selectedStore;
     private File selectedWebBundle;
+    private WebViewJavascriptBridge bridge;
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
+    static {
+        MAPPER.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+    }
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -92,6 +111,9 @@ public class MainActivity extends Activity implements
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.add(R.id.container, dataStoreManagerFragment);
         transaction.commit();
+
+        // setup service manager
+        manager = SpatialConnectService.getInstance().getServiceManager(this);
     }
 
     @Override
@@ -157,8 +179,19 @@ public class MainActivity extends Activity implements
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        // TODO: handle menu click events in each Fragment
         if (id == R.id.action_settings) {
+            return true;
+        }
+        if (id == R.id.action_reload_features) {
+            mapsFragment.reloadFeatures();
+            return true;
+        }
+        if (id == R.id.action_load_imagery) {
+            mapsFragment.loadImagery();
+            return true;
+        }
+        if (id == R.id.action_add_feature) {
+            startActivity(new Intent(this, AddNewFeatureActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -203,10 +236,104 @@ public class MainActivity extends Activity implements
         WebSettings settings = webView.getSettings();
         settings.setDomStorageEnabled(true);
         settings.setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient());
+        // setup js bridge in webview
+        bridge = new WebViewJavascriptBridge(this, webView, new BridgeHandler());
         webView.loadUrl(Uri.fromFile(selectedWebBundle).toString() + "/index.html");
         webView.setVisibility(View.VISIBLE);
         getFragmentManager().beginTransaction().hide(webBundleManagerFragment).commit();
+    }
+
+    /**
+     * Default implementation for handling messages from the JS bridge.
+     */
+    class BridgeHandler implements WebViewJavascriptBridge.WVJBHandler {
+
+        private final String LOG_TAG = BridgeHandler.class.getSimpleName();
+
+        @Override
+        public void handle(String data, WebViewJavascriptBridge.WVJBResponseCallback jsCallback) {
+            if (data == null && data.equals("undefined")) {
+                Log.w(LOG_TAG, "data message was null or undefined");
+                return;
+            } else {
+                JsonNode bridgeMessage = getBridgeMessage(data);
+                Integer actionNumber = getActionNumber(bridgeMessage);
+                BridgeCommand command = BridgeCommand.fromActionNumber(actionNumber);
+
+                if (command.equals(BridgeCommand.SENSORSERVICE_GPS)) {
+                    SCSensorService sensorService = manager.getSensorService();
+                    Integer payloadNumber = getPayloadNumber(bridgeMessage);
+
+                    if (payloadNumber == 1) {
+                        sensorService.startGPSListener();
+                        sensorService.getLastKnownLocation()
+                                .subscribeOn(Schedulers.newThread())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Action1<Location>() {
+                                    @Override
+                                    public void call(Location location) {
+                                        bridge.callHandler("lastKnownLocation",
+                                                "{\"latitude\":\"" + location.getLatitude() + "\"," +
+                                                        "\"longitude\":\"" + location.getLongitude() + "\"}");
+                                    }
+                                });
+                        return;
+                    }
+                    if (payloadNumber == 0) {
+                        sensorService.disableGPSListener();
+                        return;
+                    }
+                }
+                if (command.equals(BridgeCommand.DATASERVICE_ACTIVESTORESLIST)) {
+                    List<SCDataStore> stores = manager.getDataService().getActiveStores();
+                    StringBuilder sb = new StringBuilder();
+                    for (SCDataStore store : stores) {
+                        if (sb.length() != 0) {
+                            sb.append(",");
+                        }
+                        sb.append("{").append("\"storeid\":").append(store.getStoreId()).append(",");
+                        sb.append("\"name\":\"").append(store.toString()).append("\"}");
+                    }
+                    bridge.callHandler("storesList", "{\"stores\": [" + sb.toString() + "]}");
+                    return;
+                }
+                if (command.equals(BridgeCommand.DATASERVICE_ACTIVESTOREBYID)) {
+                    String storeId = getStoreId(bridgeMessage);
+                    String dataStoreString = null;
+                    try {
+                        dataStoreString = MAPPER.writeValueAsString(manager.getDataService().getStoreById(storeId));
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+                    bridge.callHandler("store", dataStoreString);
+                    return;
+                }
+            }
+        }
+
+        // gets either a 1 or a 0 indicating turn on/off something
+        private Integer getPayloadNumber(JsonNode payload) {
+            return payload.get("payload").asInt();
+        }
+
+        private String getStoreId(JsonNode payload) {
+            return payload.get("payload").get("storeId").asText();
+        }
+
+        private Integer getActionNumber(JsonNode payload) {
+            return payload.get("action").asInt();
+        }
+
+        private JsonNode getBridgeMessage(String payload) {
+            try {
+                return MAPPER.readTree(payload);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
     }
 
     @Override

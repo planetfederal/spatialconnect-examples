@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:theme="@style/AlertDialog.AppCompat.Light">
+
+    <TextView
+        android:id="@+id/web_bundle_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="URL to web bundle"/>
+
+    <EditText
+        android:id="@+id/web_bundle_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/download_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Download"/>
+
+    <ListView
+        android:id="@+id/web_bundle_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textFilterEnabled="false"/>
+
+</LinearLayout>

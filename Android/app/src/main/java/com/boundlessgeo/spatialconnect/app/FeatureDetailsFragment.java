@@ -1,38 +1,59 @@
 package com.boundlessgeo.spatialconnect.app;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.boundlessgeo.spatialconnect.geometries.SCBoundingBox;
 import com.boundlessgeo.spatialconnect.geometries.SCGeometry;
-import com.boundlessgeo.spatialconnect.geometries.SCPoint;
-import com.boundlessgeo.spatialconnect.geometries.SCSpatialFeature;
 import com.boundlessgeo.spatialconnect.query.SCGeometryPredicateComparison;
 import com.boundlessgeo.spatialconnect.query.SCPredicate;
 import com.boundlessgeo.spatialconnect.query.SCQueryFilter;
 import com.boundlessgeo.spatialconnect.services.SCServiceManager;
 import com.boundlessgeo.spatialconnect.stores.SCDataStore;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
-
-import org.w3c.dom.Text;
+import com.vividsolutions.jts.geom.PrecisionModel;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-public class FeatureDetailsFragment extends Fragment {
+public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallback {
 
     private String featureId,layerId,storeId;
     private double lat,lon;
+    private TextView latVal, lonVal;
+    private GoogleMap map;
+    private MapView mapView;
+    private SCGeometry selectedFeature;
+    private SCServiceManager serviceManager;
+    private SCDataStore ds;
+    private static final String LOG_TAG = FeatureDetailsFragment.class.getName();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,20 +64,46 @@ public class FeatureDetailsFragment extends Fragment {
         this.featureId = (String)b.get("fid");
         this.layerId = (String)b.get("lid");
         this.storeId = (String)b.get("sid");
-        return inflater.inflate(R.layout.fragment_feature_details, container, false);
+
+        View inflatedView = inflater.inflate(R.layout.fragment_feature_details, container, false);
+
+        // initialize the map
+        mapView = (MapView) inflatedView.findViewById(R.id.edit_point_map);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
+
+        return inflatedView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        SCServiceManager serviceManager =  SpatialConnectService.getInstance().getServiceManager(getContext());
-        SCDataStore ds = serviceManager.getDataService().getStoreById(storeId);
+        serviceManager =  SpatialConnectService.getInstance().getServiceManager(getContext());
+        ds = serviceManager.getDataService().getStoreById(storeId);
 
-        int auth = ds.getAuthorization();
+        SCDataStore.DataStorePermissionEnum auth = ds.getAuthorization();
 
         final TextView storeIdVal = (TextView)getView().findViewById(R.id.feature_detail_store_value);
         final TextView layerVal = (TextView)getView().findViewById(R.id.feature_detail_layer_value);
-        final TextView lonVal = (TextView)getView().findViewById(R.id.feature_detail_lon_value);
-        final TextView latVal = (TextView)getView().findViewById(R.id.feature_detail_lat_value);
+        lonVal = (TextView)getView().findViewById(R.id.feature_detail_lon_value);
+        latVal = (TextView)getView().findViewById(R.id.feature_detail_lat_value);
         final TextView altVal = (TextView)getView().findViewById(R.id.feature_detail_alt_value);
         final TextView featIdVal = (TextView)getView().findViewById(R.id.feature_detail_featureid_value);
         final TableLayout table = (TableLayout)getView().findViewById(R.id.feature_detail_prop_table);
@@ -80,19 +127,19 @@ public class FeatureDetailsFragment extends Fragment {
                                }
 
                                @Override
-                               public void onNext(SCGeometry s) {
+                               public void onNext(final SCGeometry s) {
+                                   selectedFeature = s;
                                    storeIdVal.setText(s.getKey().getStoreId());
                                    layerVal.setText(s.getKey().getLayerId());
-                                   if (s instanceof SCPoint) {
-                                       SCPoint p = (SCPoint)s;
-                                       Point pt = (Point)p.getGeometry();
+                                   if (s.getGeometry() instanceof Point) {
+                                       Point pt = (Point) s.getGeometry();
                                        lonVal.setText(String.valueOf(pt.getX()));
                                        latVal.setText(String.valueOf(pt.getY()));
                                        altVal.setText(String.valueOf(""));
                                        featIdVal.setText(s.getKey().getFeatureId());
                                    }
 
-                                   for (String key : s.getProperties().keySet()) {
+                                   for (final String key : s.getProperties().keySet()) {
                                        TableRow tr = new TableRow(FeatureDetailsFragment.this.getContext());
                                        tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
                                        TextView tv = new TextView(FeatureDetailsFragment.this.getContext());
@@ -100,18 +147,113 @@ public class FeatureDetailsFragment extends Fragment {
                                        tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
                                        tr.addView(tv);
                                        TextView tvValue = new TextView(FeatureDetailsFragment.this.getContext());
+                                       if (featureIsEditable()) {
+                                           tvValue = new EditText(FeatureDetailsFragment.this.getContext());
+                                           tvValue.setInputType(InputType.TYPE_CLASS_TEXT);
+                                           tvValue.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                                           tvValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                                               @Override
+                                               public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                                                   boolean handled = false;
+                                                   if (actionId == EditorInfo.IME_ACTION_DONE) {
+                                                       updateFeaturePropertyValue(key, v.getText().toString());
+                                                       handled = true;
+                                                   }
+                                                   return handled;
+                                               }
+                                           });
+                                           // add callback to the delete button
+                                           final Button button = (Button) getView().findViewById(R.id.delete_button);
+                                           button.setVisibility(View.VISIBLE);
+                                           button.setOnClickListener(new View.OnClickListener() {
+                                               public void onClick(View v) {
+                                                   // delete the selected feature
+                                                   ds.delete(selectedFeature.getKey()).subscribe(new Action1<Boolean>() {
+                                                       @Override
+                                                       public void call(Boolean deleted) {
+                                                           Log.d(LOG_TAG, "feature was deleted");
+                                                           // change back to map fragment
+                                                           getActivity().finish();
+                                                       }
+                                                   });
+                                               }
+                                           });
+                                       }
                                        tvValue.setText(String.valueOf(s.getProperties().get(key)));
                                        tvValue.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-                                       tvValue.setPadding(20,3,0,3);
+                                       tvValue.setPadding(20, 3, 0, 3);
                                        tr.addView(tvValue);
                                        table.addView(tr, new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-
                                    }
-
                                }
                            }
-
                 );
+    }
+
+    private boolean featureIsEditable() {
+        return ds.getAuthorization().equals(SCDataStore.DataStorePermissionEnum.READ_WRITE);
+    }
+
+    private void updateFeaturePropertyValue(String propertyKey, String propertyValue) {
+        // then update the feature's property with the new value
+        selectedFeature.getProperties().put(propertyKey, propertyValue);
+        // and save the updated feature back to the store
+        ds.update(selectedFeature).subscribe(new Action1<Boolean>() {
+            @Override
+            public void call(Boolean updated) {
+                // if true then we saved and can react to it
+                Log.d(LOG_TAG, "feature was updated");
+                // hide virtual keyboard
+                InputMethodManager imm = (InputMethodManager) getContext()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(latVal.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+            }
+        });
+    }
+
+    private void updatePoint(double lat, double lon) {
+        // then update the feature's geometry with the new value
+        GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+        selectedFeature.setGeometry(geometryFactory.createPoint(new Coordinate(lon, lat)));
+        // and save the updated feature back to the store
+        ds.update(selectedFeature).subscribe(new Action1<Boolean>() {
+            @Override
+            public void call(Boolean updated) {
+                // if true then we saved and can react to it
+                Log.d(LOG_TAG, "feature was updated");
+                // hide virtual keyboard
+                InputMethodManager imm = (InputMethodManager) getContext()
+                        .getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(latVal.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
+            }
+        });
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+
+        LatLng featurePoint = new LatLng(this.lat, this.lon);
+
+        // center the map on the position of the selected feature
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(featurePoint, 15));
+
+        if (featureIsEditable()) {
+            // add a callback to update the feature when the map center is updated
+            map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+                @Override
+                public void onCameraChange(CameraPosition cameraPosition) {
+                    lonVal.setText(String.valueOf(cameraPosition.target.longitude));
+                    latVal.setText(String.valueOf(cameraPosition.target.latitude));
+                    if (selectedFeature != null) {
+                        updatePoint(cameraPosition.target.latitude, cameraPosition.target.longitude);
+                    }
+                }
+            });
+        } else {
+            map.getUiSettings().setScrollGesturesEnabled(false);
+        }
 
     }
+
 }

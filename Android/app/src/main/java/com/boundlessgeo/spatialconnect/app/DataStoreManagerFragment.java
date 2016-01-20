@@ -3,9 +3,7 @@ package com.boundlessgeo.spatialconnect.app;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.boundlessgeo.spatialconnect.services.SCServiceManager;
 import com.boundlessgeo.spatialconnect.stores.SCDataStore;
@@ -44,17 +41,24 @@ public class DataStoreManagerFragment extends Fragment implements ListView.OnIte
         // Set the list's click listener
         listView.setOnItemClickListener(this);
 
+        // Set the adapter for the list view
+        List<SCDataStore> s = serviceManager.getDataService().getActiveStores();
+        listView.setAdapter(
+                new ArrayAdapter<SCDataStore>(
+                        getActivity(),
+                        R.layout.drawer_list_item,
+                        s
+                )
+        );
+
         return view;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // initialize servicemanage
         serviceManager =  SpatialConnectService.getInstance().getServiceManager(getContext());
-        new StartAllServicesTask().execute();
         serviceManager.startAllServices();
-        serviceManager.getDataService().allStoresStartedObs();
     }
 
     public void onDataStoreSelected(SCDataStore dataStore) {
@@ -70,39 +74,6 @@ public class DataStoreManagerFragment extends Fragment implements ListView.OnIte
         if (hidden) {
             //fragment became visible
             //your code here
-        }
-    }
-
-    /**
-     *  Starts all the services in a background thread b/c it needs to perform network or file i/o.  Once they have
-     *  started, it populates the listView with the active data stores.
-     */
-    private class StartAllServicesTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            serviceManager.startAllServices();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            // show toast indicating number of active data stores
-            Toast.makeText(
-                    getActivity(),
-                    serviceManager.getDataService().getActiveStores().size() + " data stores have been activated.",
-                    Toast.LENGTH_SHORT
-            ).show();
-
-            // Set the adapter for the list view
-            List<SCDataStore> s = serviceManager.getDataService().getActiveStores();
-            listView.setAdapter(
-                    new ArrayAdapter<SCDataStore>(
-                            getActivity(),
-                            R.layout.drawer_list_item,
-                            s
-                    )
-            );
         }
     }
 
@@ -131,6 +102,7 @@ public class DataStoreManagerFragment extends Fragment implements ListView.OnIte
         listView.setItemChecked(position, true);
         SCDataStore s = (SCDataStore)listView.getItemAtPosition(position);
         this.onDataStoreSelected(s);
+        ((MainActivity)getActivity()).onDataStoreSelected(s);
     }
 
 }
