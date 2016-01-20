@@ -144,8 +144,11 @@
     didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
   NSString *key = [self.keys objectAtIndex:indexPath.row];
   NSObject *o = [self.geometry.properties objectForKey:key];
-  if (!([o isKindOfClass:[NSString class]] ||
-        [o isKindOfClass:[NSNumber class]])) {
+
+  if ([o isKindOfClass:[NSNull class]]) {
+    o = @"";
+  } else if (!([o isKindOfClass:[NSString class]] ||
+               [o isKindOfClass:[NSNumber class]])) {
     return;
   }
 
