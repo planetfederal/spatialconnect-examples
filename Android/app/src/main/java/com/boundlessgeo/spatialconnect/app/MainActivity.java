@@ -17,12 +17,19 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.boundlessgeo.spatialconnect.geometries.SCBoundingBox;
+import com.boundlessgeo.spatialconnect.geometries.SCGeometry;
+import com.boundlessgeo.spatialconnect.geometries.SCSpatialFeature;
 import com.boundlessgeo.spatialconnect.jsbridge.BridgeCommand;
 import com.boundlessgeo.spatialconnect.jsbridge.WebViewJavascriptBridge;
+import com.boundlessgeo.spatialconnect.query.SCGeometryPredicateComparison;
+import com.boundlessgeo.spatialconnect.query.SCPredicate;
+import com.boundlessgeo.spatialconnect.query.SCQueryFilter;
 import com.boundlessgeo.spatialconnect.services.SCSensorService;
 import com.boundlessgeo.spatialconnect.services.SCServiceManager;
 import com.boundlessgeo.spatialconnect.stores.SCDataStore;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -31,6 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -244,7 +252,8 @@ public class MainActivity extends Activity implements
     }
 
     /**
-     * Default implementation for handling messages from the JS bridge.
+     * Default implementation for handling messages from the JS bridge.  You can checkout the handlers <a
+     * href="https://github.com/boundlessgeo/spatialconnect-js/blob/development/src/sc.js">here</a>
      */
     class BridgeHandler implements WebViewJavascriptBridge.WVJBHandler {
 
@@ -309,6 +318,33 @@ public class MainActivity extends Activity implements
                     bridge.callHandler("store", dataStoreString);
                     return;
                 }
+                if (command.equals(BridgeCommand.DATASERVICE_GEOSPATIALQUERYALL) || command.equals(BridgeCommand.DATASERVICE_SPATIALQUERYALL)) {
+                    SCQueryFilter filter = getFilter(bridgeMessage);
+                    if (filter != null) {
+                        manager.getDataService().queryAllStores(filter)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(
+                                        new Subscriber<SCSpatialFeature>() {
+                                            @Override
+                                            public void onCompleted() {
+                                                Log.d("BridgeHandler", "query observable completed");
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable e) {
+                                                e.printStackTrace();
+                                                Log.e("BridgeHandler", "onError()\n" + e.getLocalizedMessage());
+                                            }
+
+                                            @Override
+                                            public void onNext(SCSpatialFeature feature) {
+                                                bridge.callHandler("spatialQuery", ((SCGeometry) feature).toJson());
+                                            }
+                                        }
+                                );
+                    }
+                }
             }
         }
 
@@ -329,6 +365,28 @@ public class MainActivity extends Activity implements
             try {
                 return MAPPER.readTree(payload);
             } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        private SCQueryFilter getFilter(JsonNode payload) {
+            // TODO: we need to have a BridgeMessage object so we centralize the JSON --> POJO mappings
+            JsonNode bboxNode = payload.get("payload").get("filter").get("$geocontains");
+            try {
+                List<Integer> points = MAPPER.readValue(bboxNode.traverse(), new TypeReference<List<Integer>>(){});
+                SCBoundingBox bbox = new SCBoundingBox(
+                        points.get(0),
+                        points.get(1),
+                        points.get(2),
+                        points.get(3)
+                );
+                SCQueryFilter filter = new SCQueryFilter(
+                        new SCPredicate(bbox, SCGeometryPredicateComparison.SCPREDICATE_OPERATOR_WITHIN)
+                );
+                return filter;
+            } catch (IOException e) {
+                Log.e(LOG_TAG, "couldn't build filter...check the syntax of your bbox: " + bboxNode.textValue());
                 e.printStackTrace();
             }
             return null;
