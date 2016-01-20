@@ -48,25 +48,25 @@ var map = new ol.Map({
   })
 });
 
-sc.stream.spatialQuery.subscribe(
-  (data) => {
-    var gj = (new ol.format.GeoJSON()).readFeatures(data);
-    vectorSource.addFeatures(gj);
-  },
-  (err) => {
-    this.setState({
-      error : err
-    });
-  },
-  () => {
-    this.setState({
-      error : {}
-    });
-  }
-);
-
-
 var App = React.createClass({
+  componentDidMount: function() {
+    sc.stream.spatialQuery.subscribe(
+      (data) => {
+        var gj = (new ol.format.GeoJSON()).readFeatures(data);
+        vectorSource.addFeatures(gj);
+      },
+      (err) => {
+        this.setState({
+          error : err
+        });
+      },
+      () => {
+        this.setState({
+          error : {}
+        });
+      }
+    );
+  },
   render : function() {
     return (
       <Tabs>
@@ -75,7 +75,6 @@ var App = React.createClass({
           <Tab>Map</Tab>
         </TabList>
         <TabPanel title='Stores'>
-          <p>Active stores</p>
           <Stores/>
         </TabPanel>
         <TabPanel title='Map'>

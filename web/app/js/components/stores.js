@@ -33,12 +33,6 @@ var Stores = React.createClass({
     );
     sc.action.stores();
   },
-  loadStoresClicked : function() {
-    sc.action.stores();
-  },
-  spatialQueryStore : function(id) {
-    sc.action.spatialQuery(id);
-  },
   render: function() {
     return (
       <ul className="drawer" key="d">
@@ -46,7 +40,6 @@ var Stores = React.createClass({
           return (
             <li key={i}>
               {store.name}
-              <button onClick={this.spatialQueryStore.bind(this,store.storeid)}>Load</button>
             </li>
           );
         })}
