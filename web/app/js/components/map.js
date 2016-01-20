@@ -7,20 +7,24 @@ var GPS = require('./gps');
 var ol = require('openlayers');
 var sc = require('spatialconnect');
 
-class Map extends React.Component {
-  componentDidMount() {
+var Map = React.createClass({
+  componentDidMount: function() {
     var map = this.props.map;
     var me = this.refs.map;
     var elem = React.findDOMNode(me);
     map.setTarget(elem);
-  }
-  addFeature() {
+  },
+  addFeature:function() {
     var map = this.props.map;
     var coord = map.getView().getCenter();
     var feature; //TODO
-    featureObs.onNext({action:ADD,value:feature});
-  }
-  render() {
+  },
+  geoSpatialQuery: function(map) {
+    var extent = map.getView().calculateExtent(map.getSize());
+    var f = sc.Filter().geoBBOXContains(extent);
+    sc.action.geospatialQuery(f);
+  },
+  render: function() {
     return (
       <div>
         <div className="row">
@@ -34,6 +38,7 @@ class Map extends React.Component {
           </div>
         </div>
       <div className="row">
+        <button onClick={this.geoSpatialQuery.bind(this,this.props.map)}>Reload Features</button>
         <div>
           <div ref="map" id="map"></div>
         </div>
@@ -42,6 +47,6 @@ class Map extends React.Component {
       </div>
     );
   }
-}
+});
 
 module.exports = Map;
