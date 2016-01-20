@@ -2,16 +2,14 @@
 /*global ol*/
 var React = require('react');
 var styles = require('./js/style');
-var sc = require('spatialconnect-js');
+var sc = require('spatialconnect');
 var sample = require('./js/sample');
-var ReactDOM = require('react-dom');
 var ReactTabs = require('react-tabs');
 var Tab = ReactTabs.Tab;
 var Tabs = ReactTabs.Tabs;
 var TabList = ReactTabs.TabList;
 var TabPanel = ReactTabs.TabPanel;
 var Stores = require('./js/components/stores');
-var Map = require('./js/components/map');
 
 var vectorSource = new ol.source.Vector({
   features: sample
