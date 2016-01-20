@@ -229,8 +229,7 @@
       storeByIdentifier:@"a5d93796-5026-46f7-a2ff-e5dec85heh6b"];
   [[[scss create:p] subscribeOn:[RACScheduler mainThreadScheduler]]
       subscribeCompleted:^{
-        NSLog(@"Point Created");
-        [self.mapView addAnnotation:p.shape];
+        [p addToMap:self.mapView];
       }];
 }
 
