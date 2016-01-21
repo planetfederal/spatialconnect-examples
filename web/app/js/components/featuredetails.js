@@ -13,12 +13,10 @@ var FeatureDetails = React.createClass({
       new ol.format.GeoJSON().writeFeature(this.state.selectedFeature)
     );
   },
-  handleChange: function(event) {
-    // TODO: maybe use react to select?
-    var key = event.target.parentElement.childNodes[0].innerHTML;
+  handleChange: function(propKey, event) {
     var value = event.target.value;
     var feature = this.state.selectedFeature;
-    feature.set(key, value);
+    feature.set(propKey, value);
     this.setState({selectedFeature: feature});
   },
   render: function() {
@@ -31,7 +29,7 @@ var FeatureDetails = React.createClass({
               <div className="form-group" key={i}>
                 <label>{propKey}</label>
                 <input type="text"
-                  onChange={this.handleChange}
+                  onChange={this.handleChange.bind(this, propKey)}
                   value={this.props.feature.get(propKey)}>
                 </input>
               </div>
