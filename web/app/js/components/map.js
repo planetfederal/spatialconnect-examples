@@ -1,23 +1,23 @@
 'use strict';
 /*global ol*/
-
 var React = require('react');
-var Location = require('./location');
 var GPS = require('./gps');
-var ol = require('openlayers');
 var sc = require('spatialconnect');
+var FeatureObs = require('./../stores/feature');
+var ReactDOM = require('react-dom');
 
-var Map = React.createClass({
+var MapView = React.createClass({
   componentDidMount: function() {
     var map = this.props.map;
     var me = this.refs.map;
-    var elem = React.findDOMNode(me);
+    var elem = ReactDOM.findDOMNode(me);
     map.setTarget(elem);
   },
   addFeature:function() {
     var map = this.props.map;
     var coord = map.getView().getCenter();
-    var feature; //TODO
+    var feature = new ol.Feature(new ol.geom.Point(coord));
+    FeatureObs.create.onNext(feature);
   },
   geoSpatialQuery: function(map) {
     var extent = map.getView().calculateExtent(map.getSize());
@@ -36,9 +36,11 @@ var Map = React.createClass({
               Add Feature
             </button>
           </div>
+          <div className="col-xs-2">
+            <button onClick={this.geoSpatialQuery.bind(this,this.props.map)}>Reload Features</button>
+          </div>
         </div>
       <div className="row">
-        <button onClick={this.geoSpatialQuery.bind(this,this.props.map)}>Reload Features</button>
         <div>
           <div ref="map" id="map"></div>
         </div>
@@ -49,4 +51,4 @@ var Map = React.createClass({
   }
 });
 
-module.exports = Map;
+module.exports = MapView;
