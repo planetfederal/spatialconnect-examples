@@ -2,6 +2,7 @@
 /*global ol*/
 var React = require('react');
 var GPS = require('./gps');
+var Popup = require('./popup');
 var sc = require('spatialconnect');
 var FeatureObs = require('./../stores/feature');
 var ReactDOM = require('react-dom');
@@ -42,10 +43,10 @@ var MapView = React.createClass({
         </div>
       <div className="row">
         <div>
-          <div ref="map" id="map"></div>
+          <div ref="map" id="map">
+            <Popup map={this.props.map}/>
+          </div>
         </div>
-      </div>
-
       </div>
     );
   }
