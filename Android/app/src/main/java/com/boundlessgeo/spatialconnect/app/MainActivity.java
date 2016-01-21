@@ -19,6 +19,7 @@ import android.webkit.WebView;
 
 import com.boundlessgeo.spatialconnect.geometries.SCBoundingBox;
 import com.boundlessgeo.spatialconnect.geometries.SCGeometry;
+import com.boundlessgeo.spatialconnect.geometries.SCGeometryFactory;
 import com.boundlessgeo.spatialconnect.geometries.SCSpatialFeature;
 import com.boundlessgeo.spatialconnect.jsbridge.BridgeCommand;
 import com.boundlessgeo.spatialconnect.jsbridge.WebViewJavascriptBridge;
@@ -345,7 +346,38 @@ public class MainActivity extends Activity implements
                                 );
                     }
                 }
+                if (command.equals(BridgeCommand.DATASERVICE_UPDATEFEATURE)) {
+                    // TODO: send the storeId so we know where to save
+                    manager.getDataService().getStoreById("1234")
+                            .update(getFeature(bridgeMessage))
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                    new Subscriber<Boolean>() {
+                                        @Override
+                                        public void onCompleted() {
+                                            Log.d("BridgeHandler", "update completed");
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable e) {
+                                            e.printStackTrace();
+                                            Log.e("BridgeHandler", "onError()\n" + e.getLocalizedMessage());
+                                        }
+
+                                        @Override
+                                        public void onNext(Boolean updated) {
+                                            Log.d("BridgeHandler", "feature updated!");
+                                        }
+                                    }
+                            );
+                }
             }
+        }
+
+        private SCSpatialFeature getFeature(JsonNode payload) {
+            String featureString = payload.get("payload").get("feature").asText();
+            return new SCGeometryFactory().getSpatialFeatureFromFeatureJson(featureString);
         }
 
         // gets either a 1 or a 0 indicating turn on/off something
