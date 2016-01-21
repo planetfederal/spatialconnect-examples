@@ -5,11 +5,26 @@ var styles = require('./js/style');
 var sc = require('spatialconnect');
 var sample = require('./js/sample');
 var ReactTabs = require('react-tabs');
+var ReactDOM = require('react-dom');
 var Tab = ReactTabs.Tab;
 var Tabs = ReactTabs.Tabs;
 var TabList = ReactTabs.TabList;
 var TabPanel = ReactTabs.TabPanel;
 var Stores = require('./js/components/stores');
+var MapView = require('./js/components/map');
+var Modal = require('react-modal');
+var FeatureObs = require('./js/stores/feature');
+
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};
 
 var vectorSource = new ol.source.Vector({
   features: sample
@@ -46,7 +61,31 @@ var map = new ol.Map({
   })
 });
 
+FeatureObs.create.subscribe(
+  function(n) {
+    var gjFmt = new ol.format.GeoJSON();
+    var geojson = gjFmt.writeFeature(n);
+    sc.action.createFeature(geojson);
+    vectorSource.addFeature(n);
+  },
+  function(err) {
+    console.log(err);
+  },
+  function() {}
+);
+
 var App = React.createClass({
+  getInitialState: function() {
+    return { modalIsOpen: false };
+  },
+
+  openModal: function() {
+    this.setState({modalIsOpen: true});
+  },
+
+  closeModal: function() {
+    this.setState({modalIsOpen: false});
+  },
   componentDidMount: function() {
     sc.stream.spatialQuery.subscribe(
       (data) => {
@@ -67,19 +106,44 @@ var App = React.createClass({
   },
   render : function() {
     return (
-      <Tabs>
-        <TabList>
-          <Tab>Stores</Tab>
-          <Tab>Map</Tab>
-        </TabList>
-        <TabPanel title='Stores'>
-          <Stores/>
-        </TabPanel>
-        <TabPanel title='Map'>
-          <Map map={map}/>
-        </TabPanel>
-      </Tabs>
+      <div>
+        <Tabs>
+          <TabList>
+            <Tab>Stores</Tab>
+            <Tab>Map</Tab>
+          </TabList>
+          <TabPanel title='Stores'>
+            <Stores/>
+          </TabPanel>
+          <TabPanel title='Map'>
+            <button onClick={this.openModal}>Open Modal</button>
+            <MapView map={map}/>
+            <Modal
+              isOpen={this.state.modalIsOpen}
+              onRequestClose={this.closeModal}
+              style={customStyles} >
+
+              <h2>Hello</h2>
+              <button onClick={this.closeModal}>close</button>
+              <div>
+                I am a modal
+              </div>
+              <form>
+                <input />
+                <button>
+                  tab navigation
+                </button>
+                <button>stays</button>
+                <button>inside</button>
+                <button>
+                  the modal
+                </button>
+              </form>
+            </Modal>
+          </TabPanel>
+        </Tabs>
+      </div>
     );
   }
 });
-React.render(<App />,document.getElementById('app'));
+ReactDOM.render(<App />,document.getElementById('app'));
