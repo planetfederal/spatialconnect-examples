@@ -67,8 +67,12 @@ FeatureObs.create.subscribe(
   function(n) {
     var gjFmt = new ol.format.GeoJSON();
     var geojson = gjFmt.writeFeature(n);
+    sc.stream.createFeature.subscribe(
+      function(f) {
+        vectorSource.addFeature(gjFmt.readFeature(f));
+      }
+    );
     sc.action.createFeature(geojson,'a5d93796-5026-46f7-a2ff-e5dec85heh6b');
-    vectorSource.addFeature(n);
   },
   function(err) {
     console.log(err);
