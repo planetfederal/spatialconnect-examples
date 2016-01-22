@@ -41,11 +41,10 @@ var MapView = React.createClass({
             <button onClick={this.geoSpatialQuery.bind(this,this.props.map)}>Reload Features</button>
           </div>
         </div>
-      <div className="row">
-        <div>
-          <div ref="map" id="map">
-            <Popup map={this.props.map}/>
-          </div>
+        <div className="row">
+            <div ref="map" id="map">
+              <Popup map={this.props.map}/>
+            </div>
         </div>
       </div>
     );
