@@ -28,23 +28,28 @@ var MapView = React.createClass({
   render: function() {
     return (
       <div>
-        <div className="row">
-          <div className="col-xs-2">
-            <GPS></GPS>
-          </div>
-          <div className="col-xs-2">
-            <button onClick={this.addFeature}>
-              Add Feature
-            </button>
-          </div>
-          <div className="col-xs-2">
-            <button onClick={this.geoSpatialQuery.bind(this,this.props.map)}>Reload Features</button>
+        <div>
+          <div className="row">
+            <div className="col-xs-2">
+              <GPS>
+              </GPS>
+            </div>
+            <div className="col-xs-2">
+              <button onClick={this.addFeature}>
+                Add Feature
+              </button>
+            </div>
+            <div className="col-xs-2">
+              <button onClick={this.geoSpatialQuery.bind(this,this.props.map)}>
+                Reload Features
+              </button>
+            </div>
           </div>
         </div>
         <div className="row">
-            <div ref="map" id="map">
-              <Popup map={this.props.map}/>
-            </div>
+          <div ref="map" id="map">
+            <Popup map={this.props.map}/>
+          </div>
         </div>
       </div>
     );

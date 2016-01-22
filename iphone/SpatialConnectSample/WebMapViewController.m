@@ -6,6 +6,7 @@
 //  Copyright © 2016 Boundless Spatial. All rights reserved.
 //
 
+#import "AppDelegate.h"
 #import "WebMapViewController.h"
 
 @implementation WebMapViewController
@@ -14,9 +15,13 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  self.lwa = [[SCLocalWebApp alloc] initWithWebView:self.webview
-                                           delegate:self
-                                         andZipFile:self.zipFilePath];
+  AppDelegate *del = [[UIApplication sharedApplication] delegate];
+
+  self.lwa =
+      [[SCLocalWebApp alloc] initWithWebView:self.webview
+                                    delegate:self
+                              spatialConnect:[del spatialConnectSharedInstance]
+                                  andZipFile:self.zipFilePath];
   [self.lwa load];
 }
 
