@@ -301,7 +301,7 @@ public class MainActivity extends Activity implements
                         if (sb.length() != 0) {
                             sb.append(",");
                         }
-                        sb.append("{").append("\"storeid\":").append(store.getStoreId()).append(",");
+                        sb.append("{").append("\"storeid\":\"").append(store.getStoreId()).append("\",");
                         sb.append("\"name\":\"").append(store.toString()).append("\"}");
                     }
                     bridge.callHandler("storesList", "{\"stores\": [" + sb.toString() + "]}");
@@ -348,7 +348,7 @@ public class MainActivity extends Activity implements
                 }
                 if (command.equals(BridgeCommand.DATASERVICE_UPDATEFEATURE)) {
                     // TODO: send the storeId so we know where to save
-                    manager.getDataService().getStoreById("1234")
+                    manager.getDataService().getStoreById("a5d93796-5026-46f7-a2ff-e5dec85heh6b")
                             .update(getFeature(bridgeMessage))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
