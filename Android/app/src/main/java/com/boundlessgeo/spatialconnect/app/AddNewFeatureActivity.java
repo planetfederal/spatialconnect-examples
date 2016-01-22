@@ -59,7 +59,7 @@ public class AddNewFeatureActivity extends Activity implements OnMapReadyCallbac
         final TextView layerVal = (TextView) findViewById(R.id.feature_detail_layer_value);
         lonVal = (TextView) findViewById(R.id.feature_detail_lon_value);
         latVal = (TextView) findViewById(R.id.feature_detail_lat_value);
-        storeIdVal.setText("1234");
+        storeIdVal.setText("a5d93796-5026-46f7-a2ff-e5dec85heh6b");
         layerVal.setText("point_features");
 
         // initialize property value
@@ -82,7 +82,7 @@ public class AddNewFeatureActivity extends Activity implements OnMapReadyCallbac
 
         // initialize data store
         serviceManager =  SpatialConnectService.getInstance().getServiceManager(this);
-        ds = serviceManager.getDataService().getStoreById("1234");
+        ds = serviceManager.getDataService().getStoreById("a5d93796-5026-46f7-a2ff-e5dec85heh6b");
 
         // add callback for when button is clicked
         final Button button = (Button) findViewById(R.id.add_new_feature);
