@@ -35,16 +35,16 @@ var MapView = React.createClass({
       <div>
         <div>
           <div className="row">
-            <div className="col-xs-2">
+            <div className="col-xs-4">
               <GPS>
               </GPS>
             </div>
-            <div className="col-xs-2">
+            <div className="col-xs-3">
               <button onClick={this.addFeature}>
                 Add Feature
               </button>
             </div>
-            <div className="col-xs-2">
+            <div className="col-xs-3">
               <button onClick={this.geoSpatialQuery.bind(this,this.props.map)}>
                 Reload Features
               </button>

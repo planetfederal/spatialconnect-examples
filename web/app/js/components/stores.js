@@ -6,10 +6,7 @@ var sc = require('spatialconnect');
 var Stores = React.createClass({
   getInitialState : function() {
     return {
-      stores : [
-        {storeid : 1, name : 'one'},
-        {storeid : 2, name : 'two'}
-      ],
+      stores : [],
       error : {}
     };
   },
@@ -39,7 +36,9 @@ var Stores = React.createClass({
         {this.state.stores.map((store,i) => {
           return (
             <li key={i}>
-              {store.name}
+              {store.name}<br/>
+              <div>ID:   {store.storeId}</div>
+              <div>Type: {store.type}</div>
             </li>
           );
         })}

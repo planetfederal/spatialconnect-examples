@@ -21,7 +21,7 @@ var GPS = React.createClass({
   },
   render: function() {
     return (
-      <div>
+      <div className="row">
         Location <input type="checkbox" checked={this.state.checked} onChange={this.gpsClicked}></input>
         {this.state.checked ? <Location/> : null}
       </div>
