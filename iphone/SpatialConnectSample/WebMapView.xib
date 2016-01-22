@@ -17,7 +17,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Xf-wN-dn6">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <rect key="frame" x="4" y="0.0" width="596" height="600"/>
                     <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                     <connections>
                         <outlet property="delegate" destination="-1" id="V2e-E6-6DL"/>
@@ -26,8 +26,8 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="7Xf-wN-dn6" secondAttribute="trailing" id="ELi-B4-FLT"/>
-                <constraint firstItem="7Xf-wN-dn6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="F0O-yw-3vn"/>
+                <constraint firstAttribute="trailing" secondItem="7Xf-wN-dn6" secondAttribute="trailing" priority="750" id="ELi-B4-FLT"/>
+                <constraint firstItem="7Xf-wN-dn6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="4" id="F0O-yw-3vn"/>
                 <constraint firstItem="7Xf-wN-dn6" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="T6i-OE-K9g"/>
                 <constraint firstAttribute="bottom" secondItem="7Xf-wN-dn6" secondAttribute="bottom" id="WgU-cc-psa"/>
             </constraints>
