@@ -97,8 +97,8 @@
                             span.latitudeDelta / region.span.latitudeDelta *
                             0.5;
 
-  region.span.longitudeDelta = 1.0;
-  region.span.latitudeDelta = 1.0;
+  region.span.longitudeDelta = 0.5;
+  region.span.latitudeDelta = 0.5;
 
   [self.mapView setRegion:region animated:YES];
 }
@@ -143,7 +143,6 @@
   [self.mapView removeOverlays:self.mapView.overlays];
 
   @weakify(self);
-
   [[[[self.sc.manager.dataService queryAllStores:filter]
       map:^SCGeometry *(SCGeometry *geom) {
         if ([geom isKindOfClass:SCGeometry.class]) {
