@@ -30,7 +30,6 @@ var Popup = React.createClass({
       stopEvent: false
     });
     map.addOverlay(popup);
-    // display popup on click
     map.on('click', function(evt) {
       var feature = map.forEachFeatureAtPixel(evt.pixel,
           function(feature, layer) {
@@ -57,12 +56,18 @@ var Popup = React.createClass({
       modalIsOpen: true
     });
   },
+  closeModal: function() {
+    this.setState({
+      modalIsOpen: false
+    });
+  },
   render: function() {
     var displayId = this.state.selectedFeature ?
         keyToArr(this.state.selectedFeature.getId())[2] : 'None';
     return (
       <div>
         <Modal isOpen={this.state.modalIsOpen}>
+          <button onClick={this.closeModal}>Close Modal</button>
           <FeatureDetails feature={this.state.selectedFeature} />
         </Modal>
         <div id="popup" className="ol-popup">

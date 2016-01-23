@@ -147,8 +147,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void loadImagery() {
-        // asssumes whitehorse is the first active store
-        SCDataStore selectedStore = dataService.getActiveStores().get(0);
+        SCDataStore selectedStore = dataService.getStoreById("ba293796-5026-46f7-a2ff-e5dec85heh6b");
         GeoPackageStore geoPackageStore = (GeoPackageStore) SpatialConnectService.getInstance().getServiceManager(getContext())
                 .getDataService()
                 .getStoreById(selectedStore.getStoreId());

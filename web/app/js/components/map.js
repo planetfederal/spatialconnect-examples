@@ -21,6 +21,11 @@ var MapView = React.createClass({
     FeatureObs.create.onNext(feature);
   },
   geoSpatialQuery: function(map) {
+    map.getLayers().getArray().map(function(layer) {
+      if (layer.getSource() instanceof ol.source.Vector) {
+        layer.getSource().clear();
+      }
+    });
     var extent = map.getView().calculateExtent(map.getSize());
     var f = sc.Filter().geoBBOXContains(extent);
     sc.action.geospatialQuery(f);
@@ -47,10 +52,8 @@ var MapView = React.createClass({
           </div>
         </div>
         <div className="row">
-          <div>
-            <div ref="map" id="map">
-              <Popup map={this.props.map}/>
-            </div>
+          <div ref="map" id="map">
+            <Popup map={this.props.map}/>
           </div>
         </div>
       </div>
