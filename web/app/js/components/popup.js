@@ -62,7 +62,7 @@ var Popup = React.createClass({
     });
   },
   render: function() {
-    var displayId = this.state.selectedFeature ? 
+    var displayId = this.state.selectedFeature ?
         keyToArr(this.state.selectedFeature.getId())[2] : 'None';
     return (
       <div>

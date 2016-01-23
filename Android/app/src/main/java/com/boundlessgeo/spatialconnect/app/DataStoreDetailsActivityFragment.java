@@ -10,8 +10,10 @@ import android.widget.TextView;
 
 import com.boundlessgeo.spatialconnect.services.SCServiceManager;
 import com.boundlessgeo.spatialconnect.stores.SCDataStore;
+import com.boundlessgeo.spatialconnect.stores.SCDataStoreStatus;
+import com.boundlessgeo.spatialconnect.stores.SCStoreStatusEvent;
 
-import org.w3c.dom.Text;
+import rx.functions.Action1;
 
 public class DataStoreDetailsActivityFragment extends Fragment {
 
@@ -31,7 +33,7 @@ public class DataStoreDetailsActivityFragment extends Fragment {
         TextView storeName = (TextView)getView().findViewById(R.id.data_store_name);
         TextView storeType = (TextView)getView().findViewById(R.id.data_store_type);
         TextView storeVersion = (TextView)getView().findViewById(R.id.data_store_version);
-        TextView storeStatus = (TextView)getView().findViewById(R.id.data_store_status);
+        final TextView storeStatus = (TextView)getView().findViewById(R.id.data_store_status);
         Context c = getActivity().getBaseContext();
         SCServiceManager serviceManager =  SpatialConnectService.getInstance().getServiceManager(c);
         SCDataStore ds = serviceManager.getDataService().getStoreById(id);
@@ -40,8 +42,19 @@ public class DataStoreDetailsActivityFragment extends Fragment {
         storeName.setText(ds.getName());
         storeType.setText(ds.getType());
         storeVersion.setText(String.valueOf(ds.getVersion()));
-        String status = "";
-        switch (ds.getStatus()) {
+        storeStatus.setText(getStatus(ds.getStatus()));
+        serviceManager.getDataService().storeEvents.subscribe(new Action1<SCStoreStatusEvent>() {
+            @Override
+            public void call(SCStoreStatusEvent scStoreStatusEvent) {
+                storeStatus.setText(getStatus(scStoreStatusEvent.getStatus()));
+            }
+        });
+        serviceManager.getDataService().storeEvents.connect();
+    }
+
+    private String getStatus(SCDataStoreStatus scDataStoreStatus) {
+        String status;
+        switch (scDataStoreStatus) {
             case SC_DATA_STORE_STARTED:
                 status = "Started";
                 break;
@@ -54,9 +67,13 @@ public class DataStoreDetailsActivityFragment extends Fragment {
             case SC_DATA_STORE_STOPPED:
                 status = "Stopped";
                 break;
+            case SC_DATA_STORE_DOWNLOADING:
+                status = "Downloading";
+                break;
             default:
+                status = "Initializing";
                 break;
         }
-        storeStatus.setText(status);
+        return status;
     }
 }
