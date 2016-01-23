@@ -14,8 +14,11 @@ import android.widget.ListView;
 
 import com.boundlessgeo.spatialconnect.services.SCServiceManager;
 import com.boundlessgeo.spatialconnect.stores.SCDataStore;
+import com.boundlessgeo.spatialconnect.stores.SCStoreStatusEvent;
 
 import java.util.List;
+
+import rx.functions.Action1;
 
 /**
  * The DataStoreManagerFragment displays a list of active SCDataStore instances that the user can choose from to
@@ -26,9 +29,8 @@ public class DataStoreManagerFragment extends Fragment implements ListView.OnIte
     private ListView listView;
     private OnDataStoreSelectedListener dataStoreSelectedListener;
     private FragmentManager fragmentManager;
-
-    /** entry point into spatial connect...TODO: the fragment needs it to be an instance variable?? **/
     protected SCServiceManager serviceManager;
+    private ArrayAdapter<SCDataStore> storeAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,15 +43,25 @@ public class DataStoreManagerFragment extends Fragment implements ListView.OnIte
         // Set the list's click listener
         listView.setOnItemClickListener(this);
 
+        serviceManager.getDataService().storeEvents.subscribe(new Action1<SCStoreStatusEvent>() {
+            @Override
+            public void call(SCStoreStatusEvent scStoreStatusEvent) {
+                storeAdapter.clear();
+                storeAdapter.addAll(serviceManager.getDataService().getAllStores());
+                storeAdapter.notifyDataSetChanged();
+            }
+        });
+        serviceManager.getDataService().storeEvents.connect();
+
+
         // Set the adapter for the list view
-        List<SCDataStore> s = serviceManager.getDataService().getActiveStores();
-        listView.setAdapter(
-                new ArrayAdapter<SCDataStore>(
-                        getActivity(),
-                        R.layout.drawer_list_item,
-                        s
-                )
+        List<SCDataStore> s = serviceManager.getDataService().getAllStores();
+        storeAdapter = new ArrayAdapter<SCDataStore>(
+                getActivity(),
+                R.layout.drawer_list_item,
+                s
         );
+        listView.setAdapter(storeAdapter);
 
         return view;
     }
@@ -57,13 +69,13 @@ public class DataStoreManagerFragment extends Fragment implements ListView.OnIte
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        serviceManager =  SpatialConnectService.getInstance().getServiceManager(getContext());
+        serviceManager = SpatialConnectService.getInstance().getServiceManager(getContext());
         serviceManager.startAllServices();
     }
 
     public void onDataStoreSelected(SCDataStore dataStore) {
-        Intent intent = new Intent(getActivity(),DataStoreDetailsActivity.class);
-        intent.putExtra("id",dataStore.getStoreId());
+        Intent intent = new Intent(getActivity(), DataStoreDetailsActivity.class);
+        intent.putExtra("id", dataStore.getStoreId());
         startActivity(intent);
     }
 
@@ -80,8 +92,8 @@ public class DataStoreManagerFragment extends Fragment implements ListView.OnIte
     /**
      * The MainActivity must implement this so it can update its selectedStore and notify the map.
      *
-     * @see <a href="http://developer.android.com/guide/components/fragments.html#EventCallbacks">
-     *     http://developer.android.com/guide/components/fragments.html#EventCallbacks<</a>
+     * @see <a href="http://developer.android.com/guide/components/fragments.html#EventCallbacks">the docs on
+     * EventCallbacks</a>
      */
     public interface OnDataStoreSelectedListener {
         public void onDataStoreSelected(SCDataStore dataStore);
@@ -100,9 +112,8 @@ public class DataStoreManagerFragment extends Fragment implements ListView.OnIte
     @Override
     public void onItemClick(AdapterView parent, View view, int position, long id) {
         listView.setItemChecked(position, true);
-        SCDataStore s = (SCDataStore)listView.getItemAtPosition(position);
+        SCDataStore s = (SCDataStore) listView.getItemAtPosition(position);
         this.onDataStoreSelected(s);
-        ((MainActivity)getActivity()).onDataStoreSelected(s);
     }
 
 }

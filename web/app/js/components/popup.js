@@ -64,7 +64,7 @@ var Popup = React.createClass({
           <a href="#" id="popup-closer" className="ol-popup-closer"></a>
           <div id="popup-content" onClick={this.showDetails}>
             <span>
-              Feature Id: {this.state.selectedFeature ? this.state.selectedFeature.get('id') : 'None'}
+              Feature Id: {this.state.selectedFeature ? this.state.selectedFeature.getId() : 'None'}
             </span>
           </div>
         </div>
