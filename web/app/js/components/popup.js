@@ -1,5 +1,5 @@
 'use strict';
-
+/* global ol */
 var React = require('react');
 var sc = require('spatialconnect');
 var FeatureDetails = require('./featuredetails');
@@ -48,7 +48,7 @@ var Popup = React.createClass({
         });
         $(element).popover('show');
       } else {
-        $(element).popover('destroy');
+        $(element).popover('hide');
       }
     });
   },
@@ -58,7 +58,7 @@ var Popup = React.createClass({
     });
   },
   render: function() {
-    var displayId = this.state.selectedFeature ? 
+    var displayId = this.state.selectedFeature ?
         keyToArr(this.state.selectedFeature.getId())[2] : 'None';
     return (
       <div>
