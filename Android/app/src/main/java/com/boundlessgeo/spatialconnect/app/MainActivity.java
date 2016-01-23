@@ -9,6 +9,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -29,6 +30,7 @@ import com.boundlessgeo.spatialconnect.query.SCQueryFilter;
 import com.boundlessgeo.spatialconnect.services.SCSensorService;
 import com.boundlessgeo.spatialconnect.services.SCServiceManager;
 import com.boundlessgeo.spatialconnect.stores.SCDataStore;
+import com.boundlessgeo.spatialconnect.stores.SCKeyTuple;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -37,10 +39,10 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
@@ -141,11 +143,15 @@ public class MainActivity extends Activity implements
 
             case DATA_STORE_MANAGER_POSITION:
                 if (dataStoreManagerFragment != null) {
+                    transaction.remove(mapsFragment);
+                    transaction.remove(webBundleManagerFragment);
                     transaction.replace(R.id.container, dataStoreManagerFragment);
                     title = getString(R.string.title_data_store_manager);
                 }
                 break;
             case WEB_BUNDLE_MANAGER_POSITION:
+                transaction.remove(mapsFragment);
+                transaction.remove(dataStoreManagerFragment);
                 if (webBundleManagerFragment != null) {
                     transaction.replace(R.id.container, webBundleManagerFragment);
                     transaction.show(webBundleManagerFragment);
@@ -153,6 +159,8 @@ public class MainActivity extends Activity implements
                 }
                 break;
             case MAP_POSITION:
+                transaction.remove(webBundleManagerFragment);
+                transaction.remove(dataStoreManagerFragment);
                 if (mapsFragment != null) {
                     transaction.replace(R.id.container, mapsFragment);
                     title = getString(R.string.title_map);
@@ -256,12 +264,14 @@ public class MainActivity extends Activity implements
      * Default implementation for handling messages from the JS bridge.  You can checkout the handlers <a
      * href="https://github.com/boundlessgeo/spatialconnect-js/blob/development/src/sc.js">here</a>
      */
+    // TODO: rename SCJavacriptAPI
     class BridgeHandler implements WebViewJavascriptBridge.WVJBHandler {
 
         private final String LOG_TAG = BridgeHandler.class.getSimpleName();
 
         @Override
         public void handle(String data, WebViewJavascriptBridge.WVJBResponseCallback jsCallback) {
+            Log.d(LOG_TAG, "Received message from bridge: " + data);
             if (data == null && data.equals("undefined")) {
                 Log.w(LOG_TAG, "data message was null or undefined");
                 return;
@@ -278,7 +288,6 @@ public class MainActivity extends Activity implements
                         sensorService.startGPSListener();
                         sensorService.getLastKnownLocation()
                                 .subscribeOn(Schedulers.newThread())
-                                .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new Action1<Location>() {
                                     @Override
                                     public void call(Location location) {
@@ -324,7 +333,6 @@ public class MainActivity extends Activity implements
                     if (filter != null) {
                         manager.getDataService().queryAllStores(filter)
                                 .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(
                                         new Subscriber<SCSpatialFeature>() {
                                             @Override
@@ -340,6 +348,26 @@ public class MainActivity extends Activity implements
 
                                             @Override
                                             public void onNext(SCSpatialFeature feature) {
+                                                // base64 encode id and set it before sending across wire
+                                                try {
+                                                    String storeId = Base64.encodeToString(
+                                                            feature.getKey().getStoreId().getBytes("UTF-8"),
+                                                            Base64.DEFAULT
+                                                    );
+                                                    String layerId = Base64.encodeToString(
+                                                            feature.getKey().getLayerId().getBytes("UTF-8"),
+                                                            Base64.DEFAULT
+                                                    );
+                                                    String featureId = Base64.encodeToString(
+                                                            feature.getKey().getFeatureId().getBytes("UTF-8"),
+                                                            Base64.DEFAULT
+                                                    );
+                                                    feature.setId(
+                                                            String.format("%s.%s.%s", storeId, layerId, featureId)
+                                                    );
+                                                } catch (UnsupportedEncodingException e) {
+                                                    e.printStackTrace();
+                                                }
                                                 bridge.callHandler("spatialQuery", ((SCGeometry) feature).toJson());
                                             }
                                         }
@@ -351,7 +379,6 @@ public class MainActivity extends Activity implements
                     manager.getDataService().getStoreById("a5d93796-5026-46f7-a2ff-e5dec85heh6b")
                             .update(getFeature(bridgeMessage))
                             .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
                                     new Subscriber<Boolean>() {
                                         @Override
@@ -372,7 +399,44 @@ public class MainActivity extends Activity implements
                                     }
                             );
                 }
+                if (command.equals(BridgeCommand.DATASERVICE_DELETEFEATURE)) {
+                    SCKeyTuple featureKey = getFeatureKey(bridgeMessage);
+                    manager.getDataService().getStoreById(featureKey.getStoreId())
+                            .delete(featureKey)
+                            .subscribeOn(Schedulers.io())
+                            .subscribe(
+                                    new Subscriber<Boolean>() {
+                                        @Override
+                                        public void onCompleted() {
+                                            Log.d("BridgeHandler", "delete completed");
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable e) {
+                                            e.printStackTrace();
+                                            Log.e("BridgeHandler", "onError()\n" + e.getLocalizedMessage());
+                                        }
+
+                                        @Override
+                                        public void onNext(Boolean updated) {
+                                            Log.d("BridgeHandler", "feature deleted!");
+                                        }
+                                    }
+                            );
+
+
+                }
             }
+        }
+
+        private SCKeyTuple getFeatureKey(JsonNode payload) {
+            // TODO: refactor to send SCKeyTuple instead of just id
+            // see: https://github.com/boundlessgeo/spatialconnect-js/blob/development/src/sc.js#L95
+            return new SCKeyTuple(
+                    "a5d93796-5026-46f7-a2ff-e5dec85heh6b",
+                    "point_features",
+                    payload.get("payload").asText()
+            );
         }
 
         private SCSpatialFeature getFeature(JsonNode payload) {
