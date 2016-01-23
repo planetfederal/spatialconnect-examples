@@ -69,7 +69,8 @@ FeatureObs.create.subscribe(
     var geojson = gjFmt.writeFeature(n);
     sc.stream.createFeature.subscribe(
       function(f) {
-        vectorSource.addFeature(gjFmt.readFeature(f));
+        var gj = gjFmt.readFeature(f);
+        vectorSource.addFeature(gj);
       }
     );
     sc.action.createFeature(geojson,'a5d93796-5026-46f7-a2ff-e5dec85heh6b');
@@ -95,8 +96,8 @@ var App = React.createClass({
   componentDidMount: function() {
     sc.stream.spatialQuery.subscribe(
       (data) => {
-        var gj = (new ol.format.GeoJSON()).readFeatures(data);
-        vectorSource.addFeatures(gj);
+        var gj = (new ol.format.GeoJSON()).readFeature(data);
+        vectorSource.addFeature(gj);
       },
       (err) => {
         this.setState({
@@ -122,7 +123,6 @@ var App = React.createClass({
             <Stores/>
           </TabPanel>
           <TabPanel title='Map'>
-            <button onClick={this.openModal}>Open Modal</button>
             <MapView map={map}/>
             <Modal
               isOpen={this.state.modalIsOpen}
