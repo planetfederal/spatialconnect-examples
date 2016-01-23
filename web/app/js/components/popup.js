@@ -4,6 +4,14 @@ var React = require('react');
 var sc = require('spatialconnect');
 var FeatureDetails = require('./featuredetails');
 var Modal = require('react-modal');
+var Base64 = require('js-base64').Base64;
+var _ = require('lodash');
+
+var keyToArr = function(key) {
+  return _.map(key.split('.'),function(k) {
+    return Base64.decode(k);
+  });
+};
 
 var Popup = React.createClass({
   getInitialState: function() {
@@ -54,6 +62,8 @@ var Popup = React.createClass({
     });
   },
   render: function() {
+    var displayId = this.state.selectedFeature ?
+        keyToArr(this.state.selectedFeature.getId())[2] : 'None';
     return (
       <div>
         <Modal isOpen={this.state.modalIsOpen}>
@@ -64,7 +74,7 @@ var Popup = React.createClass({
           <a href="#" id="popup-closer" className="ol-popup-closer"></a>
           <div id="popup-content" onClick={this.showDetails}>
             <span>
-              Feature Id: {this.state.selectedFeature ? this.state.selectedFeature.getId() : 'None'}
+              Feature Id: {displayId}
             </span>
           </div>
         </div>
