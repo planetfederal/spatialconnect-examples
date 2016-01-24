@@ -53,7 +53,6 @@ var MapView = React.createClass({
         </div>
         <div className="row">
           <div ref="map" id="map">
-            <Popup map={this.props.map}/>
           </div>
         </div>
       </div>

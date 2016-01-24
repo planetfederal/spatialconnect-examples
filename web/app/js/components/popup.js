@@ -30,7 +30,7 @@ var Popup = React.createClass({
       stopEvent: false
     });
     map.addOverlay(popup);
-    map.on('click', function(evt) {
+    map.on('singleclick', function(evt) {
       var feature = map.forEachFeatureAtPixel(evt.pixel,
           function(feature, layer) {
             return feature;

@@ -15,22 +15,25 @@ var Stores = require('./js/components/stores');
 var MapView = require('./js/components/map');
 var Modal = require('react-modal');
 var FeatureObs = require('./js/stores/feature');
+var FeatureDetails = require('./js/components/featuredetails');
 
-const customStyles = {
-  content : {
-    top                   : '50%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
-};
+// const customStyles = {
+//   content : {
+//     top                   : '50%',
+//     left                  : '50%',
+//     right                 : 'auto',
+//     bottom                : 'auto',
+//     marginRight           : '-50%',
+//     transform             : 'translate(-50%, -50%)'
+//   }
+// };
 
 var vectorSource = new ol.source.Vector({
   features: sample
 });
 vectorSource.addFeature(new ol.format.GeoJSON().readFeature({'type':'Feature','id':'Zm9v.Z29v.YmFy','created':'2016-01-21T13:37:53','bbox':[-72.2382185237858,18.224075396766597,-72.2382185237858,18.224075396766597],'geometry':{'type':'Point','coordinates':[-72.2382185237858,18.224075396766597]},'properties':{'cpyrt_note':'Â© 2010. Her Majesty the Queen in Right of Canada.','fcode':'BA050','upd_info':'N_A','src_info':'World View1','ale_eval':998,'ace':25.0,'featureid':'PBA050.8','src_date':'2008-06-26','ale':-32765.0,'upd_name':998,'src_name':110,'tier_note':'N_A','id':19,'nfi':'N_A','uid':'1dd8cca8-feeb-4b70-9b59-942ddd7d1780','zval_type':3,'smc':88,'nam':'UNK','ace_eval':15,'txt':'N_A','nfn':'N_A','acc':1,'upd_date':'N_A'},'key':{'featureId':'1234.point_features.19','layerId':'point_features','storeId':'1234'}}));
+
+vectorSource.addFeature(new ol.format.GeoJSON().readFeature({'type':'Feature','id':'Zm9v.Z29v.YmFydA==','created':'2016-01-21T13:37:53','geometry':{'type':'Point','coordinates':[74.2382185237858,28.224075396766597]},'properties':{'cpyrt_note':'Â© 2010. Her Majesty the Queen in Right of Canada.','fcode':'BA050','upd_info':'N_A','src_info':'World View1','ale_eval':998,'ace':25.0,'featureid':'PBA050.8','src_date':'2008-06-26','ale':-32765.0,'upd_name':998,'src_name':110,'tier_note':'N_A','id':19,'nfi':'N_A','uid':'1dd8cca8-feeb-4b70-9b59-942ddd7d1780','zval_type':3,'smc':88,'nam':'UNK','ace_eval':15,'txt':'N_A','nfn':'N_A','acc':1,'upd_date':'N_A'},'key':{'featureId':'1234.point_features.19','layerId':'point_features','storeId':'1234'}}));
 
 var styleFunction = function(feature) {
   return styles[feature.getGeometry().getType()];
@@ -82,7 +85,10 @@ FeatureObs.create.subscribe(
 
 var App = React.createClass({
   getInitialState: function() {
-    return { modalIsOpen: false };
+    return {
+      modalIsOpen: false,
+      selectedFeature: null
+    };
   },
 
   openModal: function() {
@@ -93,6 +99,7 @@ var App = React.createClass({
     this.setState({modalIsOpen: false});
   },
   componentDidMount: function() {
+    var that = this;
     sc.stream.spatialQuery.subscribe(
       (data) => {
         var gj = (new ol.format.GeoJSON()).readFeature(data);
@@ -109,8 +116,26 @@ var App = React.createClass({
         });
       }
     );
+    map.on('singleclick', function(evt) {
+      map.forEachFeatureAtPixel(evt.pixel,
+        function(feature) {
+          if (feature) {
+            that.setState({
+              selectedFeature: feature
+            });
+            that.openModal();
+          }
+        }
+      );
+    });
   },
   render : function() {
+    var details;
+    if (this.state.selectedFeature) {
+      details = <FeatureDetails feature={this.state.selectedFeature} />;
+    } else {
+      details = null;
+    }
     return (
       <div>
         <Tabs>
@@ -120,27 +145,9 @@ var App = React.createClass({
           </TabList>
           <TabPanel title='Map'>
             <MapView map={map}/>
-            <Modal
-              isOpen={this.state.modalIsOpen}
-              onRequestClose={this.closeModal}
-              style={customStyles} >
-
-              <h2>Hello</h2>
-              <button onClick={this.closeModal}>close</button>
-              <div>
-                I am a modal
-              </div>
-              <form>
-                <input />
-                <button>
-                  tab navigation
-                </button>
-                <button>stays</button>
-                <button>inside</button>
-                <button>
-                  the modal
-                </button>
-              </form>
+            <Modal isOpen={this.state.modalIsOpen}>
+              <button onClick={this.closeModal}>Close Modal</button>
+              {details}
             </Modal>
           </TabPanel>
           <TabPanel title='Stores'>

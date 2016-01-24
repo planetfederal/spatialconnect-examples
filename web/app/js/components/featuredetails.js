@@ -1,8 +1,7 @@
 'use strict';
-
+/* global ol */
 var React = require('react');
 var sc = require('spatialconnect');
-var Base64 = require('js-base64').Base64;
 
 var FeatureDetails = React.createClass({
   componentDidMount: function() {
@@ -10,15 +9,12 @@ var FeatureDetails = React.createClass({
   },
   updateFeature: function(e) {
     e.preventDefault();
-    var decodedFeatureId = this.state.selectedFeature.getId().split('.').map(function(x){return Base64.decode(x)})[2]
-    this.state.selectedFeature.setId(decodedFeatureId);
     sc.action.updateFeature(
       new ol.format.GeoJSON().writeFeature(this.state.selectedFeature)
     );
   },
   deleteFeature: function() {
-    var decodedFeatureId = this.state.selectedFeature.getId().split('.').map(function(x){return Base64.decode(x)})[2]
-    sc.action.deleteFeature(decodedFeatureId);
+    sc.action.deleteFeature(this.state.selectedFeature.getId());
   },
   handleChange: function(propKey, event) {
     var value = event.target.value;
