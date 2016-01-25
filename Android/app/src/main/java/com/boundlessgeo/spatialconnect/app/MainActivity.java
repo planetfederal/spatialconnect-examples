@@ -22,6 +22,7 @@ import com.boundlessgeo.spatialconnect.stores.SCDataStore;
 
 import java.io.File;
 
+
 /**
  * The MainActivity is the home screen that contains the MapsFragment, and DataStoreFragment.  It is the main entry
  * point into this example application.
@@ -226,9 +227,30 @@ public class MainActivity extends Activity implements
         // setup js bridge in webview
         SCJavascriptBridgeHandler handler = new SCJavascriptBridgeHandler(manager);
         final WebViewJavascriptBridge bridge = new WebViewJavascriptBridge(this, webView, handler);
-        webView.loadUrl(Uri.fromFile(selectedWebBundle).toString() + "/index.html");
+        File indexFile = walk(file.getAbsolutePath());
+        webView.loadUrl(Uri.fromFile(indexFile).toString());
         webView.setVisibility(View.VISIBLE);
         getFragmentManager().beginTransaction().hide(webBundleManagerFragment).commit();
+    }
+
+    public File walk( String path ) {
+
+        File root = new File( path );
+        File[] list = root.listFiles();
+        File file = null;
+        if (list == null) return null;
+        for ( File f : list ) {
+            if ( f.isDirectory() ) {
+                return walk( f.getAbsolutePath() );
+            }
+            else {
+                if (f.getAbsolutePath().contains("index.html")) {
+                    file = f;
+                    break;
+                }
+            }
+        }
+        return file;
     }
 
     @Override

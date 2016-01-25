@@ -330,11 +330,11 @@
             </objects>
             <point key="canvasLocation" x="1378" y="773"/>
         </scene>
-        <!--Web-->
+        <!--Navigation Controller-->
         <scene sceneID="S04-Dp-WOK">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fOy-Mv-8pZ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Web" id="cCk-fu-Uow"/>
+                    <tabBarItem key="tabBarItem" badgeValue="Bundle" selectedImage="crosshair.png" systemItem="downloads" id="cCk-fu-Uow"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ts4-zj-zj8">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -351,6 +351,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="crosshair.png" width="62" height="62"/>
         <image name="first" width="30" height="30"/>
         <image name="second" width="30" height="30"/>
     </resources>
