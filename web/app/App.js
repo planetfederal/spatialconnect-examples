@@ -128,6 +128,17 @@ var App = React.createClass({
         }
       );
     });
+    FeatureObs.delete.subscribe(
+      function(deleteFeatureId) {
+        var feature = vectorSource.getFeatureById(deleteFeatureId)
+        vectorSource.removeFeature(feature);
+        that.closeModal();
+      },
+      function(err) {
+        console.log(err);
+      },
+      function() {}
+    );
   },
   render : function() {
     var details;

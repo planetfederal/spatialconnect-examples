@@ -2,6 +2,7 @@
 /* global ol */
 var React = require('react');
 var sc = require('spatialconnect');
+var FeatureObs = require('../stores/feature');
 
 var FeatureDetails = React.createClass({
   getInitialState: function() {
@@ -20,6 +21,7 @@ var FeatureDetails = React.createClass({
   },
   deleteFeature: function() {
     sc.action.deleteFeature(this.state.selectedFeature.getId());
+    FeatureObs.delete.onNext(this.state.selectedFeature.getId());
   },
   handleChange: function(propKey, event) {
     var value = event.target.value;
@@ -43,7 +45,7 @@ var FeatureDetails = React.createClass({
           );
         })}
         <input type="submit" value="Update Feature" />
-        <button onClick={this.deleteFeature}>Delete Feature</button>
+        <button type="button" onClick={this.deleteFeature}>Delete Feature</button>
       </form>
     }
     return (
