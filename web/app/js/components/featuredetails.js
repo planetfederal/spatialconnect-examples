@@ -4,7 +4,7 @@ var React = require('react');
 var sc = require('spatialconnect');
 
 var FeatureDetails = React.createClass({
-  componentDidMount: function() {
+  componentWillMount: function() {
     this.setState({selectedFeature: this.props.feature});
   },
   updateFeature: function(e) {
@@ -33,7 +33,7 @@ var FeatureDetails = React.createClass({
                 <label>{propKey}</label>
                 <input type="text"
                   onChange={this.handleChange.bind(this, propKey)}
-                  value={this.props.feature.get(propKey)}>
+                  value={this.state.selectedFeature.get(propKey)}>
                 </input>
               </div>
             );
