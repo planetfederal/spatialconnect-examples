@@ -38,6 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -255,9 +256,38 @@ public class MainActivity extends Activity implements
         settings.setJavaScriptEnabled(true);
         // setup js bridge in webview
         bridge = new WebViewJavascriptBridge(this, webView, new BridgeHandler());
-        webView.loadUrl(Uri.fromFile(selectedWebBundle).toString() + "/index.html");
+        File[] matchingFiles = file.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String filename) {
+                return filename.equalsIgnoreCase("index.html");
+            }
+        });
+        File indexFile = walk(file.getAbsolutePath());
+        webView.loadUrl(Uri.fromFile(indexFile).toString());
         webView.setVisibility(View.VISIBLE);
         getFragmentManager().beginTransaction().hide(webBundleManagerFragment).commit();
+    }
+
+    public File walk( String path ) {
+
+        File root = new File( path );
+        File[] list = root.listFiles();
+        File file = null;
+
+        if (list == null) return null;
+
+        for ( File f : list ) {
+            if ( f.isDirectory() ) {
+                return walk( f.getAbsolutePath() );
+            }
+            else {
+                if (f.getAbsolutePath().contains("index.html")) {
+                    file = f;
+                    break;
+                }
+            }
+        }
+        return file;
     }
 
     /**
