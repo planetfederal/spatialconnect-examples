@@ -38,7 +38,7 @@ import rx.schedulers.Schedulers;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
-    private GoogleMap map; // Might be null if Google Play services APK is not available.
+    protected GoogleMap map; // Might be null if Google Play services APK is not available.
     private MainActivity mainActivity;
     private MapFragment mapFragment;
     private SCDataService dataService;
@@ -130,13 +130,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                             public void onNext(SCSpatialFeature feature) {
                                 if (feature instanceof SCGeometry && ((SCGeometry) feature).getGeometry() != null) {
                                     latestFeature = feature;
-                                    // only put points in the mMarkers b/c we will only edit those for now
-                                    if (((SCGeometry) feature).getGeometry() instanceof Point) {
-                                        Marker m = GoogleMapsUtil.addPointToMap(map, (SCGeometry) feature);
-                                        mMarkers.put(m.getId(), feature.getKey());
-                                    } else {
-                                        GoogleMapsUtil.addToMap(map, (SCGeometry) feature);
-                                    }
+                                    addMarkerToMap(feature);
                                 }
                             }
                         }
@@ -177,4 +171,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         reloadFeatures();
     }
 
+    public void addMarkerToMap(SCSpatialFeature feature) {
+        // only put points in the mMarkers b/c we will only edit those for now
+        if (((SCGeometry) feature).getGeometry() instanceof Point) {
+            Marker m = GoogleMapsUtil.addPointToMap(map, (SCGeometry) feature);
+            mMarkers.put(m.getId(), feature.getKey());
+        } else {
+            GoogleMapsUtil.addToMap(map, (SCGeometry) feature);
+        }
+
+    }
 }
