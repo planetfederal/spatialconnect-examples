@@ -52,8 +52,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        if (mainActivity == null) {
+            mainActivity = (MainActivity) getActivity();
+        }
+        if (mapFragment == null) {
+            mapFragment = MapFragment.newInstance();;
+        }
         mainActivity.getFragmentManager().beginTransaction().add(R.id.container, mapFragment).commit();
-        dataService = SpatialConnectService.getInstance().getServiceManager(getContext()).getDataService();
+        dataService = SpatialConnectService.getInstance().getServiceManager(getActivity()).getDataService();
         setUpMapIfNeeded();
     }
 
@@ -145,7 +151,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     public void loadImagery() {
         SCDataStore selectedStore = dataService.getStoreById("ba293796-5026-46f7-a2ff-e5dec85heh6b");
-        GeoPackageStore geoPackageStore = (GeoPackageStore) SpatialConnectService.getInstance().getServiceManager(getContext())
+        GeoPackageStore geoPackageStore = (GeoPackageStore)
+                SpatialConnectService.getInstance().getServiceManager(getActivity())
                 .getDataService()
                 .getStoreById(selectedStore.getStoreId());
 

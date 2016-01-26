@@ -96,7 +96,7 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        serviceManager =  SpatialConnectService.getInstance().getServiceManager(getContext());
+        serviceManager =  SpatialConnectService.getInstance().getServiceManager(getActivity());
         ds = serviceManager.getDataService().getStoreById(storeId);
 
         SCDataStore.DataStorePermissionEnum auth = ds.getAuthorization();
@@ -138,15 +138,15 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
                                    }
 
                                    for (final String key : s.getProperties().keySet()) {
-                                       TableRow tr = new TableRow(FeatureDetailsFragment.this.getContext());
+                                       TableRow tr = new TableRow(getActivity());
                                        tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-                                       TextView tv = new TextView(FeatureDetailsFragment.this.getContext());
+                                       TextView tv = new TextView(getActivity());
                                        tv.setText(key);
                                        tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
                                        tr.addView(tv);
-                                       TextView tvValue = new TextView(FeatureDetailsFragment.this.getContext());
+                                       TextView tvValue = new TextView(getActivity());
                                        if (featureIsEditable()) {
-                                           tvValue = new EditText(FeatureDetailsFragment.this.getContext());
+                                           tvValue = new EditText(getActivity());
                                            tvValue.setInputType(InputType.TYPE_CLASS_TEXT);
                                            tvValue.setImeOptions(EditorInfo.IME_ACTION_DONE);
                                            tvValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -202,7 +202,7 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
                 // if true then we saved and can react to it
                 Log.d(LOG_TAG, "feature was updated");
                 // hide virtual keyboard
-                InputMethodManager imm = (InputMethodManager) getContext()
+                InputMethodManager imm = (InputMethodManager) getActivity()
                         .getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(latVal.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
             }
@@ -220,7 +220,7 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
                 // if true then we saved and can react to it
                 Log.d(LOG_TAG, "feature was updated");
                 // hide virtual keyboard
-                InputMethodManager imm = (InputMethodManager) getContext()
+                InputMethodManager imm = (InputMethodManager) getActivity()
                         .getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(latVal.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
             }

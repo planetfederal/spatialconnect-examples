@@ -52,7 +52,7 @@ public class NavigationDrawerFragment extends Fragment {
     private ListView mDrawerListView;
     private View mFragmentContainerView;
 
-    private int mCurrentSelectedPosition = 0;
+    private int mCurrentSelectedPosition = 2;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
@@ -74,7 +74,7 @@ public class NavigationDrawerFragment extends Fragment {
         }
 
         // Select either the default item (0) or the last selected item.
-        selectItem(mCurrentSelectedPosition);
+//        selectItem(mCurrentSelectedPosition);
     }
 
     @Override
