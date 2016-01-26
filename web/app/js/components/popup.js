@@ -4,14 +4,6 @@ var React = require('react');
 var sc = require('spatialconnect');
 var FeatureDetails = require('./featuredetails');
 var Modal = require('react-modal');
-var Base64 = require('js-base64').Base64;
-var _ = require('lodash');
-
-var keyToArr = function(key) {
-  return _.map(key.split('.'),function(k) {
-    return Base64.decode(k);
-  });
-};
 
 var Popup = React.createClass({
   getInitialState: function() {

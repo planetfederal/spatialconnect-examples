@@ -25,4 +25,9 @@
   [self.lwa load];
 }
 
+- (void)viewDidLoad {
+  [super viewDidLoad];
+  self.webview.scalesPageToFit = NO;
+}
+
 @end

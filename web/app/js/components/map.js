@@ -2,17 +2,20 @@
 /*global ol*/
 var React = require('react');
 var GPS = require('./gps');
-var Popup = require('./popup');
 var sc = require('spatialconnect');
 var FeatureObs = require('./../stores/feature');
 var ReactDOM = require('react-dom');
 
 var MapView = React.createClass({
+  getInitialState:function () {
+    return { reloadDisabled : false}
+  },
   componentDidMount: function() {
     var map = this.props.map;
     var me = this.refs.map;
     var elem = ReactDOM.findDOMNode(me);
     map.setTarget(elem);
+    var that = this;
   },
   addFeature:function() {
     var map = this.props.map;

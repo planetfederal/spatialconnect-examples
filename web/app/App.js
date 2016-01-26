@@ -17,23 +17,9 @@ var Modal = require('react-modal');
 var FeatureObs = require('./js/stores/feature');
 var FeatureDetails = require('./js/components/featuredetails');
 
-// const customStyles = {
-//   content : {
-//     top                   : '50%',
-//     left                  : '50%',
-//     right                 : 'auto',
-//     bottom                : 'auto',
-//     marginRight           : '-50%',
-//     transform             : 'translate(-50%, -50%)'
-//   }
-// };
-
 var vectorSource = new ol.source.Vector({
   features: sample
 });
-vectorSource.addFeature(new ol.format.GeoJSON().readFeature({'type':'Feature','id':'Zm9v.Z29v.YmFy','created':'2016-01-21T13:37:53','bbox':[-72.2382185237858,18.224075396766597,-72.2382185237858,18.224075396766597],'geometry':{'type':'Point','coordinates':[-72.2382185237858,18.224075396766597]},'properties':{'cpyrt_note':'Â© 2010. Her Majesty the Queen in Right of Canada.','fcode':'BA050','upd_info':'N_A','src_info':'World View1','ale_eval':998,'ace':25.0,'featureid':'PBA050.8','src_date':'2008-06-26','ale':-32765.0,'upd_name':998,'src_name':110,'tier_note':'N_A','id':19,'nfi':'N_A','uid':'1dd8cca8-feeb-4b70-9b59-942ddd7d1780','zval_type':3,'smc':88,'nam':'UNK','ace_eval':15,'txt':'N_A','nfn':'N_A','acc':1,'upd_date':'N_A'},'key':{'featureId':'1234.point_features.19','layerId':'point_features','storeId':'1234'}}));
-
-vectorSource.addFeature(new ol.format.GeoJSON().readFeature({'type':'Feature','id':'Zm9v.Z29v.YmFydA==','created':'2016-01-21T13:37:53','geometry':{'type':'Point','coordinates':[74.2382185237858,28.224075396766597]},'properties':{'cpyrt_note':'Â© 2010. Her Majesty the Queen in Right of Canada.','fcode':'BA050','upd_info':'N_A','src_info':'World View1','ale_eval':998,'ace':25.0,'featureid':'PBA050.8','src_date':'2008-06-26','ale':-32765.0,'upd_name':998,'src_name':110,'tier_note':'N_A','id':19,'nfi':'N_A','uid':'1dd8cca8-feeb-4b70-9b59-942ddd7d1780','zval_type':3,'smc':88,'nam':'UNK','ace_eval':15,'txt':'N_A','nfn':'N_A','acc':1,'upd_date':'N_A'},'key':{'featureId':'1234.point_features.19','layerId':'point_features','storeId':'1234'}}));
 
 var styleFunction = function(feature) {
   return styles[feature.getGeometry().getType()];
@@ -45,18 +31,31 @@ var vectorLayer = new ol.layer.Vector({
 });
 
 var layers = [
+  // new ol.layer.Tile({
+  //   source: new ol.source.TileWMS({
+  //     url: 'http://demo.boundlessgeo.com/geoserver/wms',
+  //     params: {
+  //       'LAYERS': 'ne:NE1_HR_LC_SR_W_DR'
+  //     }
+  //   })
+  // }),
   new ol.layer.Tile({
-    source: new ol.source.TileWMS({
-      url: 'http://demo.boundlessgeo.com/geoserver/wms',
-      params: {
-        'LAYERS': 'ne:NE1_HR_LC_SR_W_DR'
-      }
-    })
-  }),
+        source: new ol.source.OSM({
+          attributions: [
+            new ol.Attribution({
+              html: 'All maps &copy; ' +
+                  '<a href="http://www.opencyclemap.org/">OpenCycleMap</a>'
+            }),
+            ol.source.OSM.ATTRIBUTION
+          ],
+          url: 'http://{a-c}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png'
+        })
+      }),
   vectorLayer
 ];
 
 var map = new ol.Map({
+  interactions: ol.interaction.defaults({ doubleClickZoom: false }),
   layers: layers,
   view: new ol.View({
     projection: 'EPSG:4326',
@@ -128,6 +127,7 @@ var App = React.createClass({
         }
       );
     });
+    map.on('doubleclick', function() {}); //swallow doubleclick for ios webview
     FeatureObs.delete.subscribe(
       function(deleteFeatureId) {
         var feature = vectorSource.getFeatureById(deleteFeatureId)

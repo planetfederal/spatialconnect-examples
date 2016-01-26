@@ -3,12 +3,13 @@
 var React = require('react');
 var sc = require('spatialconnect');
 var FeatureObs = require('../stores/feature');
+var Util = require('../util');
 
 var FeatureDetails = React.createClass({
   getInitialState: function() {
     return {
       selectedFeature: null
-    }
+    };
   },
   componentDidMount: function() {
     this.setState({selectedFeature: this.props.feature});
@@ -30,28 +31,40 @@ var FeatureDetails = React.createClass({
     this.setState({selectedFeature: feature});
   },
   render: function() {
-    var form;
+    var details;
     if (this.state.selectedFeature !== null) {
-      form = <form key="details" onSubmit={this.updateFeature}>
-        {this.state.selectedFeature.getKeys().map((propKey, i) => {
-          return (
-            <div className="form-group" key={i}>
-              <label>{propKey}</label>
-              <input type="text"
-                onChange={this.handleChange.bind(this, propKey)}
-                value={this.state.selectedFeature.get(propKey)}>
-              </input>
-            </div>
-          );
-        })}
-        <input type="submit" value="Update Feature" />
-        <button type="button" onClick={this.deleteFeature}>Delete Feature</button>
-      </form>
+      var key = Util.keyToArr(this.state.selectedFeature.getId());
+      details = <div>
+        <div>
+          Store ID:{key[0]}
+        </div>
+        <div>
+          Layer ID:{key[1]}
+        </div>
+        <div>
+          Feature ID:{key[2]}
+        </div>
+        <form key="details" onSubmit={this.updateFeature}>
+          {this.state.selectedFeature.getKeys().map((propKey, i) => {
+            return (
+              <div className="form-group" key={i}>
+                <label>{propKey}</label>
+                <input type="text"
+                  onChange={this.handleChange.bind(this, propKey)}
+                  value={this.state.selectedFeature.get(propKey)}>
+                </input>
+              </div>
+            );
+          })}
+          <input type="submit" value="Update Feature" />
+          <button type="button" onClick={this.deleteFeature}>Delete Feature</button>
+        </form>
+      </div>;
     }
     return (
       <div>
         <h1>Feature details</h1>
-        {form}
+        {details}
       </div>
     );
   }
