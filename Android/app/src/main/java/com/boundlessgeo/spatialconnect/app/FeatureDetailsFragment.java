@@ -1,27 +1,22 @@
 package com.boundlessgeo.spatialconnect.app;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.boundlessgeo.spatialconnect.geometries.SCBoundingBox;
 import com.boundlessgeo.spatialconnect.geometries.SCGeometry;
-import com.boundlessgeo.spatialconnect.query.SCGeometryPredicateComparison;
-import com.boundlessgeo.spatialconnect.query.SCPredicate;
-import com.boundlessgeo.spatialconnect.query.SCQueryFilter;
 import com.boundlessgeo.spatialconnect.services.SCServiceManager;
 import com.boundlessgeo.spatialconnect.stores.SCDataStore;
 import com.boundlessgeo.spatialconnect.stores.SCKeyTuple;
@@ -31,6 +26,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
@@ -54,6 +50,7 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
     private SCGeometry selectedFeature;
     private SCServiceManager serviceManager;
     private SCDataStore ds;
+    private GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
     private static final String LOG_TAG = FeatureDetailsFragment.class.getName();
 
     @Override
@@ -96,7 +93,7 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        serviceManager =  SpatialConnectService.getInstance().getServiceManager(getContext());
+        serviceManager =  SpatialConnectService.getInstance().getServiceManager(getActivity());
         ds = serviceManager.getDataService().getStoreById(storeId);
 
         SCDataStore.DataStorePermissionEnum auth = ds.getAuthorization();
@@ -116,12 +113,10 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
                 .subscribe(new Subscriber<SCGeometry>() {
                                @Override
                                public void onCompleted() {
-
                                }
 
                                @Override
                                public void onError(Throwable e) {
-
                                }
 
                                @Override
@@ -138,38 +133,70 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
                                    }
 
                                    for (final String key : s.getProperties().keySet()) {
-                                       TableRow tr = new TableRow(FeatureDetailsFragment.this.getContext());
+                                       TableRow tr = new TableRow(getActivity());
                                        tr.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-                                       TextView tv = new TextView(FeatureDetailsFragment.this.getContext());
+                                       TextView tv = new TextView(getActivity());
                                        tv.setText(key);
                                        tv.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
                                        tr.addView(tv);
-                                       TextView tvValue = new TextView(FeatureDetailsFragment.this.getContext());
+                                       TextView tvValue = new TextView(getActivity());
                                        if (featureIsEditable()) {
-                                           tvValue = new EditText(FeatureDetailsFragment.this.getContext());
+                                           tvValue = new EditText(getActivity());
                                            tvValue.setInputType(InputType.TYPE_CLASS_TEXT);
                                            tvValue.setImeOptions(EditorInfo.IME_ACTION_DONE);
-                                           tvValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                                           tvValue.addTextChangedListener(new TextWatcher() {
+
                                                @Override
-                                               public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                                                   boolean handled = false;
-                                                   if (actionId == EditorInfo.IME_ACTION_DONE) {
-                                                       updateFeaturePropertyValue(key, v.getText().toString());
-                                                       handled = true;
-                                                   }
-                                                   return handled;
+                                               public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                                               }
+
+                                               @Override
+                                               public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                               }
+
+                                               @Override
+                                               public void afterTextChanged(Editable s) {
+                                                   // update selected feature with property
+                                                   selectedFeature.getProperties().put(
+                                                           key,
+                                                           s.toString()
+                                                   );
                                                }
                                            });
                                            // add callback to the delete button
-                                           final Button button = (Button) getView().findViewById(R.id.delete_button);
-                                           button.setVisibility(View.VISIBLE);
-                                           button.setOnClickListener(new View.OnClickListener() {
+                                           final Button deleteButton =
+                                                   (Button) getView().findViewById(R.id.delete_button);
+                                           deleteButton.setVisibility(View.VISIBLE);
+                                           deleteButton.setOnClickListener(new View.OnClickListener() {
                                                public void onClick(View v) {
                                                    // delete the selected feature
                                                    ds.delete(selectedFeature.getKey()).subscribe(new Action1<Boolean>() {
                                                        @Override
                                                        public void call(Boolean deleted) {
                                                            Log.d(LOG_TAG, "feature was deleted");
+                                                           // change back to map fragment
+                                                           getActivity().finish();
+                                                       }
+                                                   });
+                                               }
+                                           });
+                                           // add callback to the update button
+                                           final Button updateButton =
+                                                   (Button) getView().findViewById(R.id.update_button);
+                                           updateButton.setVisibility(View.VISIBLE);
+                                           updateButton.setOnClickListener(new View.OnClickListener() {
+                                               public void onClick(View v) {
+                                                   // update the feature's geometry with the new value
+                                                   LatLng center = map.getCameraPosition().target;
+                                                   selectedFeature.setGeometry(
+                                                           geometryFactory.createPoint(
+                                                                   new Coordinate(center.longitude, center.latitude)
+                                                           )
+                                                   );
+                                                   ds.update(selectedFeature).subscribe(new Action1<Boolean>() {
+                                                       @Override
+                                                       public void call(Boolean updated) {
+                                                           Log.d(LOG_TAG, "feature was updated");
                                                            // change back to map fragment
                                                            getActivity().finish();
                                                        }
@@ -192,41 +219,6 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
         return ds.getAuthorization().equals(SCDataStore.DataStorePermissionEnum.READ_WRITE);
     }
 
-    private void updateFeaturePropertyValue(String propertyKey, String propertyValue) {
-        // then update the feature's property with the new value
-        selectedFeature.getProperties().put(propertyKey, propertyValue);
-        // and save the updated feature back to the store
-        ds.update(selectedFeature).subscribe(new Action1<Boolean>() {
-            @Override
-            public void call(Boolean updated) {
-                // if true then we saved and can react to it
-                Log.d(LOG_TAG, "feature was updated");
-                // hide virtual keyboard
-                InputMethodManager imm = (InputMethodManager) getContext()
-                        .getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(latVal.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-            }
-        });
-    }
-
-    private void updatePoint(double lat, double lon) {
-        // then update the feature's geometry with the new value
-        GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
-        selectedFeature.setGeometry(geometryFactory.createPoint(new Coordinate(lon, lat)));
-        // and save the updated feature back to the store
-        ds.update(selectedFeature).subscribe(new Action1<Boolean>() {
-            @Override
-            public void call(Boolean updated) {
-                // if true then we saved and can react to it
-                Log.d(LOG_TAG, "feature was updated");
-                // hide virtual keyboard
-                InputMethodManager imm = (InputMethodManager) getContext()
-                        .getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(latVal.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-            }
-        });
-    }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
@@ -236,16 +228,19 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
         // center the map on the position of the selected feature
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(featurePoint, 15));
 
+
         if (featureIsEditable()) {
-            // add a callback to update the feature when the map center is updated
+            map.getUiSettings().setZoomGesturesEnabled(true);
+            map.getUiSettings().setScrollGesturesEnabled(true);
+            map.getUiSettings().setZoomControlsEnabled(true);
+            // add a callback to update the selectedFeature's geometry when the map center is updated
             map.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
                 @Override
                 public void onCameraChange(CameraPosition cameraPosition) {
                     lonVal.setText(String.valueOf(cameraPosition.target.longitude));
                     latVal.setText(String.valueOf(cameraPosition.target.latitude));
-                    if (selectedFeature != null) {
-                        updatePoint(cameraPosition.target.latitude, cameraPosition.target.longitude);
-                    }
+                    map.clear();
+                    map.addMarker(new MarkerOptions().position(cameraPosition.target));
                 }
             });
         } else {
