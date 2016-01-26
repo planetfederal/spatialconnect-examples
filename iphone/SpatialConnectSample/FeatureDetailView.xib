@@ -7,6 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FeatureDetailViewController">
             <connections>
+                <outlet property="buttonDelete" destination="emo-pK-1yk" id="vcI-nv-Hhh"/>
                 <outlet property="buttonEdit" destination="JNy-6i-aRA" id="zue-3P-mkc"/>
                 <outlet property="labelFeature" destination="j73-qJ-eoU" id="niU-Ew-Gxb"/>
                 <outlet property="labelLatitude" destination="IPm-mz-aM0" id="BBE-gv-RGE"/>
@@ -113,10 +114,17 @@
                     </subviews>
                 </stackView>
                 <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JNy-6i-aRA">
-                    <rect key="frame" x="259" y="513" width="83" height="30"/>
+                    <rect key="frame" x="105" y="513" width="83" height="30"/>
                     <state key="normal" title="Edit Feature"/>
                     <connections>
                         <action selector="buttonPressedEdit:" destination="-1" eventType="touchUpInside" id="GZn-TC-aPX"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="emo-pK-1yk">
+                    <rect key="frame" x="236" y="513" width="101" height="30"/>
+                    <state key="normal" title="Delete Feature"/>
+                    <connections>
+                        <action selector="buttonPressDelete:" destination="-1" eventType="touchUpInside" id="7y5-za-ZNp"/>
                     </connections>
                 </button>
             </subviews>
