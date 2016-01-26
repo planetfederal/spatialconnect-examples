@@ -83,13 +83,6 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="center"/>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/crosshair"
-            android:src="@mipmap/crosshair"
-            android:layout_gravity="center"/>
     </FrameLayout>
 
     <TextView
@@ -102,7 +95,8 @@
         android:layout_alignParentRight="false"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="false"
-        android:layout_alignRight="@+id/store_label" android:layout_toRightOf="@+id/store_label"
+        android:layout_alignRight="@+id/store_label"
+        android:layout_toRightOf="@+id/store_label"
         android:layout_toEndOf="@+id/store_label"/>
 
     <TextView
@@ -183,13 +177,21 @@
             android:layout_below="@+id/prop_label">
     </TableLayout>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update Feature"
+        android:id="@+id/update_button"
+        android:layout_below="@+id/feature_detail_prop_table"
+        android:visibility="gone" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete Feature"
         android:id="@+id/delete_button"
-        android:layout_below="@+id/feature_detail_prop_table"
+        android:layout_alignTop="@id/update_button"
+        android:layout_toRightOf="@+id/update_button"
         android:visibility="gone"/>
 
 </RelativeLayout>
