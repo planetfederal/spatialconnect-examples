@@ -67,9 +67,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onResume() {
         super.onResume();
-        if (map != null) {
-            reloadFeatures();
-        }
     }
 
     /**
