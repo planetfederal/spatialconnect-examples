@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.boundlessgeo.spatialconnect.geometries.SCGeometry;
+import com.boundlessgeo.spatialconnect.geometries.SCSpatialFeature;
 import com.boundlessgeo.spatialconnect.services.SCServiceManager;
 import com.boundlessgeo.spatialconnect.stores.SCDataStore;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -66,9 +67,9 @@ public class AddNewFeatureActivity extends Activity implements OnMapReadyCallbac
         final Button button = (Button) findViewById(R.id.add_new_feature);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ds.create(newFeature).subscribe(new Action1<Boolean>() {
+                ds.create(newFeature).subscribe(new Action1<SCSpatialFeature>() {
                     @Override
-                    public void call(Boolean created) {
+                    public void call(SCSpatialFeature feature) {
                         Log.d(LOG_TAG, "feature was created");
                         finish();
                     }
