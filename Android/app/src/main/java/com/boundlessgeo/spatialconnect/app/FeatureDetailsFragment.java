@@ -24,6 +24,7 @@ import com.boundlessgeo.spatialconnect.query.SCPredicate;
 import com.boundlessgeo.spatialconnect.query.SCQueryFilter;
 import com.boundlessgeo.spatialconnect.services.SCServiceManager;
 import com.boundlessgeo.spatialconnect.stores.SCDataStore;
+import com.boundlessgeo.spatialconnect.stores.SCKeyTuple;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -108,13 +109,10 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
         final TextView featIdVal = (TextView)getView().findViewById(R.id.feature_detail_featureid_value);
         final TableLayout table = (TableLayout)getView().findViewById(R.id.feature_detail_prop_table);
 
-        SCBoundingBox bbox = new SCBoundingBox(lon,lat,lon,lat);
-        SCPredicate p = new SCPredicate(bbox, SCGeometryPredicateComparison.SCPREDICATE_OPERATOR_WITHIN);
-        SCQueryFilter filter = new SCQueryFilter(p);
-        ds.query(filter)
+        SCKeyTuple keyTuple = new SCKeyTuple(storeId,layerId,featureId);
+        ds.queryById(keyTuple)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .take(1)
                 .subscribe(new Subscriber<SCGeometry>() {
                                @Override
                                public void onCompleted() {
