@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -15,12 +14,20 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.boundlessgeo.spatialconnect.geometries.SCGeometry;
+import com.boundlessgeo.spatialconnect.geometries.SCSpatialFeature;
 import com.boundlessgeo.spatialconnect.jsbridge.SCJavascriptBridgeHandler;
 import com.boundlessgeo.spatialconnect.jsbridge.WebViewJavascriptBridge;
 import com.boundlessgeo.spatialconnect.services.SCServiceManager;
 import com.boundlessgeo.spatialconnect.stores.SCDataStore;
+import com.google.android.gms.maps.model.LatLng;
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.PrecisionModel;
 
 import java.io.File;
+
+import rx.functions.Action1;
 
 
 /**
@@ -53,7 +60,6 @@ public class MainActivity extends Activity implements
     private int navigationPosition = MAP_POSITION;
 
 
-    //private MapFragment mapFragment;
     private MapsFragment mapsFragment;
     private DataStoreManagerFragment dataStoreManagerFragment;
     private WebBundleManagerFragment webBundleManagerFragment;
@@ -61,6 +67,8 @@ public class MainActivity extends Activity implements
     private SCServiceManager manager;
     private SCDataStore selectedStore;
     private File selectedWebBundle;
+    private static final GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -179,7 +187,21 @@ public class MainActivity extends Activity implements
             return true;
         }
         if (id == R.id.action_add_feature) {
-            startActivity(new Intent(this, AddNewFeatureActivity.class));
+            LatLng center = mapsFragment.map.getCameraPosition().target;
+            SCSpatialFeature newFeature = new SCGeometry(
+                    geometryFactory.createPoint(new Coordinate(center.longitude, center.latitude))
+            );
+            newFeature.setStoreId("a5d93796-5026-46f7-a2ff-e5dec85heh6b");
+            newFeature.setLayerId("point_features");
+            manager.getDataService()
+                    .getStoreById(newFeature.getKey().getStoreId())
+                    .create(newFeature)
+                    .subscribe(new Action1<SCSpatialFeature>() {
+                        @Override
+                        public void call(SCSpatialFeature feature) {
+                            mapsFragment.addMarkerToMap(feature);
+                        }
+                    });
             return true;
         }
         return super.onOptionsItemSelected(item);
