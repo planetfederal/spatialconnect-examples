@@ -226,6 +226,7 @@
   SCPoint *p = [[SCPoint alloc] initWithCoordinateArray:arr];
   id<SCSpatialStore> scss = (id<SCSpatialStore>)[self.sc.manager.dataService
       storeByIdentifier:@"a5d93796-5026-46f7-a2ff-e5dec85heh6b"];
+  p.layerId = @"point_features";
   [[[scss create:p] subscribeOn:[RACScheduler mainThreadScheduler]]
       subscribeCompleted:^{
         [p addToMap:self.mapView];

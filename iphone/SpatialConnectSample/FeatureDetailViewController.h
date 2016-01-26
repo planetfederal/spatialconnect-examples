@@ -13,8 +13,10 @@
 
 - (IBAction)buttonPressedDismiss:(id)sender;
 - (IBAction)buttonPressedEdit:(id)sender;
+- (IBAction)buttonPressDelete:(id)sender;
 
 @property(weak, nonatomic) SCGeometry *geometry;
+@property(strong, nonatomic) SpatialConnect *sc;
 @property(strong, nonatomic) NSArray *keys;
 @property(weak, nonatomic) IBOutlet UITableView *tableViewProperties;
 @property(weak, nonatomic) IBOutlet UILabel *labelStore;
@@ -23,6 +25,7 @@
 @property(weak, nonatomic) IBOutlet UILabel *labelLatitude;
 @property(weak, nonatomic) IBOutlet UILabel *labelLongitude;
 @property(weak, nonatomic) IBOutlet UILabel *labelAltitude;
-@property (weak, nonatomic) IBOutlet UIButton *buttonEdit;
+@property(weak, nonatomic) IBOutlet UIButton *buttonEdit;
+@property(weak, nonatomic) IBOutlet UIButton *buttonDelete;
 
 @end

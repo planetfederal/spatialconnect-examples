@@ -18,7 +18,7 @@
 @implementation FeatureDetailViewController
 
 @synthesize geometry, labelAltitude, labelFeature, labelLatitude, labelLayer,
-    labelLongitude, labelStore, keys, tableViewProperties, buttonEdit;
+    labelLongitude, labelStore, keys, tableViewProperties, buttonEdit, sc;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
@@ -33,11 +33,12 @@
 
   AppDelegate *del =
       (AppDelegate *)[[UIApplication sharedApplication] delegate];
-  SpatialConnect *sc = [del spatialConnectSharedInstance];
+  self.sc = [del spatialConnectSharedInstance];
   SCDataStore *ds =
       [sc.manager.dataService storeByIdentifier:self.geometry.storeId];
   if (ds.permission == SC_DATASTORE_READWRITE) {
     self.buttonEdit.enabled = YES;
+    self.buttonDelete.enabled = YES;
   }
 }
 
@@ -77,5 +78,19 @@
                bundle:nil];
   vc.geometry = self.geometry;
   [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (IBAction)buttonPressDelete:(id)sender {
+  SCDataStore *ds =
+      [sc.manager.dataService storeByIdentifier:self.geometry.storeId];
+  id<SCSpatialStore> ss = (id<SCSpatialStore>)ds;
+  [[[ss delete:self.geometry.key] deliverOn:[RACScheduler mainThreadScheduler]]
+      subscribeError:^(NSError *error) {
+        NSLog(@"Error");
+      }
+      completed:^{
+        [self.navigationController dismissViewControllerAnimated:YES
+                                                      completion:nil];
+      }];
 }
 @end
