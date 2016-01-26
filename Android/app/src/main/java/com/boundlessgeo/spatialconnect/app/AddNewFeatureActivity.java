@@ -1,20 +1,15 @@
 package com.boundlessgeo.spatialconnect.app;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.boundlessgeo.spatialconnect.geometries.SCGeometry;
+import com.boundlessgeo.spatialconnect.geometries.SCSpatialFeature;
 import com.boundlessgeo.spatialconnect.services.SCServiceManager;
 import com.boundlessgeo.spatialconnect.stores.SCDataStore;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -53,6 +48,8 @@ public class AddNewFeatureActivity extends Activity implements OnMapReadyCallbac
 
         // initialize new feature (it's a point by default)
         newFeature = new SCGeometry(geometryFactory.createPoint(new Coordinate(0, 0)));
+        newFeature.setStoreId("a5d93796-5026-46f7-a2ff-e5dec85heh6b");
+        newFeature.setLayerId("point_features");
 
         // initialize layout
         final TextView storeIdVal = (TextView) findViewById(R.id.feature_detail_store_value);
@@ -62,24 +59,6 @@ public class AddNewFeatureActivity extends Activity implements OnMapReadyCallbac
         storeIdVal.setText("a5d93796-5026-46f7-a2ff-e5dec85heh6b");
         layerVal.setText("point_features");
 
-        // initialize property value
-        EditText propertyValue = (EditText) findViewById(R.id.prop_value);
-        propertyValue.setInputType(InputType.TYPE_CLASS_TEXT);
-        propertyValue.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        propertyValue.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handled = false;
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    newFeature.getProperties().put("src_info", v.getText().toString());
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(latVal.getWindowToken(), InputMethodManager.RESULT_UNCHANGED_SHOWN);
-                    handled = true;
-                }
-                return handled;
-            }
-        });
-
         // initialize data store
         serviceManager =  SpatialConnectService.getInstance().getServiceManager(this);
         ds = serviceManager.getDataService().getStoreById("a5d93796-5026-46f7-a2ff-e5dec85heh6b");
@@ -88,9 +67,9 @@ public class AddNewFeatureActivity extends Activity implements OnMapReadyCallbac
         final Button button = (Button) findViewById(R.id.add_new_feature);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ds.create(newFeature).subscribe(new Action1<Boolean>() {
+                ds.create(newFeature).subscribe(new Action1<SCSpatialFeature>() {
                     @Override
-                    public void call(Boolean created) {
+                    public void call(SCSpatialFeature feature) {
                         Log.d(LOG_TAG, "feature was created");
                         finish();
                     }

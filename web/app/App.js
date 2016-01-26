@@ -75,7 +75,7 @@ FeatureObs.create.subscribe(
         vectorSource.addFeature(gj);
       }
     );
-    sc.action.createFeature(geojson,'a5d93796-5026-46f7-a2ff-e5dec85heh6b');
+    sc.action.createFeature(geojson,'a5d93796-5026-46f7-a2ff-e5dec85heh6b', 'point_features');
   },
   function(err) {
     console.log(err);
@@ -128,6 +128,17 @@ var App = React.createClass({
         }
       );
     });
+    FeatureObs.delete.subscribe(
+      function(deleteFeatureId) {
+        var feature = vectorSource.getFeatureById(deleteFeatureId)
+        vectorSource.removeFeature(feature);
+        that.closeModal();
+      },
+      function(err) {
+        console.log(err);
+      },
+      function() {}
+    );
   },
   render : function() {
     var details;
