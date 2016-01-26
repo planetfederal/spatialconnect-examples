@@ -119,40 +119,13 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textSize="12sp"/>
 
-    <TextView
-        android:id="@+id/prop_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/map_container"
-        android:layout_marginTop="15dp"
-        android:text="Properties:"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
-
-    <TextView
-        android:id="@+id/prop_name"
-        android:layout_below="@+id/prop_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="src_info"
-        android:textSize="10pt" />
-
-
-    <EditText
-        android:id="@+id/prop_value"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/prop_label"
-        android:layout_toRightOf="@+id/prop_name"
-        android:inputType="text"
-        android:layout_width="fill_parent"
-        >
-    </EditText>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add New Feature"
         android:id="@+id/add_new_feature"
-        android:layout_below="@+id/prop_value" />
+        android:layout_below="@+id/feature_detail_lon_value" />
 
 </RelativeLayout>
 

@@ -32,7 +32,7 @@ var MapView = React.createClass({
   },
   render: function() {
     return (
-      <div>
+      <div className="container">
         <div>
           <div className="row">
             <div className="col-xs-4">
