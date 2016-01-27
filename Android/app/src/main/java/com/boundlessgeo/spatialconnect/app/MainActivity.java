@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -36,7 +35,6 @@ import rx.functions.Action1;
  */
 public class MainActivity extends Activity implements
         NavigationDrawerFragment.NavigationDrawerCallbacks,
-        DataStoreManagerFragment.OnDataStoreSelectedListener,
         WebBundleManagerFragment.OnWebBundleSelectedListener {
 
     /**
@@ -154,19 +152,6 @@ public class MainActivity extends Activity implements
         transaction.commit();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        if (!navigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
-            restoreActionBar();
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -207,30 +192,8 @@ public class MainActivity extends Activity implements
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Helper method to restore the ActionBar to the previous state
-     */
-    public void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(title);
-    }
-
     public SCDataStore getSelectedStore() {
         return selectedStore;
-    }
-
-    /**
-     * Handle the selected data store and switch to map view.
-     *
-     * @param dataStore
-     */
-    @Override
-    public void onDataStoreSelected(SCDataStore dataStore) {
-        // update the selected data store
-        selectedStore = dataStore;
-        // switch to map view
-        onNavigationDrawerItemSelected(MAP_POSITION);
     }
 
     /**

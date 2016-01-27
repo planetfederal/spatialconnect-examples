@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -46,6 +48,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     HashMap<String, SCKeyTuple> mMarkers = new HashMap<>();
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_main, container, false);
     }
@@ -53,7 +61,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mainActivity.getFragmentManager().beginTransaction().add(R.id.container, mapFragment).commit();
-        dataService = SpatialConnectService.getInstance().getServiceManager(getContext()).getDataService();
+        dataService = SpatialConnectService.getInstance().getServiceManager(getActivity()).getDataService();
         setUpMapIfNeeded();
     }
 
@@ -62,6 +70,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         super.onAttach(activity);
         mainActivity = (MainActivity) getActivity();
         mapFragment = MapFragment.newInstance();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main, menu);
     }
 
     @Override
