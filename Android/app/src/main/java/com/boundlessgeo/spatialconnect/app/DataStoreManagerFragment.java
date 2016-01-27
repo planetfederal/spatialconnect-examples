@@ -1,6 +1,5 @@
 package com.boundlessgeo.spatialconnect.app;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -22,12 +21,11 @@ import rx.functions.Action1;
 
 /**
  * The DataStoreManagerFragment displays a list of active SCDataStore instances that the user can choose from to
- * interact with.
+ * see details about the selected store.
  */
 public class DataStoreManagerFragment extends Fragment implements ListView.OnItemClickListener {
 
     private ListView listView;
-    private OnDataStoreSelectedListener dataStoreSelectedListener;
     private FragmentManager fragmentManager;
     protected SCServiceManager serviceManager;
     private ArrayAdapter<SCDataStore> storeAdapter;
@@ -42,17 +40,6 @@ public class DataStoreManagerFragment extends Fragment implements ListView.OnIte
 
         // Set the list's click listener
         listView.setOnItemClickListener(this);
-
-        serviceManager.getDataService().storeEvents.subscribe(new Action1<SCStoreStatusEvent>() {
-            @Override
-            public void call(SCStoreStatusEvent scStoreStatusEvent) {
-                storeAdapter.clear();
-                storeAdapter.addAll(serviceManager.getDataService().getAllStores());
-                storeAdapter.notifyDataSetChanged();
-            }
-        });
-        serviceManager.getDataService().storeEvents.connect();
-
 
         // Set the adapter for the list view
         List<SCDataStore> s = serviceManager.getDataService().getAllStores();
@@ -71,6 +58,15 @@ public class DataStoreManagerFragment extends Fragment implements ListView.OnIte
         super.onCreate(savedInstanceState);
         serviceManager = SpatialConnectService.getInstance().getServiceManager(getContext());
         serviceManager.startAllServices();
+        serviceManager.getDataService().storeEvents.subscribe(new Action1<SCStoreStatusEvent>() {
+            @Override
+            public void call(SCStoreStatusEvent scStoreStatusEvent) {
+                storeAdapter.clear();
+                storeAdapter.addAll(serviceManager.getDataService().getAllStores());
+                storeAdapter.notifyDataSetChanged();
+            }
+        });
+        serviceManager.getDataService().storeEvents.connect();
     }
 
     public void onDataStoreSelected(SCDataStore dataStore) {
@@ -86,26 +82,6 @@ public class DataStoreManagerFragment extends Fragment implements ListView.OnIte
         if (hidden) {
             //fragment became visible
             //your code here
-        }
-    }
-
-    /**
-     * The MainActivity must implement this so it can update its selectedStore and notify the map.
-     *
-     * @see <a href="http://developer.android.com/guide/components/fragments.html#EventCallbacks">the docs on
-     * EventCallbacks</a>
-     */
-    public interface OnDataStoreSelectedListener {
-        public void onDataStoreSelected(SCDataStore dataStore);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            dataStoreSelectedListener = (OnDataStoreSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement OnDataStoreSelectedListener");
         }
     }
 

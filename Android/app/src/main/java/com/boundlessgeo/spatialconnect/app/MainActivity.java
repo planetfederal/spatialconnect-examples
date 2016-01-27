@@ -1,6 +1,5 @@
 package com.boundlessgeo.spatialconnect.app;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -8,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -20,6 +18,7 @@ import com.boundlessgeo.spatialconnect.jsbridge.SCJavascriptBridgeHandler;
 import com.boundlessgeo.spatialconnect.jsbridge.WebViewJavascriptBridge;
 import com.boundlessgeo.spatialconnect.services.SCServiceManager;
 import com.boundlessgeo.spatialconnect.stores.SCDataStore;
+import com.boundlessgeo.spatialconnect.stores.SCDataStoreStatus;
 import com.google.android.gms.maps.model.LatLng;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
@@ -36,7 +35,6 @@ import rx.functions.Action1;
  */
 public class MainActivity extends Activity implements
         NavigationDrawerFragment.NavigationDrawerCallbacks,
-        DataStoreManagerFragment.OnDataStoreSelectedListener,
         WebBundleManagerFragment.OnWebBundleSelectedListener {
 
     /**
@@ -76,7 +74,7 @@ public class MainActivity extends Activity implements
     private NavigationDrawerFragment navigationDrawerFragment;
 
     /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
+     * Used to store the last screen title.
      */
     private CharSequence title;
 
@@ -154,19 +152,6 @@ public class MainActivity extends Activity implements
         transaction.commit();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        if (!navigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
-            restoreActionBar();
-            return true;
-        }
-        return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -187,50 +172,31 @@ public class MainActivity extends Activity implements
             return true;
         }
         if (id == R.id.action_add_feature) {
-            LatLng center = mapsFragment.map.getCameraPosition().target;
-            SCSpatialFeature newFeature = new SCGeometry(
-                    geometryFactory.createPoint(new Coordinate(center.longitude, center.latitude))
-            );
-            newFeature.setStoreId("a5d93796-5026-46f7-a2ff-e5dec85heh6b");
-            newFeature.setLayerId("point_features");
-            manager.getDataService()
-                    .getStoreById(newFeature.getKey().getStoreId())
-                    .create(newFeature)
-                    .subscribe(new Action1<SCSpatialFeature>() {
-                        @Override
-                        public void call(SCSpatialFeature feature) {
-                            mapsFragment.addMarkerToMap(feature);
-                        }
-                    });
+            if (manager.getDataService().getStoreById("a5d93796-5026-46f7-a2ff-e5dec85heh6b").getStatus()
+                    .equals(SCDataStoreStatus.SC_DATA_STORE_RUNNING)) {
+                LatLng center = mapsFragment.map.getCameraPosition().target;
+                SCSpatialFeature newFeature = new SCGeometry(
+                        geometryFactory.createPoint(new Coordinate(center.longitude, center.latitude))
+                );
+                newFeature.setStoreId("a5d93796-5026-46f7-a2ff-e5dec85heh6b");
+                newFeature.setLayerId("point_features");
+                manager.getDataService()
+                        .getStoreById(newFeature.getKey().getStoreId())
+                        .create(newFeature)
+                        .subscribe(new Action1<SCSpatialFeature>() {
+                            @Override
+                            public void call(SCSpatialFeature feature) {
+                                mapsFragment.addMarkerToMap(feature);
+                            }
+                        });
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * Helper method to restore the ActionBar to the previous state
-     */
-    public void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(title);
-    }
-
     public SCDataStore getSelectedStore() {
         return selectedStore;
-    }
-
-    /**
-     * Handle the selected data store and switch to map view.
-     *
-     * @param dataStore
-     */
-    @Override
-    public void onDataStoreSelected(SCDataStore dataStore) {
-        // update the selected data store
-        selectedStore = dataStore;
-        // switch to map view
-        onNavigationDrawerItemSelected(MAP_POSITION);
     }
 
     /**
