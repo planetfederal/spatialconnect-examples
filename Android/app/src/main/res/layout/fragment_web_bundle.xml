@@ -14,7 +14,8 @@
     <EditText
         android:id="@+id/web_bundle_value"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="https://s3.amazonaws.com/test.spacon/webapp.zip" />
 
     <Button
         android:id="@+id/download_button"
