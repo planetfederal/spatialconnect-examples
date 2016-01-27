@@ -16,7 +16,11 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.boundlessgeo.spatialconnect.geometries.SCBoundingBox;
 import com.boundlessgeo.spatialconnect.geometries.SCGeometry;
+import com.boundlessgeo.spatialconnect.query.SCGeometryPredicateComparison;
+import com.boundlessgeo.spatialconnect.query.SCPredicate;
+import com.boundlessgeo.spatialconnect.query.SCQueryFilter;
 import com.boundlessgeo.spatialconnect.services.SCServiceManager;
 import com.boundlessgeo.spatialconnect.stores.SCDataStore;
 import com.boundlessgeo.spatialconnect.stores.SCKeyTuple;
@@ -32,6 +36,7 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.PrecisionModel;
 
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -107,8 +112,20 @@ public class FeatureDetailsFragment extends Fragment implements OnMapReadyCallba
         final TableLayout table = (TableLayout)getView().findViewById(R.id.feature_detail_prop_table);
 
         SCKeyTuple keyTuple = new SCKeyTuple(storeId,layerId,featureId);
-        ds.queryById(keyTuple)
-                .subscribeOn(Schedulers.io())
+        final String type = ds.getType();
+
+        Observable obs;
+
+        if (type.equalsIgnoreCase("geojson")) {
+            SCBoundingBox bbox = new SCBoundingBox(lon,lat,lon,lat);
+            SCPredicate p = new SCPredicate(bbox, SCGeometryPredicateComparison.SCPREDICATE_OPERATOR_WITHIN);
+            SCQueryFilter filter = new SCQueryFilter(p);
+            obs = ds.query(filter);
+        } else {
+            obs = ds.queryById(keyTuple);
+        }
+
+        obs.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<SCGeometry>() {
                                @Override
