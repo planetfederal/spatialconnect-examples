@@ -3,7 +3,6 @@ module.exports = {
   output : {
     filename : 'bundle.js'
   },
-  devtool:'sourcemap',
   module:{
     loaders:[
       {

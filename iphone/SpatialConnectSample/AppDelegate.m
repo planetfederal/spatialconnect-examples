@@ -81,6 +81,16 @@
                         // the NSNull.null singleton is
                         // pretty safe
                         withObject:[URL2 host]];
+    NSURL *URL3 = [NSURL URLWithString:@"https://s3.amazonaws.com"];
+
+    [NSURLRequest
+            .class performSelector:NSSelectorFromString(
+                                       @"setAllowsAnyHTTPSCertificate:forHost:")
+                        withObject:NSNull.null // Just need to pass non-nil here
+                        // to appear as a BOOL YES, using
+                        // the NSNull.null singleton is
+                        // pretty safe
+                        withObject:[URL3 host]];
 
     SCStyle *style = [[SCStyle alloc] init];
     style.fillColor = [UIColor orangeColor];

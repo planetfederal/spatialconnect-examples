@@ -4,7 +4,7 @@
 var image = new ol.style.Circle({
   radius: 5,
   fill: null,
-  stroke: new ol.style.Stroke({color: 'red', width: 1})
+  stroke: new ol.style.Stroke({color: 'red', width: 5})
 });
 
 var styles = {

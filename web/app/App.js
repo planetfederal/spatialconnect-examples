@@ -55,7 +55,6 @@ var layers = [
 ];
 
 var map = new ol.Map({
-  interactions: ol.interaction.defaults({ doubleClickZoom: false }),
   layers: layers,
   view: new ol.View({
     projection: 'EPSG:4326',
