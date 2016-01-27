@@ -2,9 +2,9 @@
 /*global ol*/
 
 var image = new ol.style.Circle({
-  radius: 5,
-  fill: null,
-  stroke: new ol.style.Stroke({color: 'red', width: 5})
+  radius: 10,
+  fill: new ol.style.Stroke({color: 'red'}),
+  stroke: new ol.style.Stroke({color: 'blue', width: 3})
 });
 
 var styles = {
