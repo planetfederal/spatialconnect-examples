@@ -31,26 +31,10 @@ var vectorLayer = new ol.layer.Vector({
 });
 
 var layers = [
-  // new ol.layer.Tile({
-  //   source: new ol.source.TileWMS({
-  //     url: 'http://demo.boundlessgeo.com/geoserver/wms',
-  //     params: {
-  //       'LAYERS': 'ne:NE1_HR_LC_SR_W_DR'
-  //     }
-  //   })
-  // }),
   new ol.layer.Tile({
-        source: new ol.source.OSM({
-          attributions: [
-            new ol.Attribution({
-              html: 'All maps &copy; ' +
-                  '<a href="http://www.opencyclemap.org/">OpenCycleMap</a>'
-            }),
-            ol.source.OSM.ATTRIBUTION
-          ],
-          url: 'http://{a-c}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png'
-        })
-      }),
+          style: 'Aerial',
+          source: new ol.source.MapQuest({layer: 'osm'})
+        }),
   vectorLayer
 ];
 
