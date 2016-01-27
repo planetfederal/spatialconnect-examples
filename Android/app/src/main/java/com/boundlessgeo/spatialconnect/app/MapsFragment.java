@@ -32,7 +32,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.vividsolutions.jts.geom.Point;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
 import rx.Subscriber;
@@ -82,6 +81,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onResume() {
         super.onResume();
+        mapFragment.getMapAsync(this);
     }
 
     /**
@@ -96,9 +96,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     protected void setUpMap() {
-//        map.setMyLocationEnabled(true);
-//        map.getUiSettings().setMyLocationButtonEnabled(true);
-//        map.setOnMyLocationButtonClickListener(new LocationHelper(mainActivity, map));
         map.getUiSettings().setZoomControlsEnabled(true);
         map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -107,7 +104,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 intent.putExtra("lat", marker.getPosition().latitude);
                 intent.putExtra("lon", marker.getPosition().longitude);
                 String s = marker.getId();
-                SCKeyTuple kt = mMarkers.get(s);;
+                SCKeyTuple kt = mMarkers.get(s);
                 if (kt != null) {
                     intent.putExtra("sid", kt.getStoreId());
                     intent.putExtra("lid", kt.getLayerId());
@@ -132,7 +129,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         new Subscriber<SCSpatialFeature>() {
-                            SCSpatialFeature latestFeature;
 
                             @Override
                             public void onCompleted() {
@@ -148,7 +144,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                             @Override
                             public void onNext(SCSpatialFeature feature) {
                                 if (feature instanceof SCGeometry && ((SCGeometry) feature).getGeometry() != null) {
-                                    latestFeature = feature;
                                     addMarkerToMap(feature);
                                 }
                             }
@@ -182,6 +177,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     public void reloadFeatures() {
         map.clear();
+        mMarkers.clear();
         loadFeatures(getCurrentBoundingBox());
     }
 
