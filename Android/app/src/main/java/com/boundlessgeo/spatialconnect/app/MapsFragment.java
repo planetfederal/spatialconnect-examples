@@ -20,7 +20,7 @@ import com.boundlessgeo.spatialconnect.query.SCQueryFilter;
 import com.boundlessgeo.spatialconnect.scutilities.GoogleMapsUtil;
 import com.boundlessgeo.spatialconnect.services.SCDataService;
 import com.boundlessgeo.spatialconnect.stores.GeoPackageStore;
-import com.boundlessgeo.spatialconnect.stores.SCDataStore;
+import com.boundlessgeo.spatialconnect.stores.SCDataStoreStatus;
 import com.boundlessgeo.spatialconnect.stores.SCKeyTuple;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -151,18 +151,20 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public void loadImagery() {
-        SCDataStore selectedStore = dataService.getStoreById("ba293796-5026-46f7-a2ff-e5dec85heh6b");
-        GeoPackageStore geoPackageStore = (GeoPackageStore) SpatialConnectService.getInstance().getServiceManager(getContext())
+        GeoPackageStore geoPackageStore =
+                (GeoPackageStore) SpatialConnectService.getInstance().getServiceManager(getActivity())
                 .getDataService()
-                .getStoreById(selectedStore.getStoreId());
+                .getStoreById("ba293796-5026-46f7-a2ff-e5dec85heh6b");
 
-        geoPackageStore.addGeoPackageTileOverlay(
-                map,
-                selectedStore.getAdapter().getDataStoreName(),
-                "WhiteHorse"
-        );
-        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(60.86, -135.19), 16);
-        map.animateCamera(cu);
+        if (geoPackageStore.getStatus().equals(SCDataStoreStatus.SC_DATA_STORE_RUNNING)) {
+            geoPackageStore.addGeoPackageTileOverlay(
+                    map,
+                    "Whitehorse",
+                    "WhiteHorse"
+            );
+            CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(60.86, -135.19), 16);
+            map.animateCamera(cu);
+        }
     }
 
     private SCBoundingBox getCurrentBoundingBox() {
