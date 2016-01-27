@@ -24,6 +24,9 @@ var FeatureDetails = React.createClass({
     sc.action.deleteFeature(this.state.selectedFeature.getId());
     FeatureObs.delete.onNext(this.state.selectedFeature.getId());
   },
+  closeModal:function() {
+    FeatureObs.modalClose.onNext({});
+  },
   handleChange: function(propKey, event) {
     var value = event.target.value;
     var feature = this.state.selectedFeature;
