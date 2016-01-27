@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.boundlessgeo.spatialconnect.geometries.SCBoundingBox;
 import com.boundlessgeo.spatialconnect.geometries.SCGeometry;
@@ -31,6 +32,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.vividsolutions.jts.geom.Point;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
 import rx.Subscriber;
@@ -104,12 +106,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 Intent intent = new Intent(MapsFragment.this.getActivity(), FeatureDetailsActivity.class);
                 intent.putExtra("lat", marker.getPosition().latitude);
                 intent.putExtra("lon", marker.getPosition().longitude);
-                SCKeyTuple kt = mMarkers.get(marker.getId());
-                intent.putExtra("sid", kt.getStoreId());
-                intent.putExtra("lid", kt.getLayerId());
-                intent.putExtra("fid", kt.getFeatureId());
-                mMarkers.get(marker.getId());
-                startActivity(intent);
+                String s = marker.getId();
+                SCKeyTuple kt = mMarkers.get(s);;
+                if (kt != null) {
+                    intent.putExtra("sid", kt.getStoreId());
+                    intent.putExtra("lid", kt.getLayerId());
+                    intent.putExtra("fid", kt.getFeatureId());
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MapsFragment.this.getActivity(),"GeoJSON Can't be edited",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

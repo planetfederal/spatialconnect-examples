@@ -56,8 +56,9 @@ var FeatureDetails = React.createClass({
               </div>
             );
           })}
-          <input type="submit" value="Update Feature" />
-          <button type="button" onClick={this.deleteFeature}>Delete Feature</button>
+          <input type="submit" value="Update" />
+          <button type="button" onClick={this.deleteFeature}>Delete</button>
+          <button type="button" onClick={this.closeModal}>Close</button>
         </form>
       </div>;
     }
