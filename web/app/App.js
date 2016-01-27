@@ -98,6 +98,11 @@ var App = React.createClass({
         });
       }
     );
+    FeatureObs.modalClose.subscribe(
+      () => that.setState({modalIsOpen:false}),
+      () => {},
+      () => {}
+    );
     map.on('singleclick', function(evt) {
       map.forEachFeatureAtPixel(evt.pixel,
         function(feature) {
