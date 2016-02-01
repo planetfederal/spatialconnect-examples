@@ -56,7 +56,7 @@ public class DataStoreManagerFragment extends Fragment implements ListView.OnIte
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        serviceManager = SpatialConnectService.getInstance().getServiceManager(getContext());
+        serviceManager = SpatialConnectService.getInstance().getServiceManager(getActivity());
         serviceManager.startAllServices();
         serviceManager.getDataService().storeEvents.subscribe(new Action1<SCStoreStatusEvent>() {
             @Override

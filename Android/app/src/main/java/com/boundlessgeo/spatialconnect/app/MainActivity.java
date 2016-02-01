@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.boundlessgeo.spatialconnect.geometries.SCGeometry;
 import com.boundlessgeo.spatialconnect.geometries.SCSpatialFeature;
 import com.boundlessgeo.spatialconnect.jsbridge.SCJavascriptBridgeHandler;
 import com.boundlessgeo.spatialconnect.jsbridge.WebViewJavascriptBridge;
+import com.boundlessgeo.spatialconnect.scutilities.Storage.SCFileUtilities;
 import com.boundlessgeo.spatialconnect.services.SCServiceManager;
 import com.boundlessgeo.spatialconnect.stores.SCDataStore;
 import com.boundlessgeo.spatialconnect.stores.SCDataStoreStatus;
@@ -25,6 +27,9 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.PrecisionModel;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import rx.functions.Action1;
 
@@ -36,6 +41,9 @@ import rx.functions.Action1;
 public class MainActivity extends Activity implements
         NavigationDrawerFragment.NavigationDrawerCallbacks,
         WebBundleManagerFragment.OnWebBundleSelectedListener {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String CONFIGS_DIR = "configs";
 
     /**
      * Manager drawer position
@@ -84,6 +92,7 @@ public class MainActivity extends Activity implements
         setContentView(R.layout.activity_main);
 
         title = getString(R.string.app_name);
+        initializeConfig();
 
         // get the fragments
         mapsFragment = new MapsFragment();
@@ -103,6 +112,32 @@ public class MainActivity extends Activity implements
         // setup service manager
         manager = SpatialConnectService.getInstance().getServiceManager(this);
     }
+
+    private void initializeConfig() {
+        File configsDir = this.getExternalFilesDir(CONFIGS_DIR);
+        if (!configsDir.exists()) {
+            configsDir.mkdir();
+        }
+        File[] configFiles = SCFileUtilities.findFilesByExtension(configsDir, ".scfg");
+        if (configFiles.length > 0) {
+            return;
+        }
+        // otherwise no config files exist in external storage yet, so we need to copy it from the resources directory
+        try {
+            InputStream is = this.getResources().openRawResource(R.raw.config);
+            File file = new File(configsDir, "config.scfg");
+            FileOutputStream fos = new FileOutputStream(file);
+            byte[] data = new byte[is.available()];
+            is.read(data);
+            fos.write(data);
+            is.close();
+            fos.close();
+        } catch (IOException ex) {
+            Log.e(TAG, "Could not successfully initialize SpatialConnect configuration.", ex);
+            System.exit(0);
+        }
+    }
+
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
