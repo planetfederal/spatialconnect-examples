@@ -1,0 +1,198 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.boundlessgeo.spatialconnect.app.FeatureDetailsFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Store ID:"
+        android:id="@+id/store_label"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Layer:"
+        android:id="@+id/layer_label"
+        android:layout_below="@+id/feature_detail_store_value"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Feature ID:"
+        android:id="@+id/feature_id_label"
+        android:layout_below="@+id/feature_detail_layer_value"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Latitude:"
+        android:id="@+id/lat_label"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_marginTop="23dp"
+        android:textSize="12sp"
+        android:layout_alignParentEnd="false"
+        android:layout_below="@id/feature_id_label"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Longitude:"
+        android:id="@+id/lon_label"
+        android:layout_below="@+id/lat_label"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Altitude:"
+        android:id="@+id/altitude_label"
+        android:layout_below="@+id/lon_label"
+        android:textSize="12sp"/>
+
+    <FrameLayout
+        android:id="@+id/map_container"
+        android:layout_width="fill_parent"
+        android:layout_height="220dp"
+        android:layout_below="@id/altitude_label">
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/edit_point_map"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="&lt;Store>"
+        android:id="@+id/feature_detail_store_value"
+        android:layout_alignTop="@+id/store_label"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="false"
+        android:layout_alignRight="@+id/store_label"
+        android:layout_toRightOf="@+id/store_label"
+        android:layout_toEndOf="@+id/store_label"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="&lt;layer>"
+        android:id="@+id/feature_detail_layer_value"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentLeft="false"
+        android:layout_alignTop="@+id/layer_label"
+        android:layout_alignRight="@+id/layer_label"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="&lt;feature_id>"
+        android:id="@+id/feature_detail_featureid_value"
+        android:layout_alignBottom="@+id/feature_id_label"
+        android:layout_alignRight="@+id/feature_detail_layer_value"
+        android:layout_alignEnd="@+id/feature_detail_layer_value" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="&lt;lat>"
+        android:id="@+id/feature_detail_lat_value"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/lat_label"
+        android:layout_toRightOf="@+id/lat_label"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="&lt;lon>"
+        android:id="@+id/feature_detail_lon_value"
+        android:layout_above="@+id/altitude_label"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/lon_label"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="&lt;alt>"
+        android:id="@+id/feature_detail_alt_value"
+        android:layout_alignTop="@+id/altitude_label"
+        android:layout_toRightOf="@+id/altitude_label"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Properties:"
+        android:id="@+id/prop_label"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/map_container"/>
+
+
+    <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/feature_detail_prop_table"
+            android:scrollIndicators="right"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/prop_label">
+    </TableLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update Feature"
+        android:id="@+id/update_button"
+        android:layout_below="@+id/feature_detail_prop_table"
+        android:visibility="gone" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Feature"
+        android:id="@+id/delete_button"
+        android:layout_alignTop="@id/update_button"
+        android:layout_toRightOf="@+id/update_button"
+        android:visibility="gone"/>
+
+</RelativeLayout>
+</ScrollView>

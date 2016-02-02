@@ -1,0 +1,124 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.boundlessgeo.spatialconnect.app.AddNewFeatureActivity">
+
+    <TextView
+        android:id="@+id/store_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="Store ID:"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <TextView
+        android:id="@+id/layer_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/store_label"
+        android:text="Layer:"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <FrameLayout
+        android:id="@+id/map_container"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="false"
+        android:layout_below="@+id/layer_label"
+        android:layout_marginLeft="40dp"
+        android:minHeight="150sp">
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/edit_point_map"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentTop="false"
+            android:layout_gravity="center"
+            />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/lat_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/map_container"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_alignTop="@+id/map_container"
+        android:layout_marginTop="23dp"
+        android:text="Latitude:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/lon_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/lat_label"
+        android:text="Longitude:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/feature_detail_store_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/layer_label"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <TextView
+        android:id="@+id/feature_detail_layer_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/layer_label"
+        android:textAppearance="?android:attr/textAppearanceMedium"/>
+
+    <TextView
+        android:id="@+id/feature_detail_lat_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/lat_label"
+        android:layout_toRightOf="@+id/lat_label"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/feature_detail_lon_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/lon_label"
+        android:layout_toRightOf="@+id/lon_label"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="12sp"/>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add New Feature"
+        android:id="@+id/add_new_feature"
+        android:layout_below="@+id/feature_detail_lon_value" />
+
+</RelativeLayout>
+

@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context=".MainActivity">
+
+    <item
+        android:id="@+id/action_reload_features"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/action_reload_features"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_load_imagery"
+        android:icon="@drawable/ic_terrain"
+        android:title="@string/action_load_imagery"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_add_feature"
+        android:icon="@drawable/ic_add_feature"
+        android:title="@string/action_add_feature"
+        app:showAsAction="always"/>
+</menu>

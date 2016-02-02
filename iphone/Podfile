@@ -1,0 +1,12 @@
+source 'https://github.com/CocoaPods/Specs.git'
+xcodeproj 'SpatialConnectSample'
+platform :ios, '8.0'
+
+pod 'ReactiveCocoa', '2.5'
+pod 'spatialconnect', :path => './../../spatialconnect-ios'
+pod 'wkb-ios', :path => './../../geopackage-wkb-ios'
+pod 'geopackage-ios', :path=> './../../geopackage-ios'
+pod 'zipzap', '8.0.6'
+pod 'AFNetworking','~> 2.1'
+pod 'libextobjc','0.4.1'
+pod 'ReactiveViewModel','0.3'
