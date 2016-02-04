@@ -7,6 +7,8 @@ import android.os.IBinder;
 
 import com.boundlessgeo.spatialconnect.services.SCServiceManager;
 
+import java.io.File;
+
 public class SpatialConnectService extends Service {
     private static SpatialConnectService singleton = new SpatialConnectService();
     SCServiceManager manager;
@@ -15,9 +17,9 @@ public class SpatialConnectService extends Service {
         return singleton;
     }
 
-    public SCServiceManager getServiceManager(Context c) {
+    public SCServiceManager getServiceManager(Context c, File... configFiles) {
         if (manager == null) {
-            manager = new SCServiceManager(c);
+            manager = new SCServiceManager(c, configFiles);
         }
         return manager;
     }
