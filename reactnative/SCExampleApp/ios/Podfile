@@ -11,7 +11,7 @@ target 'SCExampleApp' do
   pod 'objc-geohash'
   pod 'ReactiveViewModel','0.3'
   pod 'geopackage-ios', :git => 'https://github.com/boundlessgeo/geopackage-ios', :branch => 'master'
-  pod 'spatialconnect', :git => 'https://github.com/boundlessgeo/spatialconnect-ios-sdk', :branch => 'master'
+  pod 'spatialconnect', :git => 'https://github.com/frankrowe/spatialconnect-ios-sdk', :branch => 'master'
 end
 
 target 'SCExampleAppTests' do

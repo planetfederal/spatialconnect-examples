@@ -10,7 +10,6 @@
 #import "AppDelegate.h"
 #import <spatialconnect/SpatialConnect.h>
 #import "RCTRootView.h"
-#import "SCReactBridge.h"
 
 @implementation AppDelegate
 

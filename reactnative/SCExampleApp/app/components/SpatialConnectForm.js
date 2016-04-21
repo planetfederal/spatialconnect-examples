@@ -2,6 +2,7 @@ import React, {
   Component,
   NativeAppEventEmitter,
   PropTypes,
+  NativeModules,
   ScrollView,
   StyleSheet,
   Text,
@@ -93,6 +94,7 @@ class SpatialConnectForm extends Component {
   }
 
   componentWillMount() {
+    NativeModules.SCJavascript.startGPS();
     this.subscription = NativeAppEventEmitter.addListener( 'lastKnown', (location) => {
       this.setState({
         location: location
