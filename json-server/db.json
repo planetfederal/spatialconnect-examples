@@ -1,0 +1,134 @@
+{
+  "events": [
+    {
+      "name": "some name",
+      "description": "some description",
+      "id": 1
+    }
+  ],
+  "stores": [
+    {
+      "id": 2,
+      "storeId": "2b2d7ed6-33c0-4dbc-b7b1-e50fd25de017",
+      "name": "ADD_STORE",
+      "type": "geojson",
+      "version": "sdf"
+    },
+    {
+      "id": 4,
+      "storeId": "62b18883-aed0-497c-b2b5-2b913942f5a8",
+      "name": "data store",
+      "type": "gpkg",
+      "version": 1
+    },
+    {
+      "id": 5,
+      "storeId": "a030dca9-6936-4671-9805-bfd0732fb286",
+      "name": "datastore2",
+      "type": "geojson",
+      "version": 1.1
+    }
+  ],
+  "formData": [
+    {
+      "formID": 1,
+      "data": {
+        "name": "Frank",
+        "age": 2
+      },
+      "id": 1
+    }
+  ],
+  "forms": [
+    {
+      "id": 1,
+      "name": "Sample form",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "initialValue": "Frank"
+          },
+          "age": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "age"
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "name": "Weed Inspector",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "Weed Stage": {
+            "type": "string"
+          },
+          "Number of Plants": {
+            "type": "number",
+            "integer": true,
+            "minimum": 0,
+            "mode": "counter",
+            "initialValue": 0
+          },
+          "Infestation Size": {
+            "type": "number",
+            "initialValue": 0
+          },
+          "Degree": {
+            "type": "number",
+            "integer": true,
+            "minimum": 0,
+            "initialValue": 0
+          },
+          "Density": {
+            "type": "number",
+            "integer": false,
+            "minimum": 0,
+            "maximum": 100,
+            "mode": "slider",
+            "initialValue": 0
+          },
+          "Source": {
+            "type": "string"
+          },
+          "Date Discovered": {
+            "type": "date"
+          },
+          "Common Name": {
+            "type": "string"
+          },
+          "Genus": {
+            "type": "string"
+          },
+          "Species": {
+            "type": "string"
+          },
+          "Scientific Name": {
+            "type": "string"
+          },
+          "Class": {
+            "type": "string"
+          },
+          "Photo": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "Weed Stage",
+          "Infestation Size",
+          "Degree",
+          "Source",
+          "Common Name",
+          "Genus",
+          "Class"
+        ]
+      }
+    }
+  ]
+}
