@@ -6,11 +6,10 @@
 //  Copyright © 2016 Facebook. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "RCTBridgeModule.h"
 
 @interface RCT_EXTERN_MODULE(SCJavascript, NSObject)
 
-RCT_EXTERN_METHOD(startGPS)
+RCT_EXTERN_METHOD(handler:(NSDictionary *)data)
 
 @end
